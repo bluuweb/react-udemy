@@ -1,117 +1,147 @@
-# 04 Formularios
+# 04.01 Formularios
 Documentación oficial: [https://es.reactjs.org/docs/forms.html](https://es.reactjs.org/docs/forms.html)
 
 ```js
-import React, {Fragment, useState} from 'react';
+import React from 'react';
 
 const Formulario = () => {
 
 
-    const [datos, setDatos] = useState({
-        nombre: '',
-        apellido: ''
-    })
+    const [fruta, setFruta] = React.useState('')
+    const [descripcion, setDescripcion] = React.useState('')
 
-    const handleInputChange = (event) => {
-        // console.log(event.target.name)
-        // console.log(event.target.value)
-        setDatos({
-            ...datos,
-            [event.target.name] : event.target.value
-        })
-    }
+    const guardarDatos = (e) => {
+        e.preventDefault()
+        
+        if(!fruta.trim()){
+            console.log('esta vacio fruta')
+            return
+        }
+        
+        if(!descripcion.trim()){
+            console.log('esta vacio descripcion')
+            return
+        }
+        
+        console.log('procesando datos...' + fruta + descripcion)
 
-    const enviarDatos = (event) => {
-        event.preventDefault()
-        console.log('enviando datos...' + datos.nombre + ' ' + datos.apellido)
+        e.target.reset()
+        setFruta('')
+        setDescripcion('')
     }
 
     return (
-        <Fragment>
-            <h1>Formulario</h1>
-            <form className="row" onSubmit={enviarDatos}>
-                <div className="col-md-3">
-                    <input type="text" placeholder="Nombre" className="form-control" onChange={handleInputChange} name="nombre"></input>
-                </div>
-                <div className="col-md-3">
-                    <input type="text" placeholder="Apellido" className="form-control" onChange={handleInputChange} name="apellido"></input>
-                </div>
-                <button type="submit" className="btn btn-primary">Enviar</button>
+        <div>
+            <h2>Formulario</h2>
+            <form onSubmit={ guardarDatos } >
+                <input 
+                    type="text"
+                    placeholder="Ingrese Fruta"
+                    className="form-control mb-2"
+                    onChange={ (e) => setFruta(e.target.value) }
+                />
+                <input 
+                    type="text"
+                    placeholder="Ingrese Descripcion"
+                    className="form-control mb-2"
+                    onChange={ e => setDescripcion(e.target.value) }
+                />
+                <button className="btn btn-primary btn-block" type="submit">Agregar</button>
             </form>
-            <ul>
-                <li>{datos.nombre}</li>
-                <li>{datos.apellido}</li>
-            </ul>
-        </Fragment>
-    );
+        </div>
+    )
 }
- 
-export default Formulario;
+
+export default Formulario
+
 ```
 
 ## State
 Los datos que utilizaremos en nuestro formulario:
 
 ```js
-const [datos, setDatos] = useState({
-    nombre: '',
-    apellido: ''
-})
-```
-
-## Form
-Utilizando clases de Bootstrap para que se vea más bonito, atributos y eventos para que la magia funcione:
-
-```html
-<form className="row" onSubmit={enviarDatos}>
-    <div className="col-md-3">
-        <input 
-            type="text" 
-            placeholder="Nombre" 
-            className="form-control" 
-            onChange={handleInputChange} 
-            name="nombre" />
-    </div>
-    <div className="col-md-3">
-        <input 
-            type="text" 
-            placeholder="Apellido" 
-            className="form-control" 
-            onChange={handleInputChange} 
-            name="apellido" />
-    </div>
-    <button type="submit" className="btn btn-primary">Enviar</button>
-</form>
+const [fruta, setFruta] = React.useState('')
+const [descripcion, setDescripcion] = React.useState('')
 ```
 
 ## Evento onChange
-Estará al pendiente de los cambios que se registren en nuestro input, por lo tanto creamos una función para modificar nuestro state.
+Estará al pendiente de los cambios que se registren en nuestro input.
 
 ```js
-const handleInputChange = (event) => {
-    // console.log(event.target.name)
-    // console.log(event.target.value)
-    setDatos({
-        ...datos,
-        [event.target.name] : event.target.value
-    })
-}
+onChange={ (e) => setFruta(e.target.value) }
 ```
-
-A partir de ECMAScript 2015, la sintaxis del inicializador de objetos también admite nombres de propiedades calculados. Eso le permite poner una expresión entre paréntesis [], que se calculará y usará como el nombre de la propiedad. [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer#Computed_property_names](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer#Computed_property_names)
 
 ## onSubmit
 Ahora con los datos ya ingresados podemos utilizar el evento onSubmit para procesar el formulario:
 
 ```html
-<form onSubmit={enviarDatos}>
+<form onSubmit={ guardarDatos } >
 ```
 
 ```js
-const enviarDatos = (event) => {
-    event.preventDefault()
-    console.log('enviando datos...' + datos.nombre + ' ' + datos.apellido)
+const guardarDatos = (e) => {
+        e.preventDefault()
+        
+        if(!fruta.trim()){
+            console.log('esta vacio fruta')
+            return
+        }
+        
+        if(!descripcion.trim()){
+            console.log('esta vacio descripcion')
+            return
+        }
+        
+        console.log('procesando datos...' + fruta + descripcion)
+
+        e.target.reset()
+        setFruta('')
+        setDescripcion('')
+    }
+```
+
+## Agregar a una Lista
+```js
+const [lista, setLista] = React.useState([])
+```
+
+```js
+const guardarDatos = (e) => {
+    e.preventDefault()
+    
+    if(!fruta.trim()){
+        console.log('esta vacio fruta')
+        return
+    }
+    
+    if(!descripcion.trim()){
+        console.log('esta vacio descripcion')
+        return
+    }
+    
+    console.log('procesando datos...' + fruta + descripcion)
+
+    setLista([
+        ...lista,
+        {nombraFruta: fruta, nombreDescripcion: descripcion}
+    ])
+
+    e.target.reset()
+    setFruta('')
+    setDescripcion('')
 }
+```
+
+```html
+<ul>
+    {
+        lista.map((item, index) => (
+            <li key={index}>
+                {item.nombraFruta} - {item.nombreDescripcion}
+            </li>
+        ))
+    }
+</ul>
 ```
 
 ## React Hook Form
@@ -210,6 +240,11 @@ Pasamos ref con "register" y sus respectivas validaciones:
 ```
 
 #### Errores
+```html
+{
+    errors.email && <span className="text-danger text-small d-block mb-2">{errors.email.message}</span>
+}
+```
 [https://react-hook-form.com/advanced-usage#ErrorMessage](https://react-hook-form.com/advanced-usage#ErrorMessage)
 ```html
 <span className="text-danger text-small d-block mb-2">
@@ -223,6 +258,7 @@ Pasamos ref con "register" y sus respectivas validaciones:
 </span>
 ```
 [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining)
+
 
 #### Limpiar campos (Reset)
 [https://codesandbox.io/s/jjm3wyqmjy](https://codesandbox.io/s/jjm3wyqmjy)

@@ -20,9 +20,11 @@ module.exports = {
         '/02-hooks-fundamentos/',
         '/03-jsx/',
         '/04-formularios/',
+        '/04-02-simple-crud/',
         '/05-components/',
         '/06-router/',
         '/07-crud-firestore/',
+        // '/08-auth/',
       ]
   }
  
