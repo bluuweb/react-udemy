@@ -24,7 +24,7 @@ module.exports = {
         '/05-components/',
         '/06-router/',
         '/07-crud-firestore/',
-        // '/08-auth/',
+        '/08-auth/',
       ]
   }
  

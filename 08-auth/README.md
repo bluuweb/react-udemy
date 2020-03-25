@@ -1,104 +1,530 @@
-# Auth Email & Pass
+# 08 Auth Email & Pass
 Vamos a construir una aplicación para registrar nuevos usuarios a través de email y contraseña. Este también es un servicio de Firebase.
 
-## Rutas
-```html
-<div className="container mt-5">
-    <Router>
-        <Switch>
-            <Route path="/" exact>
-                <HomePage />
-            </Route>
-            <Route path="/login">
-                <Login />
-            </Route>
-            <Route path="/dashboard">
-                <Dashboard />
-            </Route>
-        </Switch>
-    </Router>
-</div>
+## Instalaciones
+
+```
+npx create-react-app login-udemy-1
+```
+```
+npm i firebase
+```
+```
+npm i react-router-dom
 ```
 
+## Firebase
 ```js
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
-import Login from './components/Login.jsx'
-import HomePage from './components/HomePage.jsx'
-import Dashboard from './components/Dashboard.jsx'
+import app from 'firebase/app'
+import 'firebase/firestore'
+import 'firebase/auth'
+
+const firebaseConfig = {
+    apiKey: "xxx",
+    authDomain: "xxx",
+    databaseURL: "xxx",
+    projectId: "xxx",
+    storageBucket: "xxx",
+    messagingSenderId: "xxx",
+    appId: "xxx"
+};
+
+app.initializeApp(firebaseConfig);
+
+const db = app.firestore();
+const auth = app.auth();
+
+export {db, auth}
 ```
 
-## Login
+## Rutas
 ```js
 import React from 'react'
-import { useForm } from 'react-hook-form'
-import firebase from '../firebase'
-import { withRouter } from "react-router";
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
-const Login = (props) => {
-
-
-    const {register, errors, handleSubmit} = useForm();
-    const [login, setLogin] = React.useState(true)
-
-    const onSubmit = async (data) => {
-        if(login){
-            console.log('Entro al login')
-            try {
-                await firebase.login(data.email, data.password)
-                props.history.replace("/dashboard")
-            } catch (error) {
-                alert(error.message)
-            }
-        }else{
-            console.log('Entro al registro')
-            try {
-                await firebase.register(data.displayName, data.email, data.password)
-                await firebase.addQuote('quote1')
-                props.history.replace("/dashboard")
-            } catch (error) {
-                alert(error.message)
-            }
-        }
-    }
-
+const App = () => {
     return (
-        <div>
-            <h2>
-                {login ? 'Login de acceso' : 'Registro de nuevo usuario'}
-            </h2>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                {
-                    !login && <input type="text" className="form-control my-2" placeholder="Ingrese alias" name="displayName" ref={register()}/>
-                }
-                
-                <input type="email" className="form-control my-2" placeholder="Ingrese email" name="email" ref={register({required:{value:true, message:'Email obligatorio'}})}/>
-                {
-                    errors.email && <span className="text-danger text-small d-block mb-2">{errors.email.message}</span>
-                }
-                <input 
-                    type="password" 
-                    className="form-control my-2" 
-                    placeholder="Ingrese contraseña" 
-                    name="password" 
-                    ref={register({
-                        required:{value:true, message:'Contraseña obligatorio'},
-                        minLength:{value:6, message:'Mínimo 6 carácteres'}
-                    })}/>
-                {
-                    errors.password && <span className="text-danger text-small d-block mb-2">{errors.password.message}</span>
-                }
-                <button className="btn btn-success btn-block" type="submit">Acceder</button>
-                <button className="btn btn-dark btn-block" type="button" onClick={() => setLogin(!login)}>
-                    {
-                        login ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'
-                    }
-                </button>
-            </form>
+        <Router>
+            <div className="container">
+                navbar...
+                <Switch>
+                    <Route path="/login">
+                        Ruta de login
+                    </Route>
+                    <Route path="/admin">
+                        Ruta de administracion
+                    </Route>
+                    <Route path="/" exact>
+                        Ruta de inicio
+                    </Route>
+                </Switch>
+            </div>
+        </Router>
+    )
+}
 
+export default App
+```
+
+## Navbar
+```js
+import React from 'react'
+import {Link, NavLink} from 'react-router-dom'
+
+const Navbar = () => {
+    return (
+        <div className="navbar navbar-dark bg-dark">
+            <Link to="/" className="navbar-brand">React Admin</Link>
+            <div>
+                <div className="d-flex">
+                    <NavLink 
+                        className="btn btn-dark mr-2" 
+                        to="/"
+                        exact
+                    >
+                        Inicio
+                    </NavLink>
+                    <NavLink 
+                        className="btn btn-dark mr-2" 
+                        to="/admin"
+                    >
+                        Admin
+                    </NavLink>
+                    <NavLink 
+                        className="btn btn-dark" 
+                        to="/login"
+                    >
+                        Login
+                    </NavLink>
+                </div>
+            </div>
         </div>
     )
 }
 
-export default withRouter(Login)
+export default Navbar
+```
+
+## Registro estructura
+```js
+import React from 'react'
+
+const Login = () => {
+    return (
+        <div className="mt-5">
+            <h3 className="text-center">Acceso o Registro de usuarios</h3>
+            <hr/>
+            <div className="row justify-content-center">
+                <div className="col-12 col-sm-8 col-md-6 col-xl-4">
+                    <form>
+                        <input 
+                            type="email" 
+                            className="form-control mb-2"
+                            placeholder="Ingrese Email"
+                        />
+                        <input 
+                            type="password" 
+                            className="form-control mb-2"
+                            placeholder="Ingrese Contraseña"
+                        />
+                        <button 
+                            className="btn btn-lg btn-dark btn-block"
+                            type="submit"
+                        >
+                            Ingresar
+                        </button>
+                        <button 
+                            className="btn btn-sm btn-info btn-block"
+                            type="button"
+                        >
+                            ¿No tienes cuenta?
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default Login
 
 ```
+
+## Registro useState
+```js
+import React from 'react'
+
+const Login = () => {
+
+    const [email, setEmail] = React.useState('')
+    const [pass, setPass] = React.useState('')
+    const [error, setError] = React.useState(null)
+
+    const procesarDatos = e => {
+        e.preventDefault()
+        if(!email.trim() || !pass.trim()){
+            console.log('Datos vacíos email!')
+            setError('Datos vacíos email!')
+            return
+        }
+        if(!pass.trim()){
+            console.log('Datos vacíos pass!')
+            setError('Datos vacíos pass!')
+            return
+        }
+        if(pass.length < 6){
+            console.log('6 o más carácteres')
+            setError('6 o más carácteres en pass')
+            return
+        }
+        console.log('correcto...')
+        setError(null)
+
+    }
+
+    return (
+        <div className="mt-5">
+            <h3 className="text-center">Registro de usuarios</h3>
+            <hr/>
+            <div className="row justify-content-center">
+                <div className="col-12 col-sm-8 col-md-6 col-xl-4">
+                    <form onSubmit={procesarDatos}>
+                        {
+                            error ? (
+                                <div className="alert alert-danger">
+                                    {error}
+                                </div>
+                            ) : null
+                        }
+                        <input 
+                            type="email" 
+                            className="form-control mb-2"
+                            placeholder="Ingrese Email"
+                            onChange={ e => setEmail(e.target.value) }
+                            value={email}
+                        />
+                        <input 
+                            type="password" 
+                            className="form-control mb-2"
+                            placeholder="Ingrese Contraseña"
+                            onChange={ e => setPass(e.target.value) }
+                            value={pass}
+                        />
+                        <button 
+                            className="btn btn-lg btn-dark btn-block"
+                            type="submit"
+                        >
+                            Ingresar
+                        </button>
+                        <button 
+                            className="btn btn-sm btn-info btn-block"
+                            type="button"
+                        >
+                            ¿Ya tienes cuenta?
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default Login
+
+```
+
+## Registro y Login
+```js
+const [esRegistro, setEsRegistro] = React.useState(true)
+```
+```html
+<h3 className="text-center">
+    {
+        esRegistro ? 'Registro' : 'Login'
+    }
+</h3>
+<hr/>
+<div className="row justify-content-center">
+    <div className="col-12 col-sm-8 col-md-6 col-xl-4">
+        <form onSubmit={procesarDatos}>
+            {
+                error ? (
+                    <div className="alert alert-danger">
+                        {error}
+                    </div>
+                ) : null
+            }
+            <input 
+                type="email" 
+                className="form-control mb-2"
+                placeholder="Ingrese Email"
+                onChange={ e => setEmail(e.target.value) }
+                value={email}
+            />
+            <input 
+                type="password" 
+                className="form-control mb-2"
+                placeholder="Ingrese Contraseña"
+                onChange={ e => setPass(e.target.value) }
+                value={pass}
+            />
+            <button 
+                className="btn btn-lg btn-dark btn-block"
+                type="submit"
+            >
+                {esRegistro ? 'Registrar' : 'Acceder'}
+            </button>
+            <button 
+                className="btn btn-sm btn-info btn-block"
+                type="button"
+                onClick={() => setEsRegistro(!esRegistro)}
+            >
+                {esRegistro ? '¿Ya tienes cuenta?' : '¿No tienes cuenta?'}
+            </button>
+        </form>
+    </div>
+</div>
+```
+
+## Firebase Registrar
+[https://firebase.google.com/docs/auth/web/password-auth?hl=es](https://firebase.google.com/docs/auth/web/password-auth?hl=es)
+
+```js
+import {db, auth} from '../firebase'
+
+// después de pasar validaciones de datos...
+if(esRegistro){
+    auth.createUserWithEmailAndPassword(email, pass)
+        .then((res) => {
+            console.log('exito')
+            console.log(res)
+            db.collection('usuarios').doc(res.user.uid).set({
+                fechaCreacion: Date.now(),
+                displayName: res.user.displayName,
+                photoURL: res.user.photoURL,
+                email: res.user.email,
+                uid: res.user.uid
+            })
+            setEmail('')
+            setPass('')
+            setError(null)
+        })
+        .catch(error => {
+            console.log(error)
+            // setError(error.message)
+            if(error.code === 'auth/email-already-in-use'){
+                setError('Usuario ya registrado...')
+                return
+            }
+            if(error.code === 'auth/invalid-email'){
+                setError('Email no válido')
+                return
+            }
+        })
+}
+```
+
+## Firebase Login
+```js
+if(!esRegistro){
+    auth.signInWithEmailAndPassword(email, pass)
+        .then(res => {
+            console.log(res)
+            setEmail('')
+            setPass('')
+            setError(null)
+        })
+        .catch(error => {
+            if(error.code === 'auth/user-not-found'){
+                setError('Usuario o contraseña incorrecta')
+            }
+            if(error.code === 'auth/wrong-password'){
+                setError('Usuario o contraseña incorrecta')
+            }
+            console.log(error.code)
+            console.log(error.message)
+        })
+}
+```
+
+## Push rutas
+```js
+// Importar
+import { withRouter } from "react-router";
+
+// Envolver
+export default withRouter(Login)
+
+// Utilizar props
+const Login = (props) => {...}
+
+// Push
+props.history.push('/admin')
+```
+
+## Ruta protegida
+#### Estructura
+```js
+import React from 'react'
+import { withRouter } from "react-router-dom";
+import {auth} from '../firebase'
+
+const Admin = (props) => {
+
+    return (
+        <div className="mt-5">
+            <h3 className="text-center">Ruta protegida</h3>
+        </div>
+    )
+}
+
+export default withRouter(Admin)
+```
+#### useEffect
+currentUser: nos trae la información del usuario
+[https://firebase.google.com/docs/auth/web/manage-users#get_the_currently_signed-in_user](https://firebase.google.com/docs/auth/web/manage-users#get_the_currently_signed-in_user)
+```js
+import React from 'react'
+import { withRouter } from "react-router-dom";
+import {auth} from '../firebase'
+
+const Admin = (props) => {
+
+    const [user, setUser] = React.useState(null)
+
+    React.useEffect(() => {
+        if(auth.currentUser){
+            console.log('existe')
+            setUser(auth.currentUser)
+        }else{
+            console.log('no existe')
+            props.history.push('/login')
+        }
+    }, [props.history])
+
+
+    return (
+        <div className="mt-5">
+            <h3 className="text-center">Ruta protegida</h3>
+            {
+                user && (
+                    <p>{user.email}</p>
+                )
+            }
+        </div>
+    )
+}
+
+export default withRouter(Admin)
+```
+
+#### App.jsx (detectar usuario)
+onAuthStateChanged: va evaluando si existe el usuario, por lo tanto si se cierra sesión se vuelve a ejecutar onAuthStateChanged()
+```js
+// Recuerde hacer la importación de firebase
+import {auth } from './firebase'
+
+const [firebaseUser, setFirebaseUser] = React.useState(false)
+
+React.useEffect(() => {
+    auth.onAuthStateChanged(user => {
+        console.log(user)
+        if(user){
+            setFirebaseUser(user)
+        }else{
+            setFirebaseUser(null)
+        }
+    })
+}, [])
+
+return firebaseUser !== false ? (
+    <Router>
+        <div className="container">
+            <Navbar firebaseUser={firebaseUser} />
+            <Switch>
+                <Route path="/login">
+                    <Login />
+                </Route>
+                <Route path="/admin">
+                    <Admin />
+                </Route>
+                <Route path="/" exact>
+                    Ruta de inicio
+                </Route>
+            </Switch>
+        </div>
+    </Router>
+) : (
+    <div>Cargando...</div>
+)
+```
+
+#### Navbar cerrar sesión y ocultar "admin"
+```js
+import React from 'react'
+import {Link, NavLink} from 'react-router-dom'
+import {auth} from '../firebase'
+import { withRouter } from "react-router";
+
+const Navbar = (props) => {
+
+    const cerrarSesion = () => {
+        auth.signOut()
+            .then(() => {
+                props.history.push('/login')
+            })
+    }
+
+    return (
+        <div className="navbar navbar-dark bg-dark">
+            <Link to="/" className="navbar-brand">React Admin</Link>
+            <div>
+                <div className="d-flex">
+                    <NavLink 
+                        className="btn btn-dark mr-2" 
+                        to="/"
+                        exact
+                    >
+                        Inicio
+                    </NavLink>
+                    {
+                        props.firebaseUser !== null ? (
+                            <NavLink 
+                                className="btn btn-dark mr-2" 
+                                to="/admin"
+                            >
+                                Admin
+                            </NavLink>
+                        ) : null
+                    }
+                    {
+                        props.firebaseUser !== null ? (
+                        <button 
+                            className="btn btn-dark" 
+                            onClick={() => cerrarSesion()}
+                        >
+                            Cerrar Sesión
+                        </button>
+                        ): (
+                        <NavLink 
+                            className="btn btn-dark" 
+                            to="/login"
+                        >
+                            Login
+                        </NavLink>
+                        )
+                    }
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default withRouter(Navbar)
+```
+
+
+
+
+
+
