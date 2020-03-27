@@ -523,6 +523,187 @@ const Navbar = (props) => {
 export default withRouter(Navbar)
 ```
 
+## Firestore
+Al agregar un usuario configurar nueva collection
+```js
+db.collection(res.user.uid).add({name: 'Tarea de ejemplo #1'})
+```
+
+Crear un componente nuevo y agregarlo al Admin
+```js
+return (
+    <div className="mt-5">
+        <h3 className="text-center">Ruta protegida</h3>
+        {
+            user && (
+                <FirestoreCrud user={user} />
+            )
+        }
+    </div>
+)
+```
+
+Utilizar el ejercicio de CRUD Firestore en el nuevo componente
+```js
+import React, {useState, useEffect} from 'react'
+import {db} from '../firebase'
+
+const FirestoreCrud = (props) => {
+
+    const [tareas, setTareas] = useState([])
+    const [tarea, setTarea] = useState('')
+    const [modoEdicion, setModoEdicion] = useState(false)
+    const [id, setId] = useState('')
+
+    useEffect(() => {
+
+        const obtenerDatos = () => {
+
+            db.collection(props.user.uid).onSnapshot(data => {
+                // console.log(data.docs)
+                setTareas(data.docs.map(item => ({ id: item.id, ...item.data() })))
+            })
+
+        }
+        obtenerDatos()
+
+    }, [])
+
+    const eliminarTarea = id => {
+        console.log(id)
+        db.collection(props.user.uid).doc(id).delete()
+    }
+
+    const agregarTarea = e => {
+        e.preventDefault()
+
+        if(!tarea.trim()){
+            console.log('esta vacio')
+            e.target.reset()
+            return
+        }
+
+        db.collection(props.user.uid).add({name: tarea})
+        e.target.reset()
+
+    }
+
+    const formularioEdicion = (item) => {
+        setModoEdicion(true)
+        setId(item.id)
+        setTarea(item.name)
+        console.log(item)
+    }
+
+    const editarTarea = e => {
+        e.preventDefault()
+        if(!tarea.trim()){
+            console.log('esta vacio')
+            e.target.reset()
+            return
+        }
+
+        db.collection(props.user.uid).doc(id).set({name: tarea})
+        e.target.reset()
+        setId('')
+        setModoEdicion(false)
+
+    }
+
+
+    return (
+        <div className="row mt-5">
+            <div className="col-6">
+                <h3>Listado de Tareas</h3>
+                {
+                    tareas.map(item => (
+                        <div className="alert alert-primary" key={item.id}>
+                            <div className="row">
+                                <div className="col-8">
+                                    {item.name}
+                                </div>
+                                <div className="col-2">
+                                    <div 
+                                        className="btn btn-danger btn-sm"
+                                        onClick={() => eliminarTarea(item.id)}
+                                    >Eliminar
+                                    </div>
+                                </div>
+                                <div className="col-2">
+                                    <div 
+                                        className="btn btn-warning btn-sm"
+                                        onClick={() => formularioEdicion(item)}
+                                    >Editar
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                }
+            </div>
+            <div className="col-6">
+                <h3>Formulario {modoEdicion ? 'Editar' : 'Agregar'}</h3>
+                <form onSubmit={modoEdicion ? editarTarea : agregarTarea}>
+                    <input 
+                        type="text" 
+                        className="form-control mb-2"
+                        placeholder={modoEdicion ? tarea : 'Agregar Tarea'}
+                        onChange={ e => setTarea(e.target.value) }
+                    />
+                    {
+                        modoEdicion ? (
+                            <button className="btn btn-warning btn-block">Editar</button>
+                        ) : (
+                            <button className="btn btn-dark btn-block">Agregar</button>
+                        )
+                    }
+                </form>
+            </div>
+        </div>
+    )
+}
+
+export default FirestoreCrud
+```
+
+## Deploy Firebase
+Antes compilar nuestra aplicación con:
+```
+npm run build
+```
+
+Instalar herramientas de firebase solo una vez por computador:
+```
+npm install -g firebase-tools
+```
+
+Acceder
+```
+firebase login
+```
+
+Iniciar
+```
+firebase init
+```
+
+Subir
+```
+firebase deploy
+```
+
+## Reglas de seguridad básicas
+[https://firebase.google.com/docs/rules/basics?authuser=0#all_authenticated_users](https://firebase.google.com/docs/rules/basics?authuser=0#all_authenticated_users)
+```
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if request.auth.uid != null;
+    }
+  }
+}
+```
+
 
 
 
