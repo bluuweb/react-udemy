@@ -34,156 +34,259 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-const db = firebase.firestore()
-
-export default db;
+export {firebase};
 ```
 
-## Componente
-Puedes crear un componente nuevo o bien trabajar en el `app.js`
+## Bootstrap
+Podemos seguir utilizando Bootstrap de una manera sencilla utilizando su CDN:
+```html
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+```
 
-## Leer
-[https://firebase.google.com/docs/firestore/query-data/listen?authuser=0](https://firebase.google.com/docs/firestore/query-data/listen?authuser=0)
+## Database
+En la consola de firebase configuraremos una nueva colección:
+
+```
+tareas => id-Aleatoreo => {name: 'tarea 1' fecha: '30 marzo'}
+```
+
+## LEER documentos
+[https://firebase.google.com/docs/firestore/quickstart?authuser=0#read_data](https://firebase.google.com/docs/firestore/quickstart?authuser=0#read_data)
 ```js
-import db from '../firebase'
+import {firebase} from './firebase'
 ```
+```js
+React.useEffect(() => {
+
+    const obtenerDatos = async () => {
+        const db = firebase.firestore()
+        try {
+            const data = await db.collection('tareas').get()
+            const arrayData = data.docs.map(doc => ({id: doc.id, ...doc.data()}))
+            console.log(arrayData)      
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    obtenerDatos()
+
+}, [])
+```
+
+Ahora con State
 ```js
 const [tareas, setTareas] = React.useState([])
 
 React.useEffect(() => {
 
     const obtenerDatos = async () => {
-    db.collection('tasks').onSnapshot(data => {
-        // console.log(data)
-        setTareas(data.docs.map(item => ({id: item.id, ...item.data()})))
-    })
+        const db = firebase.firestore()
+        try {
+            const data = await db.collection('tareas').get()
+            const arrayData = data.docs.map(doc => ({id: doc.id, ...doc.data()}))
+            console.log(arrayData) 
+            setTareas(arrayData)     
+        } catch (error) {
+            console.log(error)
+        }
     }
     obtenerDatos()
 
 }, [])
 ```
+
 ```html
-<div className="row mt-5">
-    <div className="col-6">
-        <h3>Lista de Tareas</h3>
-        {
-            tareas.map(item => (
-                <div className="alert alert-primary" key={item.id}>
-                    <div className="row">
-                        <div className="col-8">
-                            {item.name}
-                        </div>
-                        <div className="col-2">
-                            <button className="btn btn-sm btn-danger">Eliminar</button>
-                        </div>
-                        <div className="col-2">
-                            <button className="btn btn-sm btn-warning">Editar</button>
-                        </div>
-                    </div>
-                </div>
-            ))
-        }
-    </div>
-    <div className="col-6">
-        <h3>Formulario</h3>
+<div className="container mb-2">
+    <div className="row">
+        <div className="col-md-6">
+            <h3>Lista de Tareas</h3>
+            <ul className="list-group">
+            {
+                tareas.map(item => (
+                <li className="list-group-item" key={item.id}>
+                  <span>{item.name}</span>
+                    <button 
+                        className="btn btn-danger btn-sm float-right"
+                    >
+                        Eliminar
+                    </button>
+                    <button 
+                        className="btn btn-warning btn-sm float-right mr-2"
+                    >
+                        Editar
+                    </button>
+                </li>
+                ))
+            }
+            </ul>
+        </div>
+        <div className="col-md-6">
+            formulario
+        </div>
     </div>
 </div>
 ```
 
-## Eliminar
-[https://firebase.google.com/docs/firestore/manage-data/delete-data?authuser=0](https://firebase.google.com/docs/firestore/manage-data/delete-data?authuser=0)
+## AGREGAR documentos
+[https://firebase.google.com/docs/firestore/manage-data/add-data?authuser=0](https://firebase.google.com/docs/firestore/manage-data/add-data?authuser=0)
 ```js
-const eliminarTarea = id => {
-    db.collection('tasks').doc(id).delete()
+const [tarea, setTarea] = React.useState('')
+
+const agregar = async (e) => {
+    e.preventDefault()
+    if(!tarea.trim()){
+        console.log('sin texto')
+        return
+    }
+    console.log(tarea)
 }
 ```
 
+```html
+<h3>Formulario</h3>
+<form onSubmit={agregar}>
+    <input 
+        type="text" 
+        className="form-control mb-2"
+        placeholder='Ingrese Tarea'
+        value={tarea}
+        onChange={e => setTarea(e.target.value)}
+    />
+    <button 
+        type='submit'
+        className="btn btn-dark btn-block btn-sm"
+    >
+        Agregar
+    </button>
+</form>
+```
+
 ```js
+try {
+    const db = firebase.firestore()
+    const nuevaTarea = {
+        name: tarea,
+        fecha: Date.now()
+    }
+    const data = await db.collection('tareas').add({
+        name: tarea,
+        fecha: Date.now()
+    })
+    setTareas([
+        ...tareas,
+        {id: data.id, ...nuevaTarea }
+    ])
+    setTarea('')
+} catch (error) {
+    console.log(error)
+}
+```
+
+## ELIMINAR documentos
+[https://firebase.google.com/docs/firestore/manage-data/delete-data?authuser=0](https://firebase.google.com/docs/firestore/manage-data/delete-data?authuser=0)
+```html
 <button 
-    className="btn btn-sm btn-danger" 
-    onClick={() => eliminarTarea(item.id)}>
+    className="btn btn-danger btn-sm float-right"
+    onClick={() => eliminar(item.id)}
+>
     Eliminar
 </button>
 ```
 
-## Agregar
-[https://firebase.google.com/docs/firestore/manage-data/add-data?authuser=0#add_a_document](https://firebase.google.com/docs/firestore/manage-data/add-data?authuser=0#add_a_document)
 ```js
-const [tarea, setTarea] = React.useState([])
-
-const agregarTarea = (e) => {
-    e.preventDefault()
-    if(!tarea.trim()){
-        console.log('campo vacío')
-        e.target.reset()
-        return 
+const eliminar = async (id) => {
+    try {
+      const db = firebase.firestore()
+      await db.collection('tareas').doc(id).delete()
+      const arrayFiltrado = tareas.filter(item => item.id !== id)
+      setTareas(arrayFiltrado)
+    } catch (error) {
+      console.log(error)
     }
-    db.collection('tasks').add({name: tarea})
-    e.target.reset()
 }
 ```
 
-```js
-<h3>Formulario</h3>
-<form onSubmit={agregarTarea}>
-    <input 
-        type="text"
-        placeholder='Agregue Tarea'
-        className="form-control mb-2"
-        onChange={e => setTarea(e.target.value)}
-    />
-    <button className="btn btn-dark btn-block" type="submit">Agregar</button>
-</form>
-```
-
-## Editar
-[https://firebase.google.com/docs/firestore/manage-data/add-data?authuser=0#update_fields_in_nested_objects](https://firebase.google.com/docs/firestore/manage-data/add-data?authuser=0#update_fields_in_nested_objects)
+## EDITAR documentos
+[https://firebase.google.com/docs/firestore/manage-data/add-data?authuser=0#update-data](https://firebase.google.com/docs/firestore/manage-data/add-data?authuser=0#update-data)
 ```js
 const [modoEdicion, setModoEdicion] = React.useState(false)
-const [id, setId] = React.useState('')
+```
 
-const formularioEdicion = item => {
+```html
+<div className="col-md-6">
+    <h3>
+    {
+        modoEdicion ? 'Editar Tarea' : 'Agregar Tarea'
+    }
+    </h3>
+    <form onSubmit={agregar}>
+    <input 
+        type="text" 
+        className="form-control mb-2"
+        placeholder='Ingrese Tarea'
+        value={tarea}
+        onChange={e => setTarea(e.target.value)}
+    />
+    <button 
+        type='submit'
+        className={
+        modoEdicion ? 'btn btn-warning btn-block btn-sm' : 
+        'btn btn-dark btn-block btn-sm'
+        }
+    >
+        {
+        modoEdicion ? 'Editar' : 'Agregar'
+        }
+    </button>
+    </form>
+</div>
+```
+
+```html
+<button 
+    className="btn btn-warning btn-sm float-right mr-2"
+    onClick={() => activarEdicion(item)}
+>
+    Editar
+</button>
+```
+
+
+```js
+const activarEdicion = (item) => {
     setModoEdicion(true)
     setTarea(item.name)
     setId(item.id)
 }
-
-const editarTarea = e => {
-    e.preventDefault()
-    // console.log(id)
-    if(!tarea.trim()){
-        console.log('campo vacío')
-        e.target.reset()
-        return 
-    }
-    db.collection('tasks').doc(id).set({name: tarea})
-    e.target.reset()
-    setModoEdicion(false)
-    setId('')
-}
-
-<button 
-    className="btn btn-sm btn-warning" 
-    onClick={() => formularioEdicion(item)}>
-    Editar
-</button>
-
-<div className="col-6">
-    <h3>Formulario {modoEdicion ? 'Editar' : 'Agregar'}</h3>
-    <form onSubmit={modoEdicion ? editarTarea : agregarTarea}>
-        <input 
-            type="text"
-            placeholder={modoEdicion ? tarea : 'Agregue Tarea'}
-            className="form-control mb-2"
-            onChange={e => setTarea(e.target.value)}
-        />
-        {
-            modoEdicion ? (
-                <button className="btn btn-warning btn-block">Editar</button>
-            ) : (
-                <button className="btn btn-dark btn-block" type="submit">Agregar</button>
-            )
-        }
-    </form>
-</div>
 ```
+
+```html
+<form onSubmit={modoEdicion ? editar : agregar}>
+```
+
+```js
+const editar = async (e) => {
+    e.preventDefault()
+    if(!tarea.trim()){
+      console.log('vacio')
+      return
+    }
+    try {
+      const db = firebase.firestore()
+      await db.collection('tareas').doc(id).update({
+        name: tarea
+      })
+      const arrayEditado = tareas.map(item => (
+        item.id === id ? {id: item.id, fecha: item.fecha, name: tarea} : item
+      ))
+      setTareas(arrayEditado)
+      setModoEdicion(false)
+      setId('')
+      setTarea('')
+    } catch (error) {
+      console.log(error)
+    }
+}
+```
+
+
