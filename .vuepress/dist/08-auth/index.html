@@ -8,7 +8,7 @@
     <meta name="generator" content="VuePress 1.3.0">
     
     
-    <link rel="preload" href="/react-udemy/assets/css/0.styles.cfaf7337.css" as="style"><link rel="preload" href="/react-udemy/assets/js/app.d179f30d.js" as="script"><link rel="preload" href="/react-udemy/assets/js/2.b23cf27d.js" as="script"><link rel="preload" href="/react-udemy/assets/js/13.e73af337.js" as="script"><link rel="prefetch" href="/react-udemy/assets/js/10.2121a796.js"><link rel="prefetch" href="/react-udemy/assets/js/11.5306cfaa.js"><link rel="prefetch" href="/react-udemy/assets/js/12.71b686b6.js"><link rel="prefetch" href="/react-udemy/assets/js/14.8cfa4141.js"><link rel="prefetch" href="/react-udemy/assets/js/15.617b004e.js"><link rel="prefetch" href="/react-udemy/assets/js/16.09e4e2e8.js"><link rel="prefetch" href="/react-udemy/assets/js/3.22c2bd34.js"><link rel="prefetch" href="/react-udemy/assets/js/4.61e25d5f.js"><link rel="prefetch" href="/react-udemy/assets/js/5.f5f7a0a0.js"><link rel="prefetch" href="/react-udemy/assets/js/6.778cc91e.js"><link rel="prefetch" href="/react-udemy/assets/js/7.d9d06c4a.js"><link rel="prefetch" href="/react-udemy/assets/js/8.3d8471d8.js"><link rel="prefetch" href="/react-udemy/assets/js/9.79d98587.js">
+    <link rel="preload" href="/react-udemy/assets/css/0.styles.cfaf7337.css" as="style"><link rel="preload" href="/react-udemy/assets/js/app.072dc72a.js" as="script"><link rel="preload" href="/react-udemy/assets/js/2.b23cf27d.js" as="script"><link rel="preload" href="/react-udemy/assets/js/13.6ce59b11.js" as="script"><link rel="prefetch" href="/react-udemy/assets/js/10.c839c09b.js"><link rel="prefetch" href="/react-udemy/assets/js/11.6d3685f5.js"><link rel="prefetch" href="/react-udemy/assets/js/12.8844ca30.js"><link rel="prefetch" href="/react-udemy/assets/js/14.8cfa4141.js"><link rel="prefetch" href="/react-udemy/assets/js/15.617b004e.js"><link rel="prefetch" href="/react-udemy/assets/js/16.09e4e2e8.js"><link rel="prefetch" href="/react-udemy/assets/js/3.22c2bd34.js"><link rel="prefetch" href="/react-udemy/assets/js/4.61e25d5f.js"><link rel="prefetch" href="/react-udemy/assets/js/5.f5f7a0a0.js"><link rel="prefetch" href="/react-udemy/assets/js/6.533ece43.js"><link rel="prefetch" href="/react-udemy/assets/js/7.8acb4a30.js"><link rel="prefetch" href="/react-udemy/assets/js/8.8690cf76.js"><link rel="prefetch" href="/react-udemy/assets/js/9.2d0ba412.js">
     <link rel="stylesheet" href="/react-udemy/assets/css/0.styles.cfaf7337.css">
   </head>
   <body>
@@ -274,53 +274,60 @@ app<span class="token punctuation">.</span><span class="token function">initiali
 
 <span class="token comment">// después de pasar validaciones de datos...</span>
 <span class="token keyword">if</span><span class="token punctuation">(</span>esRegistro<span class="token punctuation">)</span><span class="token punctuation">{</span>
-    auth<span class="token punctuation">.</span><span class="token function">createUserWithEmailAndPassword</span><span class="token punctuation">(</span>email<span class="token punctuation">,</span> pass<span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">res</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
-            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'exito'</span><span class="token punctuation">)</span>
-            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span>
-            db<span class="token punctuation">.</span><span class="token function">collection</span><span class="token punctuation">(</span><span class="token string">'usuarios'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">doc</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>user<span class="token punctuation">.</span>uid<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-                fechaCreacion<span class="token operator">:</span> Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-                displayName<span class="token operator">:</span> res<span class="token punctuation">.</span>user<span class="token punctuation">.</span>displayName<span class="token punctuation">,</span>
-                photoURL<span class="token operator">:</span> res<span class="token punctuation">.</span>user<span class="token punctuation">.</span>photoURL<span class="token punctuation">,</span>
-                email<span class="token operator">:</span> res<span class="token punctuation">.</span>user<span class="token punctuation">.</span>email<span class="token punctuation">,</span>
-                uid<span class="token operator">:</span> res<span class="token punctuation">.</span>user<span class="token punctuation">.</span>uid
-            <span class="token punctuation">}</span><span class="token punctuation">)</span>
-            <span class="token function">setEmail</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>
-            <span class="token function">setPass</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>
-            <span class="token function">setError</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span>
-        <span class="token punctuation">}</span><span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token parameter">error</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
-            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span>
-            <span class="token comment">// setError(error.message)</span>
-            <span class="token keyword">if</span><span class="token punctuation">(</span>error<span class="token punctuation">.</span>code <span class="token operator">===</span> <span class="token string">'auth/email-already-in-use'</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-                <span class="token function">setError</span><span class="token punctuation">(</span><span class="token string">'Usuario ya registrado...'</span><span class="token punctuation">)</span>
-                <span class="token keyword">return</span>
-            <span class="token punctuation">}</span>
-            <span class="token keyword">if</span><span class="token punctuation">(</span>error<span class="token punctuation">.</span>code <span class="token operator">===</span> <span class="token string">'auth/invalid-email'</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-                <span class="token function">setError</span><span class="token punctuation">(</span><span class="token string">'Email no válido'</span><span class="token punctuation">)</span>
-                <span class="token keyword">return</span>
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token function">registrar</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token punctuation">}</span>
+<span class="token comment">// Función externa</span>
+<span class="token keyword">const</span> registrar <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">useCallback</span><span class="token punctuation">(</span><span class="token keyword">async</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> auth<span class="token punctuation">.</span><span class="token function">createUserWithEmailAndPassword</span><span class="token punctuation">(</span>email<span class="token punctuation">,</span> pass<span class="token punctuation">)</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>user<span class="token punctuation">)</span>
+        <span class="token keyword">await</span> db<span class="token punctuation">.</span><span class="token function">collection</span><span class="token punctuation">(</span><span class="token string">'usuarios'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">doc</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>user<span class="token punctuation">.</span>uid<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+            fechaCreacion<span class="token operator">:</span> Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            displayName<span class="token operator">:</span> res<span class="token punctuation">.</span>user<span class="token punctuation">.</span>displayName<span class="token punctuation">,</span>
+            photoURL<span class="token operator">:</span> res<span class="token punctuation">.</span>user<span class="token punctuation">.</span>photoURL<span class="token punctuation">,</span>
+            email<span class="token operator">:</span> res<span class="token punctuation">.</span>user<span class="token punctuation">.</span>email<span class="token punctuation">,</span>
+            uid<span class="token operator">:</span> res<span class="token punctuation">.</span>user<span class="token punctuation">.</span>uid
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token function">setEmail</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>
+        <span class="token function">setPass</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>
+        <span class="token function">setError</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span>
+        props<span class="token punctuation">.</span>history<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token string">'/admin'</span><span class="token punctuation">)</span> 
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span>
+        <span class="token comment">// setError(error.message)</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>error<span class="token punctuation">.</span>code <span class="token operator">===</span> <span class="token string">'auth/email-already-in-use'</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token function">setError</span><span class="token punctuation">(</span><span class="token string">'Usuario ya registrado...'</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>error<span class="token punctuation">.</span>code <span class="token operator">===</span> <span class="token string">'auth/invalid-email'</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token function">setError</span><span class="token punctuation">(</span><span class="token string">'Email no válido'</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>email<span class="token punctuation">,</span> pass<span class="token punctuation">,</span> props<span class="token punctuation">.</span>history<span class="token punctuation">]</span><span class="token punctuation">)</span>
 </code></pre></div><h2 id="firebase-login"><a href="#firebase-login" class="header-anchor">#</a> Firebase Login</h2> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>esRegistro<span class="token punctuation">)</span><span class="token punctuation">{</span>
-    auth<span class="token punctuation">.</span><span class="token function">signInWithEmailAndPassword</span><span class="token punctuation">(</span>email<span class="token punctuation">,</span> pass<span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">res</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
-            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span>
-            <span class="token function">setEmail</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>
-            <span class="token function">setPass</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>
-            <span class="token function">setError</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span>
-        <span class="token punctuation">}</span><span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token parameter">error</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
-            <span class="token keyword">if</span><span class="token punctuation">(</span>error<span class="token punctuation">.</span>code <span class="token operator">===</span> <span class="token string">'auth/user-not-found'</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-                <span class="token function">setError</span><span class="token punctuation">(</span><span class="token string">'Usuario o contraseña incorrecta'</span><span class="token punctuation">)</span>
-            <span class="token punctuation">}</span>
-            <span class="token keyword">if</span><span class="token punctuation">(</span>error<span class="token punctuation">.</span>code <span class="token operator">===</span> <span class="token string">'auth/wrong-password'</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-                <span class="token function">setError</span><span class="token punctuation">(</span><span class="token string">'Usuario o contraseña incorrecta'</span><span class="token punctuation">)</span>
-            <span class="token punctuation">}</span>
-            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">.</span>code<span class="token punctuation">)</span>
-            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">.</span>message<span class="token punctuation">)</span>
-        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token function">login</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token punctuation">}</span>
+
+<span class="token comment">// Función externa</span>
+<span class="token keyword">const</span> login <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">useCallback</span><span class="token punctuation">(</span><span class="token keyword">async</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        <span class="token keyword">await</span> auth<span class="token punctuation">.</span><span class="token function">signInWithEmailAndPassword</span><span class="token punctuation">(</span>email<span class="token punctuation">,</span> pass<span class="token punctuation">)</span>  
+        <span class="token function">setEmail</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>
+        <span class="token function">setPass</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>
+        <span class="token function">setError</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span>
+        props<span class="token punctuation">.</span>history<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token string">'/admin'</span><span class="token punctuation">)</span> 
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>error<span class="token punctuation">.</span>code <span class="token operator">===</span> <span class="token string">'auth/user-not-found'</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token function">setError</span><span class="token punctuation">(</span><span class="token string">'Usuario o contraseña incorrecta'</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>error<span class="token punctuation">.</span>code <span class="token operator">===</span> <span class="token string">'auth/wrong-password'</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token function">setError</span><span class="token punctuation">(</span><span class="token string">'Usuario o contraseña incorrecta'</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">.</span>code<span class="token punctuation">)</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">.</span>message<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>email<span class="token punctuation">,</span> pass<span class="token punctuation">,</span> props<span class="token punctuation">.</span>history<span class="token punctuation">]</span><span class="token punctuation">)</span>
 </code></pre></div><h2 id="push-rutas"><a href="#push-rutas" class="header-anchor">#</a> Push rutas</h2> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// Importar</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> withRouter <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;react-router&quot;</span><span class="token punctuation">;</span>
 
@@ -475,136 +482,184 @@ React<span class="token punctuation">.</span><span class="token function">useEff
 <span class="token punctuation">}</span>
 
 <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">withRouter</span><span class="token punctuation">(</span>Navbar<span class="token punctuation">)</span>
-</code></pre></div><h2 id="firestore"><a href="#firestore" class="header-anchor">#</a> Firestore</h2> <p>Al agregar un usuario configurar nueva collection</p> <div class="language-js extra-class"><pre class="language-js"><code>db<span class="token punctuation">.</span><span class="token function">collection</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>user<span class="token punctuation">.</span>uid<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">{</span>name<span class="token operator">:</span> <span class="token string">'Tarea de ejemplo #1'</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre></div><h2 id="firestore"><a href="#firestore" class="header-anchor">#</a> Firestore</h2> <p>Al agregar un usuario configurar nueva collection</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">await</span> db<span class="token punctuation">.</span><span class="token function">collection</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>user<span class="token punctuation">.</span>uid<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">{</span>name<span class="token operator">:</span> <span class="token string">'Tarea de ejemplo #1'</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
 </code></pre></div><p>Crear un componente nuevo y agregarlo al Admin</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">return</span> <span class="token punctuation">(</span>
     <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">&quot;mt-5&quot;</span><span class="token operator">&gt;</span>
         <span class="token operator">&lt;</span>h3 className<span class="token operator">=</span><span class="token string">&quot;text-center&quot;</span><span class="token operator">&gt;</span>Ruta protegida<span class="token operator">&lt;</span><span class="token operator">/</span>h3<span class="token operator">&gt;</span>
         <span class="token punctuation">{</span>
             user <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>
-                <span class="token operator">&lt;</span>FirestoreCrud user<span class="token operator">=</span><span class="token punctuation">{</span>user<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">&gt;</span>
+                <span class="token operator">&lt;</span>Firestore user<span class="token operator">=</span><span class="token punctuation">{</span>user<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">&gt;</span>
             <span class="token punctuation">)</span>
         <span class="token punctuation">}</span>
     <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
 <span class="token punctuation">)</span>
-</code></pre></div><p>Utilizar el ejercicio de CRUD Firestore en el nuevo componente</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span>useState<span class="token punctuation">,</span> useEffect<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span>db<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'../firebase'</span>
+</code></pre></div><p>Utilizar el ejercicio de CRUD Firestore en el nuevo componente</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">'react'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>firebase<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'../firebase'</span>
 
-<span class="token keyword">const</span> <span class="token function-variable function">FirestoreCrud</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+<span class="token keyword">const</span> <span class="token function-variable function">Firestore</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
 
-    <span class="token keyword">const</span> <span class="token punctuation">[</span>tareas<span class="token punctuation">,</span> setTareas<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-    <span class="token keyword">const</span> <span class="token punctuation">[</span>tarea<span class="token punctuation">,</span> setTarea<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>
-    <span class="token keyword">const</span> <span class="token punctuation">[</span>modoEdicion<span class="token punctuation">,</span> setModoEdicion<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span>
-    <span class="token keyword">const</span> <span class="token punctuation">[</span>id<span class="token punctuation">,</span> setId<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>
-
-    <span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
-
-        <span class="token keyword">const</span> <span class="token function-variable function">obtenerDatos</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
-
-            db<span class="token punctuation">.</span><span class="token function">collection</span><span class="token punctuation">(</span>props<span class="token punctuation">.</span>user<span class="token punctuation">.</span>uid<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">onSnapshot</span><span class="token punctuation">(</span><span class="token parameter">data</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
-                <span class="token comment">// console.log(data.docs)</span>
-                <span class="token function">setTareas</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>docs<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">item</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> id<span class="token operator">:</span> item<span class="token punctuation">.</span>id<span class="token punctuation">,</span> <span class="token operator">...</span>item<span class="token punctuation">.</span><span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-            <span class="token punctuation">}</span><span class="token punctuation">)</span>
-
+    <span class="token keyword">const</span> <span class="token punctuation">[</span>tareas<span class="token punctuation">,</span> setTareas<span class="token punctuation">]</span> <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">useState</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token keyword">const</span> <span class="token punctuation">[</span>tarea<span class="token punctuation">,</span> setTarea<span class="token punctuation">]</span> <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">useState</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>
+    <span class="token keyword">const</span> <span class="token punctuation">[</span>modoEdicion<span class="token punctuation">,</span> setModoEdicion<span class="token punctuation">]</span> <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">useState</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span>
+    <span class="token keyword">const</span> <span class="token punctuation">[</span>id<span class="token punctuation">,</span> setId<span class="token punctuation">]</span> <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">useState</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>
+  
+  
+    React<span class="token punctuation">.</span><span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  
+      <span class="token keyword">const</span> <span class="token function-variable function">obtenerDatos</span> <span class="token operator">=</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+  
+          <span class="token keyword">const</span> db <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">firestore</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+          <span class="token keyword">const</span> data <span class="token operator">=</span> <span class="token keyword">await</span> db<span class="token punctuation">.</span><span class="token function">collection</span><span class="token punctuation">(</span><span class="token string">'tareas'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+          <span class="token keyword">const</span> arrayData <span class="token operator">=</span> data<span class="token punctuation">.</span>docs<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">doc</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> id<span class="token operator">:</span> doc<span class="token punctuation">.</span>id<span class="token punctuation">,</span> <span class="token operator">...</span>doc<span class="token punctuation">.</span><span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+          console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arrayData<span class="token punctuation">)</span>
+          <span class="token function">setTareas</span><span class="token punctuation">(</span>arrayData<span class="token punctuation">)</span>
+          
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span>
         <span class="token punctuation">}</span>
-        <span class="token function">obtenerDatos</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-
+  
+      <span class="token punctuation">}</span>
+  
+      <span class="token function">obtenerDatos</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  
     <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-
-    <span class="token keyword">const</span> <span class="token function-variable function">eliminarTarea</span> <span class="token operator">=</span> <span class="token parameter">id</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
-        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>
-        db<span class="token punctuation">.</span><span class="token function">collection</span><span class="token punctuation">(</span>props<span class="token punctuation">.</span>user<span class="token punctuation">.</span>uid<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">doc</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span>
-
-    <span class="token keyword">const</span> <span class="token function-variable function">agregarTarea</span> <span class="token operator">=</span> <span class="token parameter">e</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
-        e<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-
-        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>tarea<span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'esta vacio'</span><span class="token punctuation">)</span>
-            e<span class="token punctuation">.</span>target<span class="token punctuation">.</span><span class="token function">reset</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-            <span class="token keyword">return</span>
+  
+    <span class="token keyword">const</span> <span class="token function-variable function">agregar</span> <span class="token operator">=</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">e</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      e<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  
+      <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>tarea<span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'está vacio'</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span>
+      <span class="token punctuation">}</span>
+  
+      <span class="token keyword">try</span> <span class="token punctuation">{</span>
+  
+        <span class="token keyword">const</span> db <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">firestore</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">const</span> nuevaTarea <span class="token operator">=</span> <span class="token punctuation">{</span>
+          name<span class="token operator">:</span> tarea<span class="token punctuation">,</span>
+          fecha<span class="token operator">:</span> Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
         <span class="token punctuation">}</span>
-
-        db<span class="token punctuation">.</span><span class="token function">collection</span><span class="token punctuation">(</span>props<span class="token punctuation">.</span>user<span class="token punctuation">.</span>uid<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">{</span>name<span class="token operator">:</span> tarea<span class="token punctuation">}</span><span class="token punctuation">)</span>
-        e<span class="token punctuation">.</span>target<span class="token punctuation">.</span><span class="token function">reset</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-
+        <span class="token keyword">const</span> data <span class="token operator">=</span> <span class="token keyword">await</span> db<span class="token punctuation">.</span><span class="token function">collection</span><span class="token punctuation">(</span><span class="token string">'tareas'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>nuevaTarea<span class="token punctuation">)</span>
+  
+        <span class="token function">setTareas</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+          <span class="token operator">...</span>tareas<span class="token punctuation">,</span>
+          <span class="token punctuation">{</span><span class="token operator">...</span>nuevaTarea<span class="token punctuation">,</span> id<span class="token operator">:</span> data<span class="token punctuation">.</span>id<span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">)</span>
+  
+        <span class="token function">setTarea</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>
+        
+      <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+  
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>tarea<span class="token punctuation">)</span>
     <span class="token punctuation">}</span>
-
-    <span class="token keyword">const</span> <span class="token function-variable function">formularioEdicion</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">item</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
-        <span class="token function">setModoEdicion</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
-        <span class="token function">setId</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>id<span class="token punctuation">)</span>
-        <span class="token function">setTarea</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>name<span class="token punctuation">)</span>
-        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span>
+  
+    <span class="token keyword">const</span> <span class="token function-variable function">eliminar</span> <span class="token operator">=</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">id</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        
+        <span class="token keyword">const</span> db <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">firestore</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">await</span> db<span class="token punctuation">.</span><span class="token function">collection</span><span class="token punctuation">(</span><span class="token string">'tareas'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">doc</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  
+        <span class="token keyword">const</span> arrayFiltrado <span class="token operator">=</span> tareas<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token parameter">item</span> <span class="token operator">=&gt;</span> item<span class="token punctuation">.</span>id <span class="token operator">!==</span> id<span class="token punctuation">)</span>
+        <span class="token function">setTareas</span><span class="token punctuation">(</span>arrayFiltrado<span class="token punctuation">)</span>
+  
+      <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
-
-    <span class="token keyword">const</span> <span class="token function-variable function">editarTarea</span> <span class="token operator">=</span> <span class="token parameter">e</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
-        e<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>tarea<span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'esta vacio'</span><span class="token punctuation">)</span>
-            e<span class="token punctuation">.</span>target<span class="token punctuation">.</span><span class="token function">reset</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-            <span class="token keyword">return</span>
-        <span class="token punctuation">}</span>
-
-        db<span class="token punctuation">.</span><span class="token function">collection</span><span class="token punctuation">(</span>props<span class="token punctuation">.</span>user<span class="token punctuation">.</span>uid<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">doc</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token punctuation">{</span>name<span class="token operator">:</span> tarea<span class="token punctuation">}</span><span class="token punctuation">)</span>
-        e<span class="token punctuation">.</span>target<span class="token punctuation">.</span><span class="token function">reset</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-        <span class="token function">setId</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>
+  
+    <span class="token keyword">const</span> <span class="token function-variable function">activarEdicion</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">item</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      <span class="token function">setModoEdicion</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+      <span class="token function">setTarea</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+      <span class="token function">setId</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>id<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  
+    <span class="token keyword">const</span> <span class="token function-variable function">editar</span> <span class="token operator">=</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">e</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      e<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>tarea<span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'vacio'</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        
+        <span class="token keyword">const</span> db <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">firestore</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">await</span> db<span class="token punctuation">.</span><span class="token function">collection</span><span class="token punctuation">(</span><span class="token string">'tareas'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">doc</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+          name<span class="token operator">:</span> tarea
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token keyword">const</span> arrayEditado <span class="token operator">=</span> tareas<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">item</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span>
+          item<span class="token punctuation">.</span>id <span class="token operator">===</span> id <span class="token operator">?</span> <span class="token punctuation">{</span>id<span class="token operator">:</span> item<span class="token punctuation">.</span>id<span class="token punctuation">,</span> fecha<span class="token operator">:</span> item<span class="token punctuation">.</span>fecha<span class="token punctuation">,</span> name<span class="token operator">:</span> tarea<span class="token punctuation">}</span> <span class="token operator">:</span> item
+        <span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token function">setTareas</span><span class="token punctuation">(</span>arrayEditado<span class="token punctuation">)</span>
         <span class="token function">setModoEdicion</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span>
-
+        <span class="token function">setTarea</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>
+        <span class="token function">setId</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
-
 
     <span class="token keyword">return</span> <span class="token punctuation">(</span>
-        <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">&quot;row mt-5&quot;</span><span class="token operator">&gt;</span>
-            <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">&quot;col-6&quot;</span><span class="token operator">&gt;</span>
-                <span class="token operator">&lt;</span>h3<span class="token operator">&gt;</span>Listado de Tareas<span class="token operator">&lt;</span><span class="token operator">/</span>h3<span class="token operator">&gt;</span>
-                <span class="token punctuation">{</span>
-                    tareas<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">item</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span>
-                        <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">&quot;alert alert-primary&quot;</span> key<span class="token operator">=</span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>id<span class="token punctuation">}</span><span class="token operator">&gt;</span>
-                            <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">&quot;row&quot;</span><span class="token operator">&gt;</span>
-                                <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">&quot;col-8&quot;</span><span class="token operator">&gt;</span>
-                                    <span class="token punctuation">{</span>item<span class="token punctuation">.</span>name<span class="token punctuation">}</span>
-                                <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
-                                <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">&quot;col-2&quot;</span><span class="token operator">&gt;</span>
-                                    <span class="token operator">&lt;</span>div 
-                                        className<span class="token operator">=</span><span class="token string">&quot;btn btn-danger btn-sm&quot;</span>
-                                        onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">eliminarTarea</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">}</span>
-                                    <span class="token operator">&gt;</span>Eliminar
-                                    <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
-                                <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
-                                <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">&quot;col-2&quot;</span><span class="token operator">&gt;</span>
-                                    <span class="token operator">&lt;</span>div 
-                                        className<span class="token operator">=</span><span class="token string">&quot;btn btn-warning btn-sm&quot;</span>
-                                        onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">formularioEdicion</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">}</span>
-                                    <span class="token operator">&gt;</span>Editar
-                                    <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
-                                <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
-                            <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
-                        <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
-                    <span class="token punctuation">)</span><span class="token punctuation">)</span>
-                <span class="token punctuation">}</span>
-            <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
-            <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">&quot;col-6&quot;</span><span class="token operator">&gt;</span>
-                <span class="token operator">&lt;</span>h3<span class="token operator">&gt;</span>Formulario <span class="token punctuation">{</span>modoEdicion <span class="token operator">?</span> <span class="token string">'Editar'</span> <span class="token operator">:</span> <span class="token string">'Agregar'</span><span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>h3<span class="token operator">&gt;</span>
-                <span class="token operator">&lt;</span>form onSubmit<span class="token operator">=</span><span class="token punctuation">{</span>modoEdicion <span class="token operator">?</span> editarTarea <span class="token operator">:</span> agregarTarea<span class="token punctuation">}</span><span class="token operator">&gt;</span>
-                    <span class="token operator">&lt;</span>input 
-                        type<span class="token operator">=</span><span class="token string">&quot;text&quot;</span> 
+        <span class="token operator">&lt;</span>div<span class="token operator">&gt;</span>
+            <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">&quot;row&quot;</span><span class="token operator">&gt;</span>
+                <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">&quot;col-md-6&quot;</span><span class="token operator">&gt;</span>
+                    <span class="token operator">&lt;</span>h3<span class="token operator">&gt;</span>Lista de tareas<span class="token operator">&lt;</span><span class="token operator">/</span>h3<span class="token operator">&gt;</span>
+                    <span class="token operator">&lt;</span>ul className<span class="token operator">=</span><span class="token string">&quot;list-group&quot;</span><span class="token operator">&gt;</span>
+                        <span class="token punctuation">{</span>
+                        tareas<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">item</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span>
+                            <span class="token operator">&lt;</span>li className<span class="token operator">=</span><span class="token string">&quot;list-group-item&quot;</span> key<span class="token operator">=</span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>id<span class="token punctuation">}</span><span class="token operator">&gt;</span>
+                            <span class="token punctuation">{</span>item<span class="token punctuation">.</span>name<span class="token punctuation">}</span>
+                            <span class="token operator">&lt;</span>button 
+                                className<span class="token operator">=</span><span class="token string">&quot;btn btn-danger btn-sm float-right&quot;</span>
+                                onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">eliminar</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">}</span>
+                            <span class="token operator">&gt;</span>
+                                Eliminar
+                            <span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
+                            <span class="token operator">&lt;</span>button 
+                                className<span class="token operator">=</span><span class="token string">&quot;btn btn-warning btn-sm float-right mr-2&quot;</span>
+                                onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">activarEdicion</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">}</span>
+                            <span class="token operator">&gt;</span>
+                                Editar
+                            <span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
+                            <span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">&gt;</span>
+                        <span class="token punctuation">)</span><span class="token punctuation">)</span>
+                        <span class="token punctuation">}</span>
+                    <span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">&gt;</span>
+                <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+                <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">&quot;col-md-6&quot;</span><span class="token operator">&gt;</span>
+                    <span class="token operator">&lt;</span>h3<span class="token operator">&gt;</span>
+                        <span class="token punctuation">{</span>
+                        modoEdicion <span class="token operator">?</span> <span class="token string">'Editar Tarea'</span> <span class="token operator">:</span> <span class="token string">'Agregar Tarea'</span>
+                        <span class="token punctuation">}</span>
+                    <span class="token operator">&lt;</span><span class="token operator">/</span>h3<span class="token operator">&gt;</span>
+                    <span class="token operator">&lt;</span>form onSubmit<span class="token operator">=</span><span class="token punctuation">{</span>modoEdicion <span class="token operator">?</span> editar <span class="token operator">:</span> agregar<span class="token punctuation">}</span><span class="token operator">&gt;</span>
+                        <span class="token operator">&lt;</span>input 
+                        type<span class="token operator">=</span><span class="token string">&quot;text&quot;</span>
+                        placeholder<span class="token operator">=</span><span class="token string">&quot;Ingrese tarea&quot;</span>
                         className<span class="token operator">=</span><span class="token string">&quot;form-control mb-2&quot;</span>
-                        placeholder<span class="token operator">=</span><span class="token punctuation">{</span>modoEdicion <span class="token operator">?</span> tarea <span class="token operator">:</span> <span class="token string">'Agregar Tarea'</span><span class="token punctuation">}</span>
-                        onChange<span class="token operator">=</span><span class="token punctuation">{</span> <span class="token parameter">e</span> <span class="token operator">=&gt;</span> <span class="token function">setTarea</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>target<span class="token punctuation">.</span>value<span class="token punctuation">)</span> <span class="token punctuation">}</span>
-                    <span class="token operator">/</span><span class="token operator">&gt;</span>
-                    <span class="token punctuation">{</span>
-                        modoEdicion <span class="token operator">?</span> <span class="token punctuation">(</span>
-                            <span class="token operator">&lt;</span>button className<span class="token operator">=</span><span class="token string">&quot;btn btn-warning btn-block&quot;</span><span class="token operator">&gt;</span>Editar<span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
-                        <span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token punctuation">(</span>
-                            <span class="token operator">&lt;</span>button className<span class="token operator">=</span><span class="token string">&quot;btn btn-dark btn-block&quot;</span><span class="token operator">&gt;</span>Agregar<span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
-                        <span class="token punctuation">)</span>
-                    <span class="token punctuation">}</span>
-                <span class="token operator">&lt;</span><span class="token operator">/</span>form<span class="token operator">&gt;</span>
-            <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+                        onChange<span class="token operator">=</span><span class="token punctuation">{</span><span class="token parameter">e</span> <span class="token operator">=&gt;</span> <span class="token function">setTarea</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>target<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">}</span>
+                        value<span class="token operator">=</span><span class="token punctuation">{</span>tarea<span class="token punctuation">}</span>
+                        <span class="token operator">/</span><span class="token operator">&gt;</span>
+                        <span class="token operator">&lt;</span>button 
+                        className<span class="token operator">=</span><span class="token punctuation">{</span>
+                            modoEdicion <span class="token operator">?</span> <span class="token string">'btn btn-warning btn-block'</span> <span class="token operator">:</span> <span class="token string">'btn btn-dark btn-block'</span>
+                        <span class="token punctuation">}</span>
+                        type<span class="token operator">=</span><span class="token string">&quot;submit&quot;</span>
+                        <span class="token operator">&gt;</span>
+                        <span class="token punctuation">{</span>
+                            modoEdicion <span class="token operator">?</span> <span class="token string">'Editar'</span> <span class="token operator">:</span> <span class="token string">'Agregar'</span>
+                        <span class="token punctuation">}</span>
+                        <span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
+                    <span class="token operator">&lt;</span><span class="token operator">/</span>form<span class="token operator">&gt;</span>
+                <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+            <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span> 
         <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
     <span class="token punctuation">)</span>
 <span class="token punctuation">}</span>
 
-<span class="token keyword">export</span> <span class="token keyword">default</span> FirestoreCrud
+<span class="token keyword">export</span> <span class="token keyword">default</span> Firestore
 </code></pre></div><h2 id="deploy-firebase"><a href="#deploy-firebase" class="header-anchor">#</a> Deploy Firebase</h2> <p>Antes compilar nuestra aplicación con:</p> <div class="language- extra-class"><pre class="language-text"><code>npm run build
 </code></pre></div><p>Instalar herramientas de firebase solo una vez por computador:</p> <div class="language- extra-class"><pre class="language-text"><code>npm install -g firebase-tools
 </code></pre></div><p>Acceder</p> <div class="language- extra-class"><pre class="language-text"><code>firebase login
@@ -622,6 +677,6 @@ React<span class="token punctuation">.</span><span class="token function">useEff
       <a href="/react-udemy/07-crud-firestore/" class="prev">
         07 CRUD Firestore
       </a></span> <!----></p></div> </main></div><div class="global-ui"></div></div>
-    <script src="/react-udemy/assets/js/app.d179f30d.js" defer></script><script src="/react-udemy/assets/js/2.b23cf27d.js" defer></script><script src="/react-udemy/assets/js/13.e73af337.js" defer></script>
+    <script src="/react-udemy/assets/js/app.072dc72a.js" defer></script><script src="/react-udemy/assets/js/2.b23cf27d.js" defer></script><script src="/react-udemy/assets/js/13.6ce59b11.js" defer></script>
   </body>
 </html>

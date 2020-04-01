@@ -294,57 +294,64 @@ import {db, auth} from '../firebase'
 
 // después de pasar validaciones de datos...
 if(esRegistro){
-    auth.createUserWithEmailAndPassword(email, pass)
-        .then((res) => {
-            console.log('exito')
-            console.log(res)
-            db.collection('usuarios').doc(res.user.uid).set({
-                fechaCreacion: Date.now(),
-                displayName: res.user.displayName,
-                photoURL: res.user.photoURL,
-                email: res.user.email,
-                uid: res.user.uid
-            })
-            setEmail('')
-            setPass('')
-            setError(null)
-        })
-        .catch(error => {
-            console.log(error)
-            // setError(error.message)
-            if(error.code === 'auth/email-already-in-use'){
-                setError('Usuario ya registrado...')
-                return
-            }
-            if(error.code === 'auth/invalid-email'){
-                setError('Email no válido')
-                return
-            }
-        })
+    registrar()
 }
+// Función externa
+const registrar = React.useCallback(async() => {
+    try {
+        const res = await auth.createUserWithEmailAndPassword(email, pass)
+        console.log(res.user)
+        await db.collection('usuarios').doc(res.user.uid).set({
+            fechaCreacion: Date.now(),
+            displayName: res.user.displayName,
+            photoURL: res.user.photoURL,
+            email: res.user.email,
+            uid: res.user.uid
+        })
+        setEmail('')
+        setPass('')
+        setError(null)
+        props.history.push('/admin') 
+    } catch (error) {
+        console.log(error)
+        // setError(error.message)
+        if(error.code === 'auth/email-already-in-use'){
+            setError('Usuario ya registrado...')
+            return
+        }
+        if(error.code === 'auth/invalid-email'){
+            setError('Email no válido')
+            return
+        }
+    }
+}, [email, pass, props.history])
 ```
 
 ## Firebase Login
 ```js
 if(!esRegistro){
-    auth.signInWithEmailAndPassword(email, pass)
-        .then(res => {
-            console.log(res)
-            setEmail('')
-            setPass('')
-            setError(null)
-        })
-        .catch(error => {
-            if(error.code === 'auth/user-not-found'){
-                setError('Usuario o contraseña incorrecta')
-            }
-            if(error.code === 'auth/wrong-password'){
-                setError('Usuario o contraseña incorrecta')
-            }
-            console.log(error.code)
-            console.log(error.message)
-        })
+    login()
 }
+
+// Función externa
+const login = React.useCallback(async() => {
+    try {
+        await auth.signInWithEmailAndPassword(email, pass)  
+        setEmail('')
+        setPass('')
+        setError(null)
+        props.history.push('/admin') 
+    } catch (error) {
+        if(error.code === 'auth/user-not-found'){
+            setError('Usuario o contraseña incorrecta')
+        }
+        if(error.code === 'auth/wrong-password'){
+            setError('Usuario o contraseña incorrecta')
+        }
+        console.log(error.code)
+        console.log(error.message)
+    }
+}, [email, pass, props.history])
 ```
 
 ## Push rutas
@@ -526,7 +533,7 @@ export default withRouter(Navbar)
 ## Firestore
 Al agregar un usuario configurar nueva collection
 ```js
-db.collection(res.user.uid).add({name: 'Tarea de ejemplo #1'})
+await db.collection(res.user.uid).add({name: 'Tarea de ejemplo #1'})
 ```
 
 Crear un componente nuevo y agregarlo al Admin
@@ -536,7 +543,7 @@ return (
         <h3 className="text-center">Ruta protegida</h3>
         {
             user && (
-                <FirestoreCrud user={user} />
+                <Firestore user={user} />
             )
         }
     </div>
@@ -545,125 +552,173 @@ return (
 
 Utilizar el ejercicio de CRUD Firestore en el nuevo componente
 ```js
-import React, {useState, useEffect} from 'react'
-import {db} from '../firebase'
+import React from 'react'
+import {firebase} from '../firebase'
 
-const FirestoreCrud = (props) => {
+const Firestore = () => {
 
-    const [tareas, setTareas] = useState([])
-    const [tarea, setTarea] = useState('')
-    const [modoEdicion, setModoEdicion] = useState(false)
-    const [id, setId] = useState('')
-
-    useEffect(() => {
-
-        const obtenerDatos = () => {
-
-            db.collection(props.user.uid).onSnapshot(data => {
-                // console.log(data.docs)
-                setTareas(data.docs.map(item => ({ id: item.id, ...item.data() })))
-            })
-
+    const [tareas, setTareas] = React.useState([])
+    const [tarea, setTarea] = React.useState('')
+    const [modoEdicion, setModoEdicion] = React.useState(false)
+    const [id, setId] = React.useState('')
+  
+  
+    React.useEffect(() => {
+  
+      const obtenerDatos = async () => {
+  
+        try {
+  
+          const db = firebase.firestore()
+          const data = await db.collection('tareas').get()
+          const arrayData = data.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+          console.log(arrayData)
+          setTareas(arrayData)
+          
+        } catch (error) {
+          console.log(error)
         }
-        obtenerDatos()
-
+  
+      }
+  
+      obtenerDatos()
+  
     }, [])
-
-    const eliminarTarea = id => {
-        console.log(id)
-        db.collection(props.user.uid).doc(id).delete()
-    }
-
-    const agregarTarea = e => {
-        e.preventDefault()
-
-        if(!tarea.trim()){
-            console.log('esta vacio')
-            e.target.reset()
-            return
+  
+    const agregar = async (e) => {
+      e.preventDefault()
+  
+      if(!tarea.trim()){
+        console.log('está vacio')
+        return
+      }
+  
+      try {
+  
+        const db = firebase.firestore()
+        const nuevaTarea = {
+          name: tarea,
+          fecha: Date.now()
         }
-
-        db.collection(props.user.uid).add({name: tarea})
-        e.target.reset()
-
+        const data = await db.collection('tareas').add(nuevaTarea)
+  
+        setTareas([
+          ...tareas,
+          {...nuevaTarea, id: data.id}
+        ])
+  
+        setTarea('')
+        
+      } catch (error) {
+        console.log(error)
+      }
+  
+      console.log(tarea)
     }
-
-    const formularioEdicion = (item) => {
-        setModoEdicion(true)
-        setId(item.id)
-        setTarea(item.name)
-        console.log(item)
+  
+    const eliminar = async (id) => {
+      try {
+        
+        const db = firebase.firestore()
+        await db.collection('tareas').doc(id).delete()
+  
+        const arrayFiltrado = tareas.filter(item => item.id !== id)
+        setTareas(arrayFiltrado)
+  
+      } catch (error) {
+        console.log(error)
+      }
     }
-
-    const editarTarea = e => {
-        e.preventDefault()
-        if(!tarea.trim()){
-            console.log('esta vacio')
-            e.target.reset()
-            return
-        }
-
-        db.collection(props.user.uid).doc(id).set({name: tarea})
-        e.target.reset()
-        setId('')
+  
+    const activarEdicion = (item) => {
+      setModoEdicion(true)
+      setTarea(item.name)
+      setId(item.id)
+    }
+  
+    const editar = async (e) => {
+      e.preventDefault()
+      if(!tarea.trim()){
+        console.log('vacio')
+        return
+      }
+      try {
+        
+        const db = firebase.firestore()
+        await db.collection('tareas').doc(id).update({
+          name: tarea
+        })
+        const arrayEditado = tareas.map(item => (
+          item.id === id ? {id: item.id, fecha: item.fecha, name: tarea} : item
+        ))
+        setTareas(arrayEditado)
         setModoEdicion(false)
-
+        setTarea('')
+        setId('')
+      } catch (error) {
+        console.log(error)
+      }
     }
-
 
     return (
-        <div className="row mt-5">
-            <div className="col-6">
-                <h3>Listado de Tareas</h3>
-                {
-                    tareas.map(item => (
-                        <div className="alert alert-primary" key={item.id}>
-                            <div className="row">
-                                <div className="col-8">
-                                    {item.name}
-                                </div>
-                                <div className="col-2">
-                                    <div 
-                                        className="btn btn-danger btn-sm"
-                                        onClick={() => eliminarTarea(item.id)}
-                                    >Eliminar
-                                    </div>
-                                </div>
-                                <div className="col-2">
-                                    <div 
-                                        className="btn btn-warning btn-sm"
-                                        onClick={() => formularioEdicion(item)}
-                                    >Editar
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ))
-                }
-            </div>
-            <div className="col-6">
-                <h3>Formulario {modoEdicion ? 'Editar' : 'Agregar'}</h3>
-                <form onSubmit={modoEdicion ? editarTarea : agregarTarea}>
-                    <input 
-                        type="text" 
+        <div>
+            <div className="row">
+                <div className="col-md-6">
+                    <h3>Lista de tareas</h3>
+                    <ul className="list-group">
+                        {
+                        tareas.map(item => (
+                            <li className="list-group-item" key={item.id}>
+                            {item.name}
+                            <button 
+                                className="btn btn-danger btn-sm float-right"
+                                onClick={() => eliminar(item.id)}
+                            >
+                                Eliminar
+                            </button>
+                            <button 
+                                className="btn btn-warning btn-sm float-right mr-2"
+                                onClick={() => activarEdicion(item)}
+                            >
+                                Editar
+                            </button>
+                            </li>
+                        ))
+                        }
+                    </ul>
+                </div>
+                <div className="col-md-6">
+                    <h3>
+                        {
+                        modoEdicion ? 'Editar Tarea' : 'Agregar Tarea'
+                        }
+                    </h3>
+                    <form onSubmit={modoEdicion ? editar : agregar}>
+                        <input 
+                        type="text"
+                        placeholder="Ingrese tarea"
                         className="form-control mb-2"
-                        placeholder={modoEdicion ? tarea : 'Agregar Tarea'}
-                        onChange={ e => setTarea(e.target.value) }
-                    />
-                    {
-                        modoEdicion ? (
-                            <button className="btn btn-warning btn-block">Editar</button>
-                        ) : (
-                            <button className="btn btn-dark btn-block">Agregar</button>
-                        )
-                    }
-                </form>
-            </div>
+                        onChange={e => setTarea(e.target.value)}
+                        value={tarea}
+                        />
+                        <button 
+                        className={
+                            modoEdicion ? 'btn btn-warning btn-block' : 'btn btn-dark btn-block'
+                        }
+                        type="submit"
+                        >
+                        {
+                            modoEdicion ? 'Editar' : 'Agregar'
+                        }
+                        </button>
+                    </form>
+                </div>
+            </div> 
         </div>
     )
 }
 
-export default FirestoreCrud
+export default Firestore
 ```
 
 ## Deploy Firebase
