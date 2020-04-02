@@ -763,7 +763,22 @@ service cloud.firestore {
 }
 ```
 
+## Fechas
+Agregaremos momentjs para formatear fechas de una forma sencilla. 
+[https://momentjs.com/](https://momentjs.com/)
 
+```
+npm install moment --save
+```
+
+```js
+import moment from 'moment'
+import 'moment/locale/es' // Pasar a español
+```
+
+```js
+{item.name} - { moment(item.fecha).format('MMMM Do YYYY, h:mm:ss a') }
+```
 
 
 
