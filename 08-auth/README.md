@@ -1,6 +1,11 @@
 # 08 Auth Email & Pass
 Vamos a construir una aplicación para registrar nuevos usuarios a través de email y contraseña. Este también es un servicio de Firebase.
 
+::: tip CURSO EN UDEMY OFERTA!
+Aprende desde cero a trabajar con <b>React.js y Firebase</b> aquí: [http://curso-react-js-udemy.bluuweb.cl/](http://curso-react-js-udemy.bluuweb.cl/)
+<b>Nos vemos en clases!</b>
+:::
+
 ## Instalaciones
 
 ```
@@ -357,7 +362,7 @@ const login = React.useCallback(async() => {
 ## Push rutas
 ```js
 // Importar
-import { withRouter } from "react-router";
+import { withRouter } from "react-router-dom";
 
 // Envolver
 export default withRouter(Login)
@@ -469,9 +474,8 @@ return firebaseUser !== false ? (
 #### Navbar cerrar sesión y ocultar "admin"
 ```js
 import React from 'react'
-import {Link, NavLink} from 'react-router-dom'
+import {Link, NavLink, withRouter} from 'react-router-dom'
 import {auth} from '../firebase'
-import { withRouter } from "react-router";
 
 const Navbar = (props) => {
 

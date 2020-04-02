@@ -1,6 +1,11 @@
 # 07 CRUD Firestore
 Si no conoces Firestore no te preocupes, aquí viene un ejemplo para practicar. Firestore es un servicio de Firebase (creado por Google) para almacenar collection (base de datos no relacionales) y utilizarlas de forma gratuita.
 
+::: tip CURSO EN UDEMY OFERTA!
+Aprende desde cero a trabajar con <b>React.js y Firebase</b> aquí: [http://curso-react-js-udemy.bluuweb.cl/](http://curso-react-js-udemy.bluuweb.cl/)
+<b>Nos vemos en clases!</b>
+:::
+
 ## Crear Proyecto
 Dirigete a [https://firebase.google.com/](https://firebase.google.com/) accede con alguna cuenta de Gmail y listo!
 

@@ -1,6 +1,11 @@
 # 03 JSX
 Se llama JSX, y es una extensión de la sintaxis de JavaScript. Recomendamos usarlo con React para describir cómo debería ser la interfaz de usuario. JSX puede recordarte a un lenguaje de plantillas, pero viene con todo el poder de JavaScript.
 
+::: tip CURSO EN UDEMY OFERTA!
+Aprende desde cero a trabajar con <b>React.js y Firebase</b> aquí: [http://curso-react-js-udemy.bluuweb.cl/](http://curso-react-js-udemy.bluuweb.cl/)
+<b>Nos vemos en clases!</b>
+:::
+
 ```js
 const element = <h1>Hello, world!</h1>;
 ```

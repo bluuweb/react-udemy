@@ -1,6 +1,11 @@
 # 05 Components
 Los componentes permiten separar la interfaz de usuario en piezas independientes, reutilizables y pensar en cada pieza de forma aislada. Ya vimos como crearlos ahora analizaremos los props: [https://es.reactjs.org/docs/components-and-props.html](https://es.reactjs.org/docs/components-and-props.html)
 
+::: tip CURSO EN UDEMY OFERTA!
+Aprende desde cero a trabajar con <b>React.js y Firebase</b> aquí: [http://curso-react-js-udemy.bluuweb.cl/](http://curso-react-js-udemy.bluuweb.cl/)
+<b>Nos vemos en clases!</b>
+:::
+
 ## Props
 Conceptualmente, los componentes son como las funciones de JavaScript. Aceptan entradas arbitrarias (llamadas “props”) y devuelven a React elementos que describen lo que debe aparecer en la pantalla.
 

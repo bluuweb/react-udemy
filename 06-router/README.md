@@ -1,6 +1,11 @@
 # 06 Rutas
 Una parte fundamental de nuestras aplicaciones web es la navegación entre diferentes rutas. React no viene con un Router integrado pero podemos añadirlo fácilmente.
 
+::: tip CURSO EN UDEMY OFERTA!
+Aprende desde cero a trabajar con <b>React.js y Firebase</b> aquí: [http://curso-react-js-udemy.bluuweb.cl/](http://curso-react-js-udemy.bluuweb.cl/)
+<b>Nos vemos en clases!</b>
+:::
+
 ## Instalación
 [https://reacttraining.com/react-router/web/guides/quick-start](https://reacttraining.com/react-router/web/guides/quick-start)
 

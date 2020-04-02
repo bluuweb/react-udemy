@@ -12,6 +12,7 @@ module.exports = {
       { text: 'Guía', link: '/' },
       // { text: 'Guia', link: '/docs/' },
       { text: 'Youtube', link: 'https://youtube.com/bluuweb' },
+      { text: 'Curso Premium', link: 'http://curso-react-js-udemy.bluuweb.cl' }
     ],
     sidebar:
       [
