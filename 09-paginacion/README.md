@@ -34,8 +34,7 @@ Agregar boton siguiente
 
 Acción siguiente
 ```js
-const siguiente = React.useCallback(
-    async () => {
+const siguiente = async () => {
     setDesactivar(true)
     try {
         const data = await db.collection(props.user.uid)
@@ -67,9 +66,7 @@ const siguiente = React.useCallback(
     } catch (error) {
         console.log(error)
     }
-    },
-    [ultimo, props.user.uid, tareas],
-)
+}
 ```
 
 Modificar 'obtenerDatos' para desactivar botón
