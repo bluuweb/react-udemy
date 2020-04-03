@@ -1,4 +1,4 @@
-# Paginación Firestore
+# 09 Paginación Firestore
 Agregaremos algunas mejoras a nuestro proyecto actual
 
 ## Ordenar y limitar datos
