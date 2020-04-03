@@ -26,6 +26,7 @@ module.exports = {
         '/06-router/',
         '/07-crud-firestore/',
         '/08-auth/',
+        '/09-paginacion/',
       ]
   }
  
