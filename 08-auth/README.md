@@ -781,6 +781,7 @@ import 'moment/locale/es' // Pasar a español
 ```
 
 ## Recuperar contraseña
+[https://firebase.google.com/docs/auth/web/manage-users?authuser=0#send_a_password_reset_email](https://firebase.google.com/docs/auth/web/manage-users?authuser=0#send_a_password_reset_email)
 Agregar botón en login:
 ```js
 {
