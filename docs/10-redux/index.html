@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>10 Redux | React Udemy</title>
+    <meta name="description" content="Aprende React Hooks con bluuweb">
+    <meta name="generator" content="VuePress 1.3.0">
+    
+    
+    <link rel="preload" href="/react-udemy/assets/css/0.styles.cfaf7337.css" as="style"><link rel="preload" href="/react-udemy/assets/js/app.4c1512cb.js" as="script"><link rel="preload" href="/react-udemy/assets/js/2.b23cf27d.js" as="script"><link rel="preload" href="/react-udemy/assets/js/15.73c1eaa1.js" as="script"><link rel="prefetch" href="/react-udemy/assets/js/10.6a724925.js"><link rel="prefetch" href="/react-udemy/assets/js/11.7de90a5b.js"><link rel="prefetch" href="/react-udemy/assets/js/12.6996af4b.js"><link rel="prefetch" href="/react-udemy/assets/js/13.99b52a2f.js"><link rel="prefetch" href="/react-udemy/assets/js/14.61a7e760.js"><link rel="prefetch" href="/react-udemy/assets/js/16.cdf9435d.js"><link rel="prefetch" href="/react-udemy/assets/js/17.28084c92.js"><link rel="prefetch" href="/react-udemy/assets/js/3.df910d3f.js"><link rel="prefetch" href="/react-udemy/assets/js/4.61e25d5f.js"><link rel="prefetch" href="/react-udemy/assets/js/5.408a64cd.js"><link rel="prefetch" href="/react-udemy/assets/js/6.7d8e8337.js"><link rel="prefetch" href="/react-udemy/assets/js/7.bc1a1939.js"><link rel="prefetch" href="/react-udemy/assets/js/8.3c99838b.js"><link rel="prefetch" href="/react-udemy/assets/js/9.73bbc083.js">
+    <link rel="stylesheet" href="/react-udemy/assets/css/0.styles.cfaf7337.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/react-udemy/" class="home-link router-link-active"><!----> <span class="site-name">React Udemy</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/react-udemy/" class="nav-link">
+  Guía
+</a></div><div class="nav-item"><a href="https://youtube.com/bluuweb" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Youtube
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="http://curso-react-js-udemy.bluuweb.cl" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Curso Premium
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/react-udemy/" class="nav-link">
+  Guía
+</a></div><div class="nav-item"><a href="https://youtube.com/bluuweb" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Youtube
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="http://curso-react-js-udemy.bluuweb.cl" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Curso Premium
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/react-udemy/" class="sidebar-link">Curso React Udemy por bluuweb</a></li><li><a href="/react-udemy/01-proyecto/" class="sidebar-link">01 Mi primer proyecto</a></li><li><a href="/react-udemy/02-hooks-fundamentos/" class="sidebar-link">02 Hooks Fundamentos</a></li><li><a href="/react-udemy/03-jsx/" class="sidebar-link">03 JSX</a></li><li><a href="/react-udemy/04-formularios/" class="sidebar-link">04.01 Formularios</a></li><li><a href="/react-udemy/04-02-simple-crud/" class="sidebar-link">04.2 Simple CRUD</a></li><li><a href="/react-udemy/05-components/" class="sidebar-link">05 Components</a></li><li><a href="/react-udemy/06-router/" class="sidebar-link">06 Rutas</a></li><li><a href="/react-udemy/07-crud-firestore/" class="sidebar-link">07 CRUD Firestore</a></li><li><a href="/react-udemy/08-auth/" class="sidebar-link">08 Auth Email &amp; Pass</a></li><li><a href="/react-udemy/09-paginacion/" class="sidebar-link">09 Paginación Firestore</a></li><li><a href="/react-udemy/10-redux/" class="active sidebar-link">10 Redux</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/react-udemy/10-redux/#instaciones" class="sidebar-link">Instaciones</a></li><li class="sidebar-sub-header"><a href="/react-udemy/10-redux/#pokesducks-js" class="sidebar-link">pokesDucks.js</a></li><li class="sidebar-sub-header"><a href="/react-udemy/10-redux/#store-js" class="sidebar-link">store.js</a></li><li class="sidebar-sub-header"><a href="/react-udemy/10-redux/#app-jsx" class="sidebar-link">App.jsx</a></li><li class="sidebar-sub-header"><a href="/react-udemy/10-redux/#llamar-en-un-componente" class="sidebar-link">Llamar en un componente</a></li><li class="sidebar-sub-header"><a href="/react-udemy/10-redux/#practicando" class="sidebar-link">Prácticando</a></li></ul></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="_10-redux"><a href="#_10-redux" class="header-anchor">#</a> 10 Redux</h1> <p>Vamos a trabajar con Redux utilizando Ducks.</p> <ol><li><a href="https://es.redux.js.org/" target="_blank" rel="noopener noreferrer">https://es.redux.js.org/<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li> <li><a href="https://github.com/erikras/ducks-modular-redux#the-proposal" target="_blank" rel="noopener noreferrer">https://github.com/erikras/ducks-modular-redux#the-proposal<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ol> <h2 id="instaciones"><a href="#instaciones" class="header-anchor">#</a> Instaciones</h2> <div class="language- extra-class"><pre class="language-text"><code>npm i redux
+npm i react-redux
+npm i redux-devtools
+npm i redux-thunk
+npm i axios
+</code></pre></div><p>Extensión Navegador
+<a href="https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=es" target="_blank" rel="noopener noreferrer">https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=es<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p> <p>Configuración Store.js
+<a href="https://github.com/zalmoxisus/redux-devtools-extension#12-advanced-store-setup" target="_blank" rel="noopener noreferrer">https://github.com/zalmoxisus/redux-devtools-extension#12-advanced-store-setup<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p> <p>API:
+<a href="https://pokeapi.co/" target="_blank" rel="noopener noreferrer">https://pokeapi.co/<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p> <div class="language- extra-class"><pre class="language-text"><code>https://pokeapi.co/api/v2/pokemon?offset=0&amp;limit=20
+</code></pre></div><p>Crear archivos <code>Redux/pokesDucks.js</code> y <code>Redux/store.js</code></p> <h2 id="pokesducks-js"><a href="#pokesducks-js" class="header-anchor">#</a> pokesDucks.js</h2> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// constantes</span>
+<span class="token keyword">const</span> dataInicial <span class="token operator">=</span> <span class="token punctuation">{</span>
+    array<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// types</span>
+<span class="token keyword">const</span> <span class="token constant">GET_POKE_SUCCESS</span> <span class="token operator">=</span> <span class="token string">'GET_POKE_SUCCESS'</span>
+
+<span class="token comment">// reducer</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">reducer</span><span class="token punctuation">(</span><span class="token parameter">state <span class="token operator">=</span> dataInicial<span class="token punctuation">,</span> action</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span>
+
+<span class="token comment">// actions</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">obtenerPokemonsAction</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">dispatch</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span>
+</code></pre></div><p>Acciones</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// actions</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">obtenerPokemonsAction</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">dispatch<span class="token punctuation">,</span> getState</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> axios<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'https://pokeapi.co/api/v2/pokemon?offset=0&amp;limit=20'</span><span class="token punctuation">)</span>
+        <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+            type<span class="token operator">:</span> <span class="token constant">GET_POKE_SUCCESS</span><span class="token punctuation">,</span>
+            payload<span class="token operator">:</span> res<span class="token punctuation">.</span>data<span class="token punctuation">.</span>results
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>Reducer</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// reducer</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">pokesReducer</span><span class="token punctuation">(</span><span class="token parameter">state <span class="token operator">=</span> dataInicial<span class="token punctuation">,</span> action</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">switch</span><span class="token punctuation">(</span>action<span class="token punctuation">.</span>type<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">case</span> <span class="token constant">GET_POKE_SUCCESS</span><span class="token operator">:</span>
+            <span class="token keyword">return</span> <span class="token punctuation">{</span><span class="token operator">...</span>state<span class="token punctuation">,</span> array<span class="token operator">:</span> action<span class="token punctuation">.</span>payload<span class="token punctuation">}</span>
+        <span class="token keyword">default</span><span class="token operator">:</span>
+            <span class="token keyword">return</span> state
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="store-js"><a href="#store-js" class="header-anchor">#</a> store.js</h2> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">import</span> <span class="token punctuation">{</span>createStore<span class="token punctuation">,</span> combineReducers<span class="token punctuation">,</span> compose<span class="token punctuation">,</span> applyMiddleware<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'redux'</span>
+<span class="token keyword">import</span> thunk <span class="token keyword">from</span> <span class="token string">'redux-thunk'</span>
+
+<span class="token keyword">import</span> pokesReducer <span class="token keyword">from</span> <span class="token string">'./pokesDucks'</span>
+
+<span class="token keyword">const</span> rootReducer <span class="token operator">=</span> <span class="token function">combineReducers</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    pokemones<span class="token operator">:</span> pokesReducer
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> composeEnhancers <span class="token operator">=</span> window<span class="token punctuation">.</span>__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ <span class="token operator">||</span> compose<span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">generateStore</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token function">createStore</span><span class="token punctuation">(</span> rootReducer<span class="token punctuation">,</span> <span class="token function">composeEnhancers</span><span class="token punctuation">(</span> <span class="token function">applyMiddleware</span><span class="token punctuation">(</span>thunk<span class="token punctuation">)</span> <span class="token punctuation">)</span> <span class="token punctuation">)</span>
+    <span class="token keyword">return</span> store
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="app-jsx"><a href="#app-jsx" class="header-anchor">#</a> App.jsx</h2> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>Provider<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-redux'</span>
+<span class="token keyword">import</span> generateStore <span class="token keyword">from</span> <span class="token string">'./redux/store'</span>
+<span class="token keyword">import</span> Pokemones <span class="token keyword">from</span> <span class="token string">'./components/Pokemones'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">App</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token function">generateStore</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>Provider store<span class="token operator">=</span><span class="token punctuation">{</span>store<span class="token punctuation">}</span><span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span>Pokemones <span class="token operator">/</span><span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>Provider<span class="token operator">&gt;</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> App<span class="token punctuation">;</span>
+</code></pre></div><h2 id="llamar-en-un-componente"><a href="#llamar-en-un-componente" class="header-anchor">#</a> Llamar en un componente</h2> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">'react'</span>
+
+<span class="token comment">// hooks react redux</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>useDispatch<span class="token punctuation">,</span> useSelector<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-redux'</span>
+
+<span class="token comment">// importamos la acción</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>obtenerPokeAction<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'../redux/pokeDucks'</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">Pokemones</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+
+    <span class="token comment">// declaramos displach para llamar a la acción o acciones</span>
+    <span class="token keyword">const</span> dispatch <span class="token operator">=</span> <span class="token function">useDispatch</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token comment">// crearmos el state utilizando nuestra tienda</span>
+    <span class="token comment">// store.pokemones lo sacamos de la tienda</span>
+    <span class="token keyword">const</span> pokemones <span class="token operator">=</span> <span class="token function">useSelector</span><span class="token punctuation">(</span><span class="token parameter">store</span> <span class="token operator">=&gt;</span> store<span class="token punctuation">.</span>pokemones<span class="token punctuation">.</span>array<span class="token punctuation">)</span>
+
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+        <span class="token operator">&lt;</span>div<span class="token operator">&gt;</span>
+            <span class="token operator">&lt;</span>h1<span class="token operator">&gt;</span>Pokemones<span class="token operator">!</span><span class="token operator">&lt;</span><span class="token operator">/</span>h1<span class="token operator">&gt;</span>
+            <span class="token operator">&lt;</span>button onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">obtenerPokeAction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token operator">&gt;</span>Obtener<span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
+            <span class="token operator">&lt;</span>ul<span class="token operator">&gt;</span>
+                <span class="token punctuation">{</span>
+                    pokemones<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">item</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span>
+                        <span class="token operator">&lt;</span>li key<span class="token operator">=</span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>name<span class="token punctuation">}</span><span class="token operator">&gt;</span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>name<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">&gt;</span>
+                    <span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">}</span>
+            <span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">&gt;</span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+    <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> Pokemones
+</code></pre></div><h2 id="practicando"><a href="#practicando" class="header-anchor">#</a> Prácticando</h2> <p>pokeDucks</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">import</span> axios <span class="token keyword">from</span> <span class="token string">'axios'</span>
+
+<span class="token comment">// Constantes</span>
+<span class="token keyword">const</span> dataInicial <span class="token operator">=</span> <span class="token punctuation">{</span>
+    array<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    offset<span class="token operator">:</span> <span class="token number">0</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">const</span> <span class="token constant">GET_POKE_SUCCESS</span> <span class="token operator">=</span> <span class="token string">'GET_POKE_SUCCESS'</span>
+<span class="token keyword">const</span> <span class="token constant">GET_POKE_NEXT_SUCCESS</span> <span class="token operator">=</span> <span class="token string">'GET_POKE_NEXT_SUCCESS'</span>
+
+<span class="token comment">// Reducer</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">pokeReducer</span> <span class="token punctuation">(</span><span class="token parameter">state <span class="token operator">=</span> dataInicial<span class="token punctuation">,</span> action</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">switch</span><span class="token punctuation">(</span>action<span class="token punctuation">.</span>type<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">case</span> <span class="token constant">GET_POKE_SUCCESS</span><span class="token operator">:</span>
+            <span class="token keyword">return</span> <span class="token punctuation">{</span><span class="token operator">...</span>state<span class="token punctuation">,</span> array<span class="token operator">:</span> action<span class="token punctuation">.</span>payload<span class="token punctuation">}</span>
+        <span class="token keyword">case</span> <span class="token constant">GET_POKE_NEXT_SUCCESS</span><span class="token operator">:</span>
+            <span class="token keyword">return</span> <span class="token punctuation">{</span><span class="token operator">...</span>state<span class="token punctuation">,</span> array<span class="token operator">:</span> action<span class="token punctuation">.</span>payload<span class="token punctuation">.</span>array<span class="token punctuation">,</span> offset<span class="token operator">:</span> action<span class="token punctuation">.</span>payload<span class="token punctuation">.</span>offset<span class="token punctuation">}</span>
+        <span class="token keyword">default</span><span class="token operator">:</span> 
+            <span class="token keyword">return</span> state
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Acciones</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">obtenerPokeAction</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">dispatch<span class="token punctuation">,</span> getState</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token comment">// console.log(getState())</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span>offset<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>pokemones
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> axios<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">https://pokeapi.co/api/v2/pokemon?offset=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>offset<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&amp;limit=20</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
+        <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+            type<span class="token operator">:</span> <span class="token constant">GET_POKE_SUCCESS</span><span class="token punctuation">,</span>
+            payload<span class="token operator">:</span> res<span class="token punctuation">.</span>data<span class="token punctuation">.</span>results<span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">siguientePokeAction</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">numero</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token keyword">async</span><span class="token punctuation">(</span><span class="token parameter">dispatch<span class="token punctuation">,</span> getState</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">const</span> <span class="token punctuation">{</span>offset<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>pokemones
+    <span class="token keyword">const</span> siguiente <span class="token operator">=</span> offset <span class="token operator">+</span> numero
+
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'siguiente: '</span><span class="token punctuation">,</span> siguiente<span class="token punctuation">)</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> axios<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">https://pokeapi.co/api/v2/pokemon?offset=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>siguiente<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&amp;limit=20</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
+        <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+            type<span class="token operator">:</span> <span class="token constant">GET_POKE_NEXT_SUCCESS</span><span class="token punctuation">,</span>
+            payload<span class="token operator">:</span> <span class="token punctuation">{</span>
+                array<span class="token operator">:</span> res<span class="token punctuation">.</span>data<span class="token punctuation">.</span>results<span class="token punctuation">,</span>
+                offset<span class="token operator">:</span> siguiente
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>Poke.jsx</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">'react'</span>
+
+<span class="token keyword">import</span> <span class="token punctuation">{</span>useDispatch<span class="token punctuation">,</span> useSelector<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-redux'</span>
+
+<span class="token keyword">import</span> <span class="token punctuation">{</span>obtenerPokeAction<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'../redux/pokeDucks'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>siguientePokeAction<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'../redux/pokeDucks'</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">Poke</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">const</span> dispatch <span class="token operator">=</span> <span class="token function">useDispatch</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">const</span> pokemones <span class="token operator">=</span> <span class="token function">useSelector</span><span class="token punctuation">(</span><span class="token parameter">store</span> <span class="token operator">=&gt;</span> store<span class="token punctuation">.</span>pokemones<span class="token punctuation">.</span>array<span class="token punctuation">)</span>
+    <span class="token comment">// console.log(pokemones)</span>
+
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+        <span class="token operator">&lt;</span>div<span class="token operator">&gt;</span>
+            <span class="token operator">&lt;</span>h1<span class="token operator">&gt;</span>Pokemones<span class="token operator">!</span><span class="token operator">&lt;</span><span class="token operator">/</span>h1<span class="token operator">&gt;</span>
+            <span class="token operator">&lt;</span>button onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">obtenerPokeAction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token operator">&gt;</span>Obtener<span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
+            <span class="token operator">&lt;</span>button onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">siguientePokeAction</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token operator">&gt;</span>Siguientes<span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
+            <span class="token operator">&lt;</span>ul<span class="token operator">&gt;</span>
+                <span class="token punctuation">{</span>
+                    pokemones<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">item</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span>
+                        <span class="token operator">&lt;</span>li key<span class="token operator">=</span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>name<span class="token punctuation">}</span><span class="token operator">&gt;</span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>name<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">&gt;</span>
+                    <span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">}</span>
+            <span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">&gt;</span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+    <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> Poke
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/react-udemy/09-paginacion/" class="prev">
+        09 Paginación Firestore
+      </a></span> <!----></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/react-udemy/assets/js/app.4c1512cb.js" defer></script><script src="/react-udemy/assets/js/2.b23cf27d.js" defer></script><script src="/react-udemy/assets/js/15.73c1eaa1.js" defer></script>
+  </body>
+</html>

@@ -27,6 +27,7 @@ module.exports = {
         '/07-crud-firestore/',
         '/08-auth/',
         '/09-paginacion/',
+        '/10-redux/',
       ]
   }
  
