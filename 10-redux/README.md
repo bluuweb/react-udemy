@@ -1,6 +1,11 @@
 # 10 Redux
 Vamos a trabajar con Redux utilizando Ducks. 
 
+::: tip CURSO EN UDEMY OFERTA!
+Aprende desde cero a trabajar con <b>React.js y Firebase</b> aquí: [http://curso-react-js-udemy.bluuweb.cl/](http://curso-react-js-udemy.bluuweb.cl/)
+<b>Nos vemos en clases!</b>
+:::
+
 1. [https://es.redux.js.org/](https://es.redux.js.org/)
 2. [https://github.com/erikras/ducks-modular-redux#the-proposal](https://github.com/erikras/ducks-modular-redux#the-proposal)
 
@@ -153,7 +158,7 @@ const Pokemones = () => {
 export default Pokemones
 ```
 
-## Prácticando
+## Prácticando #1
 pokeDucks
 ```js
 import axios from 'axios'
@@ -247,4 +252,334 @@ const Poke = () => {
 }
 
 export default Poke
+```
+
+## Prácticando #2
+```js
+import axios from 'axios'
+
+// constantes
+const dataInicial = {
+    count: 0,
+    next: null,
+    previous: null,
+    results: [],
+    offset: 0
+}
+
+// types
+const OBTENER_POKEMONES_EXITO = 'OBTENER_POKEMONES_EXITO'
+const SIGUIENTE_POKEMONES_EXITO = 'SIGUIENTE_POKEMONES_EXITO'
+const ANTERIOR_POKEMONES_EXITO = 'ANTERIOR_POKEMONES_EXITO'
+
+// reducer
+export default function pokeReducer(state = dataInicial, action){
+    switch(action.type){
+        case OBTENER_POKEMONES_EXITO:
+            return {...state, ...action.payload}
+        case SIGUIENTE_POKEMONES_EXITO:
+            return {...state, ...action.payload}
+        case ANTERIOR_POKEMONES_EXITO:
+            return {...state, ...action.payload}
+        default:
+            return state
+    }
+}
+
+// acciones
+export const obtenerPokemonesAccion = () => async (dispatch, getState) => {
+
+    try {
+        const res = await axios.get('https://pokeapi.co/api/v2/pokemon?offset=0&limit=20')
+        console.log(res.data)
+        dispatch({
+            type: OBTENER_POKEMONES_EXITO,
+            payload: res.data
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const siguientePokemonAccion = () => async (dispatch, getState) => {
+
+    const {next} = getState().pokemones
+
+    try {
+        const res = await axios.get(next)
+        dispatch({
+            type: SIGUIENTE_POKEMONES_EXITO,
+            payload: res.data
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const anteriorPokemonAccion = () => async (dispatch, getState) => {
+
+    const {previous} = getState().pokemones
+
+    try {
+        const res = await axios.get(previous)
+        dispatch({
+            type: SIGUIENTE_POKEMONES_EXITO,
+            payload: res.data
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+```
+
+```js
+import React from 'react'
+
+import {useDispatch, useSelector} from 'react-redux'
+import { obtenerPokemonesAccion,  siguientePokemonAccion, anteriorPokemonAccion} from '../redux/pokeDucks'
+
+const Pokemones = () => {
+    const dispatch = useDispatch()
+
+    const pokemones = useSelector(store => store.pokemones.results)
+    const next = useSelector(store => store.pokemones.next)
+    const previous = useSelector(store => store.pokemones.previous)
+
+    return (
+        <div>
+            lista de pokemones 
+            <br/>
+            
+            {
+                pokemones.length === 0 && <button onClick={() => dispatch(obtenerPokemonesAccion())}>Get Pokemones</button>
+            }
+            {
+                next && <button onClick={() => dispatch(siguientePokemonAccion())} >Siguiente</button>
+            }
+            {
+                previous && <button onClick={() => dispatch(anteriorPokemonAccion())} >Anterior</button>
+            } 
+            <ul>
+                {
+                    pokemones.map(item => (
+                        <li key={item.name} >{item.name}</li>
+                    ))
+                }
+            </ul>
+        </div>
+    )
+}
+
+export default Pokemones
+```
+
+## LocalStorage
+```js
+export const obtenerPokemonesAccion = () => async (dispatch, getState) => {
+
+    if(localStorage.getItem('offset=0')){
+        console.log('existe')
+        dispatch({
+            type: OBTENER_POKEMONES_EXITO,
+            payload: JSON.parse(localStorage.getItem('offset=0'))
+        })
+    }else{
+        console.log('no existe')
+        try {
+            const res = await axios.get('https://pokeapi.co/api/v2/pokemon?offset=0&limit=20')
+            console.log(res.data)
+            dispatch({
+                type: OBTENER_POKEMONES_EXITO,
+                payload: res.data
+            })
+            localStorage.setItem('offset=0', JSON.stringify(res.data))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    
+}
+
+export const siguientePokemonAccion = () => async (dispatch, getState) => {
+
+    const {next} = getState().pokemones
+
+    if(localStorage.getItem(next)){
+        console.log('existe')
+        dispatch({
+            type: SIGUIENTE_POKEMONES_EXITO,
+            payload: JSON.parse(localStorage.getItem(next))
+        })
+    }else{
+        console.log('no existe')
+        try {
+            const res = await axios.get(next)
+            dispatch({
+                type: SIGUIENTE_POKEMONES_EXITO,
+                payload: res.data
+            })
+            localStorage.setItem(next, JSON.stringify(res.data))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    
+}
+
+export const anteriorPokemonAccion = () => async (dispatch, getState) => {
+
+    const {previous} = getState().pokemones
+
+    if(localStorage.getItem(previous)){
+        console.log('existe')
+        dispatch({
+            type: SIGUIENTE_POKEMONES_EXITO,
+            payload: JSON.parse(localStorage.getItem(previous))
+        })
+    }else{
+        console.log('no existe')
+        try {
+            const res = await axios.get(previous)
+            dispatch({
+                type: SIGUIENTE_POKEMONES_EXITO,
+                payload: res.data
+            })
+            localStorage.setItem(previous, JSON.stringify(res.data))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+}
+```
+
+## Practica #3
+```js
+const POKE_INFO_EXITO = 'POKE_INFO_EXITO'
+
+case POKE_INFO_EXITO:
+    return {...state, unPokemon: action.payload}
+
+export const unPokeDetalleAccion = (url) => async (dispatch, getState) => {
+    if(url === undefined){
+        url = 'https://pokeapi.co/api/v2/pokemon/1/'
+    }
+    if(localStorage.getItem(url)){
+        dispatch({
+            type: POKE_INFO_EXITO,
+            payload: JSON.parse(localStorage.getItem(url))
+        })
+    }
+    try {
+        const res = await axios.get(url)
+        // console.log(res.data)
+        dispatch({
+            type: POKE_INFO_EXITO,
+            payload: {
+                nombre: res.data.name,
+                foto: res.data.sprites.front_default,
+                alto: res.data.height,
+                ancho: res.data.weight
+            }
+        })
+        localStorage.setItem(url, JSON.stringify({
+            nombre: res.data.name,
+            foto: res.data.sprites.front_default,
+            alto: res.data.height,
+            ancho: res.data.weight
+        }))
+
+    } catch (error) {
+        console.log(error.response)
+    }
+}
+```
+
+```js
+import React from 'react'
+
+import {useDispatch, useSelector} from 'react-redux'
+import {unPokeDetalleAccion} from '../redux/pokeDucks'
+
+const Detalle = () => {
+
+    const dispatch = useDispatch()
+
+    React.useEffect(() => {
+        const obtenerInfo = () => {
+            dispatch(unPokeDetalleAccion())
+        }
+        obtenerInfo()
+    }, [dispatch])
+
+    const pokemon = useSelector(store => store.pokemones.unPokemon)
+    // console.log(pokemon)
+
+    return pokemon ? (
+        <div className="card text-center text-uppercase">
+            <div className="card-body">
+                <img className="img-fluid" alt="" src={pokemon.foto} />
+                <div className="card-title">{pokemon.nombre}</div>
+                <p className="card-text">Alto: {pokemon.alto} - Ancho: {pokemon.ancho}</p>
+            </div>
+        </div>
+    ) : null
+}
+
+export default Detalle
+```
+
+```html
+<div className="row">
+    <div className="col-md-6">
+        <h3>Lista de Pokemons</h3>
+
+        <div className="d-flex justify-content-between">
+            {
+                pokemones.length === 0 && 
+                <button 
+                    onClick={() => dispatch(obtenerPokemonesAccion())}
+                    className="btn btn-dark"
+                >
+                    Get Pokemones
+                </button>
+            }
+            {
+                next && 
+                <button onClick={() => dispatch(siguientePokemonAccion())} className="btn btn-dark mr-2">Siguiente</button>
+            }
+            {
+                previous && 
+                <button onClick={() => dispatch(anteriorPokemonAccion())} className="btn btn-dark">Anterior</button>
+            } 
+        </div>
+        
+        <ul className="list-group mt-3 text-uppercase">
+            {
+                pokemones.map(item => (
+                    <li className="list-group-item" key={item.name} >
+                        {item.name}
+                        <button 
+                            className="btn btn-dark btn-sm float-right"
+                            onClick={() => dispatch(unPokeDetalleAccion(item.url))}
+                        >
+                            Detalle
+                        </button>
+                    </li>
+                ))
+            }
+        </ul>
+    </div>
+    <div className="col-md-6">
+        <Detalle />
+    </div>
+</div>
+```
+
+```html
+<Provider store={store}>
+    <div className="container mt-3">
+    <Pokemones />
+    </div>
+</Provider>
 ```
