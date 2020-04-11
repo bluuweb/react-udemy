@@ -28,6 +28,7 @@ module.exports = {
         '/08-auth/',
         '/09-paginacion/',
         '/10-redux/',
+        '/11-auth-redux/',
       ]
   }
  
