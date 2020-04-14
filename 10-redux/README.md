@@ -469,6 +469,7 @@ export const unPokeDetalleAccion = (url) => async (dispatch, getState) => {
             type: POKE_INFO_EXITO,
             payload: JSON.parse(localStorage.getItem(url))
         })
+        return
     }
     try {
         const res = await axios.get(url)

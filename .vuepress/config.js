@@ -29,6 +29,7 @@ module.exports = {
         '/09-paginacion/',
         '/10-redux/',
         '/11-auth-redux/',
+        '/12-perfil/',
       ]
   }
  
