@@ -30,6 +30,7 @@ module.exports = {
         '/10-redux/',
         '/11-auth-redux/',
         '/12-perfil/',
+        '/13-material/',
       ]
   }
  
