@@ -118,6 +118,53 @@ import {Button} from '@material-ui/core'
 ```
 
 ## Iconos
-Próximamente...
+Existen dos formas de utilizarlos: [https://material-ui.com/es/components/icons/](https://material-ui.com/es/components/icons/)
+#### SVG
+```
+npm install @material-ui/icons
+```
 
+#### Google
+```html
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+```
+
+#### Utilización
+```js
+import React from 'react';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Icon from '@material-ui/core/Icon'
+import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
+
+function App() {
+  return (
+    <div>
+
+      <DeleteIcon color="primary" fontSize="large"/>
+
+      <Icon color="primary">star</Icon>
+
+      <Button 
+        variant='contained'
+        color='primary'
+        startIcon={<DeleteIcon />}
+      >
+        Eliminar
+      </Button>
+
+      <IconButton 
+        aria-label="delete" 
+        color="primary"
+        variant='contained'
+      >
+        <DeleteIcon />
+      </IconButton>
+      
+    </div>
+  );
+}
+
+export default App;
+```
 
