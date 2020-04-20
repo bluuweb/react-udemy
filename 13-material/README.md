@@ -156,7 +156,6 @@ function App() {
       <IconButton 
         aria-label="delete" 
         color="primary"
-        variant='contained'
       >
         <DeleteIcon />
       </IconButton>
