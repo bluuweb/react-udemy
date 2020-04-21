@@ -19,7 +19,7 @@ npm i react-router-dom
 ```
 
 ## Firebase
-```js
+```jsx
 import app from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
@@ -43,7 +43,7 @@ export {db, auth}
 ```
 
 ## Rutas
-```js
+```jsx
 import React from 'react'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
@@ -72,7 +72,7 @@ export default App
 ```
 
 ## Navbar
-```js
+```jsx
 import React from 'react'
 import {Link, NavLink} from 'react-router-dom'
 
@@ -111,7 +111,7 @@ export default Navbar
 ```
 
 ## Registro estructura
-```js
+```jsx
 import React from 'react'
 
 const Login = () => {
@@ -156,7 +156,7 @@ export default Login
 ```
 
 ## Registro useState
-```js
+```jsx
 import React from 'react'
 
 const Login = () => {
@@ -239,10 +239,10 @@ export default Login
 ```
 
 ## Registro y Login
-```js
+```jsx
 const [esRegistro, setEsRegistro] = React.useState(true)
 ```
-```html
+```jsx
 <h3 className="text-center">
     {
         esRegistro ? 'Registro' : 'Login'
@@ -294,7 +294,7 @@ const [esRegistro, setEsRegistro] = React.useState(true)
 ## Firebase Registrar
 [https://firebase.google.com/docs/auth/web/password-auth?hl=es](https://firebase.google.com/docs/auth/web/password-auth?hl=es)
 
-```js
+```jsx
 import {db, auth} from '../firebase'
 
 // después de pasar validaciones de datos...
@@ -333,7 +333,7 @@ const registrar = React.useCallback(async() => {
 ```
 
 ## Firebase Login
-```js
+```jsx
 if(!esRegistro){
     login()
 }
@@ -360,7 +360,7 @@ const login = React.useCallback(async() => {
 ```
 
 ## Push rutas
-```js
+```jsx
 // Importar
 import { withRouter } from "react-router-dom";
 
@@ -376,7 +376,7 @@ props.history.push('/admin')
 
 ## Ruta protegida
 #### Estructura
-```js
+```jsx
 import React from 'react'
 import { withRouter } from "react-router-dom";
 import {auth} from '../firebase'
@@ -395,7 +395,7 @@ export default withRouter(Admin)
 #### useEffect
 currentUser: nos trae la información del usuario
 [https://firebase.google.com/docs/auth/web/manage-users#get_the_currently_signed-in_user](https://firebase.google.com/docs/auth/web/manage-users#get_the_currently_signed-in_user)
-```js
+```jsx
 import React from 'react'
 import { withRouter } from "react-router-dom";
 import {auth} from '../firebase'
@@ -432,7 +432,7 @@ export default withRouter(Admin)
 
 #### App.jsx (detectar usuario)
 onAuthStateChanged: va evaluando si existe el usuario, por lo tanto si se cierra sesión se vuelve a ejecutar onAuthStateChanged()
-```js
+```jsx
 // Recuerde hacer la importación de firebase
 import {auth } from './firebase'
 
@@ -472,7 +472,7 @@ return firebaseUser !== false ? (
 ```
 
 #### Navbar cerrar sesión y ocultar "admin"
-```js
+```jsx
 import React from 'react'
 import {Link, NavLink, withRouter} from 'react-router-dom'
 import {auth} from '../firebase'
@@ -536,12 +536,12 @@ export default withRouter(Navbar)
 
 ## Firestore
 Al agregar un usuario configurar nueva collection
-```js
+```jsx
 await db.collection(res.user.uid).add({name: 'Tarea de ejemplo #1'})
 ```
 
 Crear un componente nuevo y agregarlo al Admin
-```js
+```jsx
 return (
     <div className="mt-5">
         <h3 className="text-center">Ruta protegida</h3>
@@ -555,7 +555,7 @@ return (
 ```
 
 Utilizar el ejercicio de CRUD Firestore en el nuevo componente
-```js
+```jsx
 import React from 'react'
 import {firebase} from '../firebase'
 
@@ -771,19 +771,19 @@ Agregaremos momentjs para formatear fechas de una forma sencilla.
 npm install moment --save
 ```
 
-```js
+```jsx
 import moment from 'moment'
 import 'moment/locale/es' // Pasar a español
 ```
 
-```js
+```jsx
 {item.name} - { moment(item.fecha).format('MMMM Do YYYY, h:mm:ss a') }
 ```
 
 ## Recuperar contraseña
 [https://firebase.google.com/docs/auth/web/manage-users?authuser=0#send_a_password_reset_email](https://firebase.google.com/docs/auth/web/manage-users?authuser=0#send_a_password_reset_email)
 Agregar botón en login:
-```js
+```jsx
 {
     !esRegistro ? (
         <button 
@@ -799,7 +799,7 @@ Agregar botón en login:
 ```
 
 Componente Reset
-```js
+```jsx
 import React from 'react'
 import {auth} from '../firebase'
 import {withRouter} from 'react-router-dom'

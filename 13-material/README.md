@@ -35,7 +35,7 @@ npm install @material-ui/core
 4. Iconos: lo dejaremos pendiente por ahora, ya que existirá un apartado específico para trabajar con iconos.
 
 ## Inicio rápido
-```js
+```jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Button from '@material-ui/core/Button';
@@ -60,21 +60,21 @@ import {Button} from '@material-ui/core'
 ```
 
 #### color: default, primary, secondary
-```html
+```jsx
 <Button color="primary">
     primary
 </Button>
 ```
 
 #### variant: text, outlined, contained
-```html
+```jsx
 <Button color="secondary" variant='contained'>
     contained
 </Button>
 ```
 
 #### disableElevation
-```html
+```jsx
 <Button 
     color="secondary" 
     variant='contained'
@@ -85,7 +85,7 @@ import {Button} from '@material-ui/core'
 ```
 
 #### href
-```html
+```jsx
 <Button
     variant='outlined'
     color='primary'
@@ -96,7 +96,7 @@ import {Button} from '@material-ui/core'
 ```
 
 #### fullWidth
-```html
+```jsx
 <Button
     variant='outlined'
     color='primary'
@@ -107,7 +107,7 @@ import {Button} from '@material-ui/core'
 ```
 
 #### size: small, medium, large
-```html
+```jsx
 <Button 
     color="secondary" 
     variant='contained'
@@ -125,12 +125,12 @@ npm install @material-ui/icons
 ```
 
 #### Google
-```html
+```jsx
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 ```
 
 #### Utilización
-```js
+```jsx
 import React from 'react';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Icon from '@material-ui/core/Icon'
@@ -160,6 +160,74 @@ function App() {
         <DeleteIcon />
       </IconButton>
       
+    </div>
+  );
+}
+
+export default App;
+```
+
+## Typography
+[https://material-ui.com/es/components/typography/](https://material-ui.com/es/components/typography/)
+
+API: [https://material-ui.com/es/api/typography/](https://material-ui.com/es/api/typography/)
+
+```js
+import Typography from '@material-ui/core/Typography';
+// or
+import { Typography } from '@material-ui/core';
+```
+
+#### variant: h1, h2..., subtitle1, body1, caption...
+```jsx
+<Typography variant="h1">
+  variant
+</Typography>
+```
+
+#### align: center, right, justify
+```jsx
+<Typography align="center" variant="h6">
+  variant
+</Typography>
+```
+
+#### gutterBottom y paragraph: Agregar bottom margin
+```jsx
+<Typography gutterBottom variant="body1">
+  lorem
+</Typography>
+```
+
+## makeStyle
+[https://material-ui.com/es/styles/basics/](https://material-ui.com/es/styles/basics/)
+
+```jsx
+import React from 'react';
+import {makeStyles} from '@material-ui/core/styles'
+import {Button} from '@material-ui/core'
+
+const useStyle = makeStyles({
+  boton: {
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    border: 0,
+    borderRadius: 3,
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    color: 'white',
+    height: 48,
+    padding: '0 30px',
+  }
+})
+
+function App() {
+
+  const classes = useStyle()
+
+  return (
+    <div>
+      <Button className={classes.boton}>
+        Diseñado con useStyle
+      </Button>
     </div>
   );
 }

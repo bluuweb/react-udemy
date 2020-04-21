@@ -8,13 +8,13 @@ Aprende desde cero a trabajar con <b>React.js y Firebase</b> aquí: [http://curs
 
 ## Guardar usuario en DB
 
-```js
+```jsx
 import 'firebase/firestore'
 const db = firebase.firestore()
 export {auth, firebase, db}
 ```
 
-```js
+```jsx
 export const ingresoUsuarioAccion = () => async(dispatch) => {
     dispatch({
         type: LOADING
@@ -60,7 +60,7 @@ export const ingresoUsuarioAccion = () => async(dispatch) => {
 ```
 
 ## Actualizar nombre
-```js
+```jsx
 export const actualizarDisplayNameAccion = (nuevoNombre) => async (dispatch, getState) => {
     dispatch({
         type: LOADING
@@ -87,7 +87,7 @@ export const actualizarDisplayNameAccion = (nuevoNombre) => async (dispatch, get
 ```
 
 ## Componente Perfil
-```js
+```jsx
 import React from 'react'
 
 import {useSelector, useDispatch} from 'react-redux'
@@ -172,13 +172,13 @@ export default Perfil
 ```
 
 ## Storage
-```js
+```jsx
 import 'firebase/storage'
 const storage = firebase.storage()
 export {auth, firebase, db, storage}
 ```
 
-```js
+```jsx
 export const actualizarFotoAccion = (imagen) => async (dispatch, getState) => {
     dispatch({
         type: LOADING
@@ -213,7 +213,7 @@ export const actualizarFotoAccion = (imagen) => async (dispatch, getState) => {
 }
 ```
 
-```js
+```jsx
 // subir imagen
 const [error, setError] = React.useState(false)
 

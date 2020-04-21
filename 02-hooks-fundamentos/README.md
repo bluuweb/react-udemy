@@ -27,7 +27,7 @@ npm start
 ## Mi primer componente
 Crea una carpeta y archivo `components/Contador.js` el cual se verá así:
 
-```js
+```jsx
 import React from 'react';
 
 const Contador = () => {
@@ -41,7 +41,7 @@ export default Contador;
 
 Lo mandamos a llamar en `App.js`
 
-```js
+```jsx
 import React from 'react';
 import Contador from './components/Contador'
 
@@ -59,7 +59,7 @@ Wualá tienes tu primer componente listo :)
 ## Hook de estado
 Este ejemplo renderiza un contador. Cuando haces click en el botón, incrementa el valor: [https://es.reactjs.org/docs/hooks-overview.html#state-hook](https://es.reactjs.org/docs/hooks-overview.html#state-hook)
 
-```js
+```jsx
 import React, { useState } from 'react';
 
 const Contador = () => {

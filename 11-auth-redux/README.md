@@ -10,7 +10,7 @@ npm i firebase react-router-dom
 ```
 [https://reacttraining.com/react-router/web/example/auth-workflow](https://reacttraining.com/react-router/web/example/auth-workflow)
 
-```js
+```jsx
 import firebase from 'firebase/app'
 import 'firebase/auth'
 
@@ -32,7 +32,7 @@ export {auth, firebase}
 ```
 
 ## Navbar
-```js
+```jsx
 import React from 'react'
 import {Link, NavLink} from 'react-router-dom'
 
@@ -71,7 +71,7 @@ export default Navbar
 ```
 
 ## Login
-```js
+```jsx
 import React from 'react'
 
 const Login = () => {
@@ -87,7 +87,7 @@ const Login = () => {
 export default Login
 ```
 ## index.js
-```js
+```jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
@@ -110,7 +110,7 @@ ReactDOM.render(
 ```
 
 ## App.jsx
-```js
+```jsx
 import React from 'react';
 
 import Pokemones from './components/Pokemones';
@@ -144,7 +144,7 @@ export default App;
 ```
 
 ## Reducer
-```js
+```jsx
 const dataInicial = {
     loading: false,
     activo: false
@@ -191,7 +191,7 @@ export const accederAccion = () => async(dispatch) => {
 
 [https://firebase.google.com/docs/auth/web/google-signin#handle_the_sign-in_flow_with_the_firebase_sdk](https://firebase.google.com/docs/auth/web/google-signin#handle_the_sign-in_flow_with_the_firebase_sdk)
 
-```js
+```jsx
 const provider = new firebase.auth.GoogleAuthProvider();
 const res = await auth.signInWithPopup(provider)
 console.log(res)
@@ -210,7 +210,7 @@ localStorage.setItem('usuario', JSON.stringify({
 }))
 ```
 
-```js
+```jsx
 export const leerUsuarioAccion = () => async (dispatch) => {
     if(localStorage.getItem('usuario')){
         dispatch({
@@ -223,7 +223,7 @@ export const leerUsuarioAccion = () => async (dispatch) => {
 }
 ```
 
-```js
+```jsx
 export default function generateStore(){
     const store = createStore( rootReducer,  composeEnhancers( applyMiddleware(thunk) ))
     leerUsuarioAccion()(store.dispatch)
@@ -232,7 +232,7 @@ export default function generateStore(){
 ```
 
 ## Login
-```js
+```jsx
 import React from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {accederAccion} from '../redux/usuarioDucks'
@@ -271,7 +271,7 @@ export default withRouter(Login)
 ```
 
 ## Cerrar Sesión
-```js
+```jsx
 export const cerrarSesionAccion = () => (dispatch) => {
     auth.signOut()
     dispatch({
@@ -284,7 +284,7 @@ case CERRAR_SESION:
     return {...dataInicial}
 ```
 
-```js
+```jsx
 import {useDispatch} from 'react-redux'
 import { cerrarSesionAccion } from '../redux/usuarioDucks'
 import {withRouter} from 'react-router-dom'
@@ -308,7 +308,7 @@ export default withRouter(Navbar)
 ```
 
 ## app.jsx
-```js
+```jsx
 import React from 'react';
 
 import Pokemones from './components/Pokemones';
@@ -379,7 +379,7 @@ export default App;
 ```
 
 ## Ocultar botones
-```js
+```jsx
 import {useDispatch, useSelector} from 'react-redux'
 
 const Navbar = (props) => {

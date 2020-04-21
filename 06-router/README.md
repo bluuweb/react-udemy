@@ -16,7 +16,7 @@ npm install react-router-dom
 ## Ejemplo
 En la siguiente práctica podrás aprender los conceptos principales:
 
-```js
+```jsx
 import React from 'react';
 
 import {
@@ -66,7 +66,7 @@ export default App;
 
 ### Componentes principales
 [https://reacttraining.com/react-router/web/guides/primary-components](https://reacttraining.com/react-router/web/guides/primary-components)
-```js
+```jsx
 import {
   BrowserRouter as Router,
   Switch,
@@ -84,7 +84,7 @@ Hay dos componentes de coincidencia de ruta: Switch y Route. Cuando ``<Switch>``
 
 #### exact
 Generalmente la ruta raíz irá al final, pero si no deseas que devuelva otra coincidencia puedes obligar a que sea exacta con:
-```html
+```jsx
 <Route path="/" exact>
 ```
 
@@ -92,14 +92,14 @@ Generalmente la ruta raíz irá al final, pero si no deseas que devuelva otra co
 React Router proporciona un ``<Link>`` componente para crear enlaces en su aplicación. Donde sea que renderice un ``<Link>``, se representará un ancla ``<a>`` en su documento HTML.
 
 El ``<NavLink>`` es un tipo especial ``<Link>`` que puede activar una clase activa cuando esté en la ruta específica.
-```html
+```jsx
 <NavLink to="/users" className="btn btn-dark" activeClassName="active">Users</NavLink>
 ```
 
 ## Parámetros
 En este ejercicio trabajaremos rutas con parámetros, consumiremos la API: [https://jsonplaceholder.typicode.com/users](https://jsonplaceholder.typicode.com/users)
 
-```js
+```jsx
 import React from 'react'
 import { Link } from "react-router-dom";
 
@@ -137,7 +137,7 @@ export default Parametros
 ```
 
 ## useParams()
-```js
+```jsx
 import React from 'react'
 import {useParams} from 'react-router-dom'
 

@@ -34,7 +34,7 @@ Crear archivos ``Redux/pokesDucks.js`` y ``Redux/store.js``
 
 
 ## pokesDucks.js
-```js
+```jsx
 // constantes
 const dataInicial = {
     array: []
@@ -55,7 +55,7 @@ export const obtenerPokemonsAction = () => async (dispatch) => {
 ```
 
 Acciones
-```js
+```jsx
 // actions
 export const obtenerPokemonsAction = () => async (dispatch, getState) => {
     try {
@@ -71,7 +71,7 @@ export const obtenerPokemonsAction = () => async (dispatch, getState) => {
 ```
 
 Reducer
-```js
+```jsx
 // reducer
 export default function pokesReducer(state = dataInicial, action){
     switch(action.type){
@@ -84,7 +84,7 @@ export default function pokesReducer(state = dataInicial, action){
 ```
 
 ## store.js
-```js
+```jsx
 import {createStore, combineReducers, compose, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
 
@@ -103,7 +103,7 @@ export default function generateStore() {
 ```
 
 ## App.jsx
-```js
+```jsx
 import React from 'react';
 import {Provider} from 'react-redux'
 import generateStore from './redux/store'
@@ -122,7 +122,7 @@ export default App;
 ```
 
 ## Llamar en un componente
-```js
+```jsx
 import React from 'react'
 
 // hooks react redux
@@ -160,7 +160,7 @@ export default Pokemones
 
 ## Prácticando #1
 pokeDucks
-```js
+```jsx
 import axios from 'axios'
 
 // Constantes
@@ -220,7 +220,7 @@ export const siguientePokeAction = (numero) => async(dispatch, getState) => {
 ```
 
 Poke.jsx
-```js
+```jsx
 import React from 'react'
 
 import {useDispatch, useSelector} from 'react-redux'
@@ -255,7 +255,7 @@ export default Poke
 ```
 
 ## Prácticando #2
-```js
+```jsx
 import axios from 'axios'
 
 // constantes
@@ -332,7 +332,7 @@ export const anteriorPokemonAccion = () => async (dispatch, getState) => {
 }
 ```
 
-```js
+```jsx
 import React from 'react'
 
 import {useDispatch, useSelector} from 'react-redux'
@@ -374,7 +374,7 @@ export default Pokemones
 ```
 
 ## LocalStorage
-```js
+```jsx
 export const obtenerPokemonesAccion = () => async (dispatch, getState) => {
 
     if(localStorage.getItem('offset=0')){
@@ -454,7 +454,7 @@ export const anteriorPokemonAccion = () => async (dispatch, getState) => {
 ```
 
 ## Practica #3
-```js
+```jsx
 const POKE_INFO_EXITO = 'POKE_INFO_EXITO'
 
 case POKE_INFO_EXITO:
@@ -496,7 +496,7 @@ export const unPokeDetalleAccion = (url) => async (dispatch, getState) => {
 }
 ```
 
-```js
+```jsx
 import React from 'react'
 
 import {useDispatch, useSelector} from 'react-redux'
@@ -530,7 +530,7 @@ const Detalle = () => {
 export default Detalle
 ```
 
-```html
+```jsx
 <div className="row">
     <div className="col-md-6">
         <h3>Lista de Pokemons</h3>
@@ -577,7 +577,7 @@ export default Detalle
 </div>
 ```
 
-```html
+```jsx
 <Provider store={store}>
     <div className="container mt-3">
     <Pokemones />

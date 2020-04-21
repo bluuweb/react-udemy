@@ -1,4 +1,4 @@
-# 04.2 Simple CRUD
+# 04.02 Simple CRUD
 
 ::: tip CURSO EN UDEMY OFERTA!
 Aprende desde cero a trabajar con <b>React.js y Firebase</b> aquí: [http://curso-react-js-udemy.bluuweb.cl/](http://curso-react-js-udemy.bluuweb.cl/)
@@ -6,7 +6,7 @@ Aprende desde cero a trabajar con <b>React.js y Firebase</b> aquí: [http://curs
 :::
 
 ## Estructura
-```html
+```jsx
 <div className="container mt-5">
   <h1 className="text-center">CRUD APP</h1>
   <hr/>
@@ -46,10 +46,10 @@ Aprende desde cero a trabajar con <b>React.js y Firebase</b> aquí: [http://curs
 ```
 
 ## Estado Tarea
-```js
+```jsx
 const [tarea, setTarea] = React.useState('')
 ```
-```js{5-6}
+```jsx{5-6}
 <input 
   type="text" 
   className="form-control mb-2"
@@ -66,10 +66,10 @@ Instalar [https://www.npmjs.com/package/shortid](https://www.npmjs.com/package/s
 npm i shortid
 ```
 
-```js
+```jsx
 <form onSubmit={agregarTarea}>
 ```
-```js
+```jsx
 const [tarea, setTarea] = React.useState('')
 const [tareas, setTareas] = React.useState([])
 
@@ -107,7 +107,7 @@ const agregarTarea = e => {
 ```
 
 ## Eliminar Tarea
-```js
+```jsx
 // onClick={() => eliminarTarea(item.id)}
 const eliminarTarea = id => {
   const arrayFiltrado = tareas.filter(item => item.id !== id)
@@ -116,7 +116,7 @@ const eliminarTarea = id => {
 ```
 
 ## Editar Tarea
-```js
+```jsx
 const [modoEdicion, setModoEdicion] = React.useState(false)
 const [id, setId] = React.useState('')
 
@@ -142,7 +142,7 @@ const editarTarea = e => {
 }
 ```
 
-```html
+```jsx
 <div className="col-4">
   <h4 className="text-center">
     {
@@ -169,7 +169,7 @@ const editarTarea = e => {
 ```
 
 ## Sin Tareas
-```html
+```jsx
 <ul className="list-group">
   {
     tareas.length === 0 ? (
@@ -194,7 +194,7 @@ const editarTarea = e => {
 ```
 
 ## Campos vacíos
-```js
+```jsx
 const [error, setError] = React.useState(null)
 
 // en agregarTarea y editarTarea
@@ -207,7 +207,7 @@ if(!tarea.trim()){
 setError(null)
 ```
 
-```html
+```jsx
 <form onSubmit={modoEdicion ? editarTarea : agregarTarea}>
   {
     error ? <span className="text-danger">{error}</span> : null
@@ -218,7 +218,7 @@ setError(null)
 
 ## Todo junto
 
-```js
+```jsx
 import React from 'react';
 import shortid from 'shortid' //https://www.npmjs.com/package/shortid
 
@@ -281,7 +281,7 @@ export default App;
 
 ```
 
-```html
+```jsx
 <div className="container mt-5">
   <h1 className="text-center">CRUD APP</h1>
   <hr/>

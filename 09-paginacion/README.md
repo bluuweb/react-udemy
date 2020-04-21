@@ -9,12 +9,12 @@ Aprende desde cero a trabajar con <b>React.js y Firebase</b> aquí: [http://curs
 ## Ordenar y limitar datos
 [https://firebase.google.com/docs/firestore/query-data/order-limit-data?authuser=0](https://firebase.google.com/docs/firestore/query-data/order-limit-data?authuser=0)
 
-```js
+```jsx
 const [ultimo, setUltimo] = React.useState(null)
 const [desactivar, setDesactivar] = React.useState(false)
 ```
 
-```js
+```jsx
 const data = await db.collection(props.user.uid)
     .limit(2)
     .orderBy('fecha')
@@ -27,7 +27,7 @@ setTareas(arrayData)
 ```
 
 Agregar boton siguiente
-```js
+```jsx
 <button 
     className="btn btn-block btn-sm mt-2 btn-info"
     disabled={desactivar}
@@ -38,7 +38,7 @@ Agregar boton siguiente
 ```
 
 Acción siguiente
-```js
+```jsx
 const siguiente = async () => {
     setDesactivar(true)
     try {
@@ -75,7 +75,7 @@ const siguiente = async () => {
 ```
 
 Modificar 'obtenerDatos' para desactivar botón
-```js
+```jsx
 try {
     setDesactivar(true)
     const data = await db.collection(props.user.uid)

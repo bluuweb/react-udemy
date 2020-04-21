@@ -6,7 +6,7 @@ Aprende desde cero a trabajar con <b>React.js y Firebase</b> aquí: [http://curs
 <b>Nos vemos en clases!</b>
 :::
 
-```js
+```jsx
 const element = <h1>Hello, world!</h1>;
 ```
 Esta curiosa sintaxis de etiquetas no es ni un string ni HTML, Se llama JSX.
@@ -16,7 +16,7 @@ Conoce más en la guía oficial [https://es.reactjs.org/docs/introducing-jsx.htm
 ## Insertando
 Podemos insertar Javascript dentro de expresiones JSX como por ejemplo:
 
-```js
+```jsx
 import React from 'react';
 
 const JsxAccion = () => {
@@ -32,7 +32,7 @@ export default JsxAccion;
 ```
 Fíjate que utilizamos las `{}` para llamar a una constante, tu puedes utilizar dentro de estas llaves código JS!
 
-```js
+```jsx
 import React, {Fragment} from 'react';
 
 const JsxAccion = () => {
@@ -55,7 +55,7 @@ export default JsxAccion;
 ```
 Ahora en este ejemplo estamos mezclando con un operador ternario (Atajo de condicional if)
 
-```js
+```jsx
 const element = <img src={user.avatarUrl}></img>;
 ```
 También lo puedes utilizar en atributos.
@@ -68,7 +68,7 @@ No pongas comillas rodeando llaves cuando insertes una expresión JavaScript en 
 [https://es.reactjs.org/docs/lists-and-keys.html](https://es.reactjs.org/docs/lists-and-keys.html)
 Se utiliza la función `map()` para pintar un Array.
 
-```js
+```jsx
 import React,{Fragment, useState} from 'react';
 
 const Listas = () => {
@@ -95,7 +95,7 @@ export default Listas;
 Cuando ejecutes este código, serás advertido que una key debería ser proporcionada para ítems de lista. Una “key” es un atributo especial string que debes incluir al crear listas de elementos.
 
 ## Jugando
-```js
+```jsx
 import React,{Fragment, useState} from 'react';
 
 const Listas = () => {
@@ -136,7 +136,7 @@ export default Listas;
 [http://www.etnassoft.com/2014/06/03/el-operador-de-propagacion-en-javascript-ecmascript-6-y-polyfill/](http://www.etnassoft.com/2014/06/03/el-operador-de-propagacion-en-javascript-ecmascript-6-y-polyfill/)
 
 Concatenar Array
-```js
+```jsx
 const arrayUno = ['Chile', 'Argentina']
 const arrayDos = ['Perú', 'Mexico']
 

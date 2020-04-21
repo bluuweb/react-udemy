@@ -23,7 +23,7 @@ npm i firebase
 
 Luego crear un archivo en la carpeta `src` llamado `fireabase.js`
 
-```js
+```jsx
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
@@ -44,7 +44,7 @@ export {firebase};
 
 ## Bootstrap
 Podemos seguir utilizando Bootstrap de una manera sencilla utilizando su CDN:
-```html
+```jsx
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 ```
 
@@ -57,10 +57,10 @@ tareas => id-Aleatoreo => {name: 'tarea 1' fecha: '30 marzo'}
 
 ## LEER documentos
 [https://firebase.google.com/docs/firestore/quickstart?authuser=0#read_data](https://firebase.google.com/docs/firestore/quickstart?authuser=0#read_data)
-```js
+```jsx
 import {firebase} from './firebase'
 ```
-```js
+```jsx
 React.useEffect(() => {
 
     const obtenerDatos = async () => {
@@ -79,7 +79,7 @@ React.useEffect(() => {
 ```
 
 Ahora con State
-```js
+```jsx
 const [tareas, setTareas] = React.useState([])
 
 React.useEffect(() => {
@@ -100,7 +100,7 @@ React.useEffect(() => {
 }, [])
 ```
 
-```html
+```jsx
 <div className="container mb-2">
     <div className="row">
         <div className="col-md-6">
@@ -134,7 +134,7 @@ React.useEffect(() => {
 
 ## AGREGAR documentos
 [https://firebase.google.com/docs/firestore/manage-data/add-data?authuser=0](https://firebase.google.com/docs/firestore/manage-data/add-data?authuser=0)
-```js
+```jsx
 const [tarea, setTarea] = React.useState('')
 
 const agregar = async (e) => {
@@ -147,7 +147,7 @@ const agregar = async (e) => {
 }
 ```
 
-```html
+```jsx
 <h3>Formulario</h3>
 <form onSubmit={agregar}>
     <input 
@@ -166,7 +166,7 @@ const agregar = async (e) => {
 </form>
 ```
 
-```js
+```jsx
 try {
     const db = firebase.firestore()
     const nuevaTarea = {
@@ -189,7 +189,7 @@ try {
 
 ## ELIMINAR documentos
 [https://firebase.google.com/docs/firestore/manage-data/delete-data?authuser=0](https://firebase.google.com/docs/firestore/manage-data/delete-data?authuser=0)
-```html
+```jsx
 <button 
     className="btn btn-danger btn-sm float-right"
     onClick={() => eliminar(item.id)}
@@ -198,7 +198,7 @@ try {
 </button>
 ```
 
-```js
+```jsx
 const eliminar = async (id) => {
     try {
       const db = firebase.firestore()
@@ -213,11 +213,11 @@ const eliminar = async (id) => {
 
 ## EDITAR documentos
 [https://firebase.google.com/docs/firestore/manage-data/add-data?authuser=0#update-data](https://firebase.google.com/docs/firestore/manage-data/add-data?authuser=0#update-data)
-```js
+```jsx
 const [modoEdicion, setModoEdicion] = React.useState(false)
 ```
 
-```html
+```jsx
 <div className="col-md-6">
     <h3>
     {
@@ -247,7 +247,7 @@ const [modoEdicion, setModoEdicion] = React.useState(false)
 </div>
 ```
 
-```html
+```jsx
 <button 
     className="btn btn-warning btn-sm float-right mr-2"
     onClick={() => activarEdicion(item)}
@@ -257,7 +257,7 @@ const [modoEdicion, setModoEdicion] = React.useState(false)
 ```
 
 
-```js
+```jsx
 const activarEdicion = (item) => {
     setModoEdicion(true)
     setTarea(item.name)
@@ -265,11 +265,11 @@ const activarEdicion = (item) => {
 }
 ```
 
-```html
+```jsx
 <form onSubmit={modoEdicion ? editar : agregar}>
 ```
 
-```js
+```jsx
 const editar = async (e) => {
     e.preventDefault()
     if(!tarea.trim()){

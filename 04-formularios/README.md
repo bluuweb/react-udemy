@@ -6,7 +6,7 @@ Aprende desde cero a trabajar con <b>React.js y Firebase</b> aquí: [http://curs
 <b>Nos vemos en clases!</b>
 :::
 
-```js
+```jsx
 import React from 'react';
 
 const Formulario = () => {
@@ -64,7 +64,7 @@ export default Formulario
 ## State
 Los datos que utilizaremos en nuestro formulario:
 
-```js
+```jsx
 const [fruta, setFruta] = React.useState('')
 const [descripcion, setDescripcion] = React.useState('')
 ```
@@ -72,18 +72,18 @@ const [descripcion, setDescripcion] = React.useState('')
 ## Evento onChange
 Estará al pendiente de los cambios que se registren en nuestro input.
 
-```js
+```jsx
 onChange={ (e) => setFruta(e.target.value) }
 ```
 
 ## onSubmit
 Ahora con los datos ya ingresados podemos utilizar el evento onSubmit para procesar el formulario:
 
-```html
+```jsx
 <form onSubmit={ guardarDatos } >
 ```
 
-```js
+```jsx
 const guardarDatos = (e) => {
         e.preventDefault()
         
@@ -106,11 +106,11 @@ const guardarDatos = (e) => {
 ```
 
 ## Agregar a una Lista
-```js
+```jsx
 const [lista, setLista] = React.useState([])
 ```
 
-```js
+```jsx
 const guardarDatos = (e) => {
     e.preventDefault()
     
@@ -137,7 +137,7 @@ const guardarDatos = (e) => {
 }
 ```
 
-```html
+```jsx
 <ul>
     {
         lista.map((item, index) => (
@@ -158,7 +158,7 @@ npm install react-hook-form
 ```
 
 #### Utilización
-```js{2}
+```jsx{2}
 import React, {Fragment} from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -207,7 +207,7 @@ export default HookForm;
 
 #### onSubmit
 Uno de los conceptos clave en el formulario React Hook, es pasar su componente no controlado en el gancho. Esto hará que su valor esté disponible tanto para la validación como para el envío del formulario. register
-```js
+```jsx
 const onSubmit = (data) => {
     console.log(data)
 }
@@ -220,7 +220,7 @@ const onSubmit = (data) => {
 Muy importante pasar el atributo "name" con clave única.
 
 Pasamos ref con "register" y sus respectivas validaciones:
-```js
+```jsx
 <input
     placeholder="Ingrese nombre de usuario"
     className="form-control mb-2"
@@ -245,19 +245,19 @@ Pasamos ref con "register" y sus respectivas validaciones:
 ```
 
 #### Errores
-```html
+```jsx
 {
     errors.email && <span className="text-danger text-small d-block mb-2">{errors.email.message}</span>
 }
 ```
 [https://react-hook-form.com/advanced-usage#ErrorMessage](https://react-hook-form.com/advanced-usage#ErrorMessage)
-```html
+```jsx
 <span className="text-danger text-small d-block mb-2">
     {errors.usuario && errors.usuario.message}
 </span>
 ```
 
-```html
+```jsx
 <span className="text-danger text-small d-block mb-2">
     {errors?.email?.message}
 </span>
@@ -267,7 +267,7 @@ Pasamos ref con "register" y sus respectivas validaciones:
 
 #### Limpiar campos (Reset)
 [https://codesandbox.io/s/jjm3wyqmjy](https://codesandbox.io/s/jjm3wyqmjy)
-```js
+```jsx
 const onSubmit = (data, e) => {
     console.log(data)
     
@@ -280,7 +280,7 @@ const onSubmit = (data, e) => {
 #### Ejemplo #1
 Puedes ver el siguiente video explicando el ejemplo a continuación...
 
-```js
+```jsx
 
 import React, { Fragment, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -358,7 +358,7 @@ export default FormCrud;
 #### Ejemplo #2 setError y clearError
 [https://github.com/email2vimalraj/Bin2Dec/blob/master/src/index.js](https://github.com/email2vimalraj/Bin2Dec/blob/master/src/index.js)
 
-```js
+```jsx
 import React, { Fragment, useState } from 'react';
 import { useForm } from 'react-hook-form';
 

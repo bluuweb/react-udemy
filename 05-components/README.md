@@ -9,7 +9,7 @@ Aprende desde cero a trabajar con <b>React.js y Firebase</b> aquí: [http://curs
 ## Props
 Conceptualmente, los componentes son como las funciones de JavaScript. Aceptan entradas arbitrarias (llamadas “props”) y devuelven a React elementos que describen lo que debe aparecer en la pantalla.
 
-```js
+```jsx
 import React, { Fragment } from 'react';
 
 const Saludo = (props) => {
@@ -28,7 +28,7 @@ En el componente Padre: `<Saludo nombre="Juanito" />`
 ## Extracción de componentes
 No tengas miedo de dividir los componentes. Intenta separar este ejemplo en componentes más pequeños:
 
-```js
+```jsx
 import React, { Fragment } from 'react'
 
 const Comment = ({author}) => {
@@ -51,7 +51,7 @@ export default Comment;
 ```
 
 #### Avatar
-```js
+```jsx
 import React from 'react'
 
 const Avatar = ({avatarUrl}) => {
