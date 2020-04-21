@@ -235,3 +235,75 @@ function App() {
 export default App;
 ```
 
+## createMuiTheme
+[https://material-ui.com/es/customization/theming/#anidando-el-tema](https://material-ui.com/es/customization/theming/#anidando-el-tema)
+
+```jsx
+import {ThemeProvider} from '@material-ui/core/styles'
+
+// Crear archivo con configuración del tema
+import theme from './theme'
+
+unction App() {
+
+  return (
+    <ThemeProvider theme={theme}>
+      ...componentes
+    </ThemeProvider>
+  );
+}
+
+export default App;
+```
+
+[https://material-ui.com/es/customization/theming/#api](https://material-ui.com/es/customization/theming/#api)
+```js
+import {createMuiTheme} from '@material-ui/core/styles'
+import {purple} from '@material-ui/core/colors'
+import {deepOrange} from '@material-ui/core/colors'
+
+const theme = createMuiTheme({
+    palette: {
+        primary: deepOrange,
+        secondary: purple
+    }
+})
+
+export default theme;
+```
+
+## App bar
+[https://material-ui.com/es/components/app-bar/](https://material-ui.com/es/components/app-bar/)
+
+````jsx
+import React from 'react'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/core'
+
+const useStyle = makeStyles(theme => ({
+    offset: theme.mixins.toolbar
+}))
+
+const Navbar = () => {
+
+    const classes = useStyle();
+
+    return (
+        <React.Fragment>
+            <AppBar position="fixed" color="primary">
+              <Toolbar>
+                <Typography variant="h6">
+                  bluuweb
+                </Typography>
+              </Toolbar>
+            </AppBar>
+            <div className={classes.offset}></div>
+        </React.Fragment>
+    )
+}
+
+export default Navbar
+```
+
