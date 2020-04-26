@@ -257,7 +257,7 @@ export default App;
 ```
 
 [https://material-ui.com/es/customization/theming/#api](https://material-ui.com/es/customization/theming/#api)
-```js
+```jsx
 import {createMuiTheme} from '@material-ui/core/styles'
 import {purple} from '@material-ui/core/colors'
 import {deepOrange} from '@material-ui/core/colors'
@@ -275,7 +275,7 @@ export default theme;
 ## App bar
 [https://material-ui.com/es/components/app-bar/](https://material-ui.com/es/components/app-bar/)
 
-````jsx
+```jsx
 import React from 'react'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -283,7 +283,10 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core'
 
 const useStyle = makeStyles(theme => ({
-    offset: theme.mixins.toolbar
+    offset: {
+        ...theme.mixins.toolbar, // min-height: 56px;
+        marginBottom: '1rem' // margen opcional
+    }
 }))
 
 const Navbar = () => {
@@ -306,4 +309,123 @@ const Navbar = () => {
 
 export default Navbar
 ```
+## List
+[https://material-ui.com/components/lists/#simple-list](https://material-ui.com/components/lists/#simple-list)
+```jsx
+import React from 'react'
+import {
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    Divider
+} from '@material-ui/core'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 
+const ListaMUI = () => {
+    return (
+        <div>
+            <List component='nav' aria-label='cicle'>
+                <ListItem button>
+                    <ListItemIcon>
+                        <AccountCircleIcon />
+                    </ListItemIcon>
+                    <ListItemText primary='Nombre de usuario' />
+                </ListItem>
+                <ListItem button>
+                    <ListItemIcon>
+                        <AddShoppingCartIcon />
+                    </ListItemIcon>
+                    <ListItemText primary='Carrito' />
+                </ListItem>
+            </List>
+            <Divider />
+        </div>
+    )
+}
+
+export default ListaMUI
+```
+
+## Drawer
+Contenedor
+```jsx
+const [abrir, setAbrir] = React.useState(false)
+
+const desplegar = () => {
+    setAbrir(!abrir)
+}
+
+return (
+    <div className={classes.root}>
+        <Navbar desplegar={desplegar} />
+        <Hidden xsDown>
+            <Cajon 
+                variant='permanent' 
+                open={true}
+            />
+        </Hidden>
+        <Hidden smUp>
+            <Cajon 
+                variant='temporary'
+                open={abrir}
+                onClose={desplegar}
+            />
+        </Hidden>
+        <div className={classes.content}>
+            <div className={classes.toolbar}></div>
+            contenido
+            {/* <button onClick={() => desplegar()}>Abrir</button> */}
+        </div>
+    </div>
+)
+```
+
+Navbar
+```jsx
+const useStyles = makeStyles(theme => ({
+    menuButton: {
+        marginRight: theme.spacing(2),
+        [theme.breakpoints.up('sm')]: {
+            display: 'none',
+        },
+    },
+    title:{
+        flexGrow: 1
+    },
+    appBar: {
+        [theme.breakpoints.up('sm')]: {
+            width: `calc(100% - ${240}px)`,
+            marginLeft: 240,
+        },
+    },
+}))
+
+const Navbar = (props) => {
+    const classes = useStyles()
+    return (
+
+        <AppBar className={classes.appBar}>
+            <Toolbar>
+                <IconButton 
+                    color="inherit" 
+                    aria-label="menu" 
+                    className={classes.menuButton}
+                    onClick={() => props.desplegar()}
+                >
+```
+
+Drawer
+```jsx
+<Drawer
+  className={classes.drawer}  
+  classes={{
+      paper: classes.drawerPaper,
+  }}
+  anchor="left"
+  variant={props.variant}
+  open={props.open}
+  onClose={props.onClose ? props.onClose : null}
+>
+```
