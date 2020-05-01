@@ -31,6 +31,7 @@ module.exports = {
         '/11-auth-redux/',
         '/12-perfil/',
         '/13-material/',
+        '/14-context/',
       ]
   }
  
