@@ -32,6 +32,7 @@ module.exports = {
         '/12-perfil/',
         '/13-material/',
         '/14-context/',
+        '/15-chat/',
       ]
   }
  
