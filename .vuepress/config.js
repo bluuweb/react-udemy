@@ -33,6 +33,7 @@ module.exports = {
         '/13-material/',
         '/14-context/',
         '/15-chat/',
+        // '/16-custom-claims/',
       ]
   }
  
