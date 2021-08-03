@@ -13,7 +13,7 @@ Aprende desde cero a trabajar con <b>React.js y Firebase</b> aquí: [http://curs
 ```
 npm i redux
 npm i react-redux
-npm i redux-devtools
+npm i redux-devtools-extension
 npm i redux-thunk
 npm i axios
 ```
@@ -84,6 +84,26 @@ export default function pokesReducer(state = dataInicial, action){
 ```
 
 ## store.js
+
+Versión actualizada con: ``redux-devtools-extension``
+```jsx
+import {createStore, combineReducers, applyMiddleware} from 'redux'
+import thunk from 'redux-thunk'
+import {composeWithDevTools} from 'redux-devtools-extension'
+
+import pokesReducer from './pokesDucks'
+
+const rootReducer = combineReducers({
+    pokemones: pokesReducer
+})
+
+export default function generateStore() {
+    const store = createStore( rootReducer, composeWithDevTools( applyMiddleware(thunk) ) )
+    return store
+}
+```
+
+Versión desactualizada con ``npm i redux-devtools``
 ```jsx
 import {createStore, combineReducers, compose, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
