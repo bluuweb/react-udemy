@@ -50,6 +50,7 @@ module.exports = {
             "/15-chat/",
             // '/16-custom-claims/',
             "/17-react-router/",
+            "/18-firebase-9/",
         ],
     },
     plugins: ["@vuepress/plugin-back-to-top", "@vuepress/plugin-medium-zoom"],
