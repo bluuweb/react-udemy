@@ -1,0 +1,56 @@
+module.exports = {
+    title: "React Udemy",
+    dest: "docs",
+    description: "Aprende React Hooks con bluuweb",
+    base: "/react-udemy/",
+    locales: {
+        "/": {
+            lang: "es-ES",
+        },
+    },
+    head: [
+        ["meta", { name: "theme-color", content: "#3eaf7c" }],
+        ["meta", { name: "apple-mobile-web-app-capable", content: "yes" }],
+        [
+            "meta",
+            { name: "apple-mobile-web-app-status-bar-style", content: "black" },
+        ],
+    ],
+    themeConfig: {
+        editLinks: false,
+        editLinkText: "",
+        lastUpdated: "Last Updated",
+        smoothScroll: true,
+        nav: [
+            { text: "Guía", link: "/" },
+            // { text: 'Guia', link: '/docs/' },
+            { text: "Youtube", link: "https://youtube.com/bluuweb" },
+            {
+                text: "Curso Premium",
+                link: "http://curso-react-js-udemy.bluuweb.cl",
+            },
+        ],
+        sidebar: [
+            "/",
+            "/01-proyecto/",
+            "/02-hooks-fundamentos/",
+            "/03-jsx/",
+            "/04-formularios/",
+            "/04-02-simple-crud/",
+            "/05-components/",
+            "/06-router/",
+            "/07-crud-firestore/",
+            "/08-auth/",
+            "/09-paginacion/",
+            "/10-redux/",
+            "/11-auth-redux/",
+            "/12-perfil/",
+            "/13-material/",
+            "/14-context/",
+            "/15-chat/",
+            // '/16-custom-claims/',
+            "/17-react-router/",
+        ],
+    },
+    plugins: ["@vuepress/plugin-back-to-top", "@vuepress/plugin-medium-zoom"],
+};
