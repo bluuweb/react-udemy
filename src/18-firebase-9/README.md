@@ -365,9 +365,9 @@ const firebaseConfig = {
     appId: "xxx",
 };
 
-initializeApp(firebaseConfig);
-const db = getFirestore();
-const auth = getAuth();
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
 
 export { db, auth };
 ```
@@ -377,48 +377,44 @@ export { db, auth };
 UserProvider.jsx
 
 ```jsx
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
+import { auth } from "../firebase";
 import {
     createUserWithEmailAndPassword,
-    onAuthStateChanged,
     signInWithEmailAndPassword,
     signOut,
 } from "firebase/auth";
-import { auth } from "../firebase";
 
 export const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
     const [user, setUser] = useState(false);
 
-    const signIn = (email, password) =>
-        signInWithEmailAndPassword(auth, email, password);
-
-    const signUp = (email, password) =>
-        createUserWithEmailAndPassword(auth, email, password);
-
-    const signOutUser = () => signOut(auth);
-
     useEffect(() => {
-        const unsuscribe = onAuthStateChanged(auth, (currentUser) => {
-            if (currentUser) {
-                setUser({
-                    uid: currentUser.uid,
-                    displayName: currentUser.displayName,
-                    photoURL: currentUser.photoURL,
-                });
+        const unsuscribe = onAuthStateChanged(auth, (user) => {
+            console.log(user);
+            if (user) {
+                const { uid, email, photoURL, displayName } = user;
+                setUser({ uid, email, photoURL, displayName });
             } else {
                 setUser(null);
             }
         });
-        return () => {
-            // https://blog.logrocket.com/understanding-react-useeffect-cleanup-function/
-            unsuscribe();
-        };
+        return () => unsuscribe();
     }, []);
 
+    const registerUser = (email, password) =>
+        createUserWithEmailAndPassword(auth, email, password);
+
+    const loginUser = (email, password) =>
+        signInWithEmailAndPassword(auth, email, password);
+
+    const logOutUSer = () => signOut(auth);
+
     return (
-        <UserContext.Provider value={{ user, signIn, signUp, signOutUser }}>
+        <UserContext.Provider
+            value={{ user, setUser, registerUser, loginUser, logOutUSer }}
+        >
             {children}
         </UserContext.Provider>
     );
@@ -427,46 +423,74 @@ const UserProvider = ({ children }) => {
 export default UserProvider;
 ```
 
-Login.jsx (handleClickLogin y handleClickRegister solo a modo de ejemplos simples)
+Register.jsx
 
 ```jsx
 import { useContext, useState } from "react";
-import { UserContext } from "../context/UserProvider";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserProvider";
+
+const Register = () => {
+    const [email, setEmail] = useState("bluuweb1@test.com");
+    const [password, setPassword] = useState("123123");
+
+    const { registerUser } = useContext(UserContext);
+    const navegate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log("procesando form..." + email + password);
+        try {
+            await registerUser(email, password);
+            navegate("/");
+        } catch (error) {
+            console.log(error.code);
+        }
+    };
+
+    return (
+        <>
+            <h1>Register</h1>
+            <form onSubmit={handleSubmit}>
+                <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+                <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <button type="submit">Register</button>
+            </form>
+        </>
+    );
+};
+
+export default Register;
+```
+
+Login.jsx
+
+```jsx
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserProvider";
 
 const Login = () => {
     const [email, setEmail] = useState("bluuweb1@test.com");
     const [password, setPassword] = useState("123123");
 
-    const { signIn, signUp } = useContext(UserContext);
-    const navigate = useNavigate();
+    const { loginUser } = useContext(UserContext);
+    const navegate = useNavigate();
 
-    // Solo modo de ilustración
-    const handleClickLogin = async () => {
-        try {
-            await signIn(email, password);
-            navigate("/protected");
-        } catch (error) {
-            console.log(error.code);
-        }
-    };
-
-    // Solo modo de ilustración
-    const handleClickRegister = async () => {
-        try {
-            await signUp("bluuweb20@test.com", "123123");
-            navigate("/protected");
-        } catch (error) {
-            console.log(error.code);
-        }
-    };
-
-    // este si captura los datos del form
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("procesando form..." + email + password);
         try {
-            await signIn(email, password);
-            navigate("/protected");
+            await loginUser(email, password);
+            navegate("/");
         } catch (error) {
             console.log(error.code);
         }
@@ -475,19 +499,15 @@ const Login = () => {
     return (
         <>
             <h1>Login</h1>
-
-            <button onClick={handleClickLogin}>Login example</button>
-            <button onClick={handleClickRegister}>Register example</button>
-
             <form onSubmit={handleSubmit}>
                 <input
-                    type="text"
+                    type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 <input
+                    type="password"
                     value={password}
-                    type="text"
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 <button type="submit">Acceder</button>
@@ -499,43 +519,81 @@ const Login = () => {
 export default Login;
 ```
 
+Navbar.jsx
+
+```jsx
+import { useContext } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserProvider";
+
+const Navbar = () => {
+    const { user, logOutUser } = useContext(UserContext);
+    const navegate = useNavigate();
+
+    const handleLogout = async () => {
+        try {
+            await logOutUser();
+            navegate("/login");
+        } catch (error) {
+            console.log(error.code);
+        }
+    };
+
+    return (
+        <div>
+            {user ? (
+                <>
+                    <NavLink to="/">Inicio</NavLink>
+                    <button onClick={handleLogout}>Logout</button>
+                </>
+            ) : (
+                <>
+                    <NavLink to="/login">Login</NavLink>
+                    <NavLink to="/register">Register</NavLink>
+                </>
+            )}
+        </div>
+    );
+};
+
+export default Navbar;
+```
+
 App.jsx
 
 ```jsx
 import { Routes, Route } from "react-router-dom";
 
-import Navbar from "./components/Navbar";
-import Home from "./routes/Home";
-import NotFound from "./routes/NotFound";
-import Protected from "./routes/Protected";
 import Login from "./routes/Login";
-
+import Home from "./routes/Home";
+import Navbar from "./components/Navbar";
 import RequireAuth from "./components/RequireAuth";
+import Register from "./routes/Register";
 import { useContext } from "react";
 import { UserContext } from "./context/UserProvider";
 
 const App = () => {
     const { user } = useContext(UserContext);
-
-    // https://bluuweb.github.io/react-udemy/08-auth/#ruta-protegida
-    if (user === false) return <p>Cargando...</p>;
+    if (user === false) return <p>Loading...</p>;
 
     return (
         <>
-            <Navbar />
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route
-                    path="/protected"
-                    element={
-                        <RequireAuth>
-                            <Protected />
-                        </RequireAuth>
-                    }
-                />
-                <Route path="*" element={<NotFound />} />
-            </Routes>
+            <div className="container">
+                <Navbar />
+                <h1>APP</h1>
+                <Routes>
+                    <Route
+                        path="/"
+                        element={
+                            <RequireAuth>
+                                <Home />
+                            </RequireAuth>
+                        }
+                    />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                </Routes>
+            </div>
         </>
     );
 };
