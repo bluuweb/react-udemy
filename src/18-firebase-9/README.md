@@ -601,6 +601,19 @@ const App = () => {
 export default App;
 ```
 
+## useUser Hook
+
+hooks/useUser.js
+
+```js
+import { useContext } from "react";
+import { UserContext } from "../context/UserProvider";
+
+const useUser = () => useContext(UserContext);
+
+export default useUser;
+```
+
 ## React Hook Form
 
 -   [React Hook Form](https://react-hook-form.com/get-started)
@@ -608,10 +621,11 @@ export default App;
 Register.jsx
 
 ```jsx
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { UserContext } from "../context/UserProvider";
+import useUser from "../hooks/useUser";
 
+// sacar a otro componente
 const ErrorMessage = ({ msg }) => {
     return (
         <>
@@ -623,7 +637,7 @@ const ErrorMessage = ({ msg }) => {
 };
 
 const Register = () => {
-    const { registerUser } = useContext(UserContext);
+    const { registerUser } = useUser();
 
     const {
         register,
@@ -649,14 +663,12 @@ const Register = () => {
                 return setError("email", {
                     type: "firebase",
                     message: "Correo ya registrado",
-                    shouldFocus: true,
                 });
             }
             if (error.code === "auth/invalid-email") {
                 return setError("email", {
                     type: "firebase",
                     message: "Escriba un correo válido",
-                    shouldFocus: true,
                 });
             }
         }
