@@ -625,7 +625,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useUser from "../hooks/useUser";
 
-// sacar a otro componente
+// sacar a otro componente ErrorMessage.jsx
 const ErrorMessage = ({ msg }) => {
     return (
         <>
