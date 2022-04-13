@@ -618,165 +618,474 @@ export default useUser;
 
 -   [React Hook Form](https://react-hook-form.com/get-started)
 
-Register.jsx
-
 ```jsx
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import useUser from "../hooks/useUser";
-
-// sacar a otro componente ErrorMessage.jsx
-const ErrorMessage = ({ msg }) => {
-    return (
-        <>
-            <p className="mt-2 text-sm text-red-600 dark:text-red-500">
-                <span className="font-medium">Oops!</span> {msg}
-            </p>
-        </>
-    );
-};
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserProvider";
 
 const Register = () => {
-    const { registerUser } = useUser();
+    const navegate = useNavigate();
+    const { registerUser } = useContext(UserContext);
 
     const {
         register,
         handleSubmit,
+        formState: { errors },
         getValues,
         setError,
-        formState: { errors },
     } = useForm({
-        // defaultValues: {
-        //     email: "bluuweb1@test.com",
-        //     password: "123123",
-        //     repassword: "123123",
-        // },
+        defaultValues: {
+            email: "bluuweb1@test.com",
+            password: "123123",
+            repassword: "123123",
+        },
     });
 
-    const onSubmit = async (data) => {
-        console.log(data);
+    const onSubmit = async ({ email, password }) => {
+        console.log(email, password);
         try {
-            await registerUser(data.email, data.password);
+            await registerUser(email, password);
+            console.log("Usuario creado");
+            navegate("/");
         } catch (error) {
             console.log(error.code);
-            if (error.code === "auth/email-already-in-use") {
-                return setError("email", {
-                    type: "firebase",
-                    message: "Correo ya registrado",
-                });
-            }
-            if (error.code === "auth/invalid-email") {
-                return setError("email", {
-                    type: "firebase",
-                    message: "Escriba un correo válido",
-                });
+            switch (error.code) {
+                case "auth/email-already-in-use":
+                    setError("email", {
+                        message: "Usuario ya registrado",
+                    });
+                    break;
+                case "auth/invalid-email":
+                    setError("email", {
+                        message: "Formato email no válido",
+                    });
+                    break;
+                default:
+                    console.log("Ocurrio un error en el server");
             }
         }
     };
 
-    useEffect(() => {
-        console.log(errors);
-    }, [errors.repassword]);
-
     return (
-        <div className="w-9/12 sm:w-7/12 mx-auto">
-            <h1 className="text-center my-10">Register</h1>
+        <>
+            <h1>Register</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="mb-6">
-                    <label
-                        htmlFor="email"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                        Your email
-                    </label>
-                    <input
-                        {...register("email", {
-                            required: {
-                                value: true,
-                                message: "Campo obligatorio",
+                <input
+                    type="email"
+                    placeholder="Ingrese email"
+                    {...register("email", {
+                        required: {
+                            value: true,
+                            message: "Campo obligatorio",
+                        },
+                        pattern: {
+                            value: /[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})/,
+                            message: "Formato de email incorrecto",
+                        },
+                    })}
+                />
+                {errors.email && <p>{errors.email.message}</p>}
+                <input
+                    type="password"
+                    placeholder="Ingrese Password"
+                    {...register("password", {
+                        setValueAs: (v) => v.trim(),
+                        minLength: {
+                            value: 6,
+                            message: "Mínimo 6 carácteres",
+                        },
+                        validate: {
+                            trim: (v) => {
+                                if (!v.trim()) {
+                                    return "No seas 🤡, escribe algo";
+                                }
+                                return true;
                             },
-                        })}
-                        type="email"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="name@flowbite.com"
-                        autoComplete="off"
-                    />
-                    {errors.email && (
-                        <ErrorMessage msg={errors.email.message} />
-                    )}
-                </div>
-                <div className="mb-6">
-                    <label
-                        htmlFor="password"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                        Your password
-                    </label>
-                    <input
-                        type="password"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        {...register("password", {
-                            minLength: {
-                                value: 6,
-                                message: "Mínimo 6 carácteres",
-                            },
-                            required: {
-                                value: true,
-                                message: "Campo obligatorio",
-                            },
-                            validate: {
-                                trim: (v) => {
-                                    if (!v.trim()) {
-                                        return "No sea payaso 🤡";
-                                    } else true;
-                                },
-                            },
-                        })}
-                    />
-                    {errors.password && (
-                        <ErrorMessage msg={errors.password.message} />
-                    )}
-                </div>
-                <div className="mb-6">
-                    <label
-                        htmlFor="password"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                        Repit password
-                    </label>
-                    <input
-                        type="password"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        {...register("repassword", {
-                            validate: {
-                                trim: (v) => {
-                                    if (!v.trim()) {
-                                        return "No sea payaso 🤡";
-                                    } else true;
-                                },
-                                iquals: (v) =>
-                                    getValues("password") === v ||
-                                    "Contraseñas no coinciden",
-                            },
-                        })}
-                    />
-                    {errors.repassword && (
-                        <ErrorMessage msg={errors.repassword.message} />
-                    )}
-                </div>
-                <button
-                    type="submit"
-                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                    Register
-                </button>
+                        },
+                    })}
+                />
+                {errors.password && <p>{errors.password.message}</p>}
+                <input
+                    type="password"
+                    placeholder="Ingrese Password"
+                    {...register("repassword", {
+                        setValueAs: (v) => v.trim(),
+                        validate: {
+                            equals: (v) =>
+                                v === getValues("password") ||
+                                "No coinciden las contraseñas",
+                        },
+                    })}
+                />
+                {errors.repassword && <p>{errors.repassword.message}</p>}
+                <button type="submit">Register</button>
             </form>
-        </div>
+        </>
     );
 };
 
 export default Register;
 ```
+
+## Register (refactoring)
+
+-   [error code auth firebase](https://firebase.google.com/docs/auth/admin/errors)
+
+utils/errorsFirebase.js
+
+```js
+export const errorsFirebase = (error) => {
+    switch (error.code) {
+        case "auth/email-already-in-use":
+            return "Usuario ya registrado";
+        case "auth/invalid-email":
+            return "Formato email no válido";
+        case "auth/invalid-email-verified":
+            return "El email no está verificado";
+        case "auth/invalid-password":
+            return "Contraseña mínimo 6 carácteres";
+        case "auth/user-not-found":
+            return "Usuario no registrado";
+        case "auth/wrong-password":
+            return "Contraseña incorrecta";
+        default:
+            return "Error, intentelo más tarde";
+    }
+};
+```
+
+utils/formValidate.js
+
+```js
+export const formValidate = () => {
+    return {
+        required: {
+            value: true,
+            message: "Campo obligatorio",
+        },
+        patternEmail: {
+            value: /[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})/,
+            message: "Formato de email incorrecto",
+        },
+        minLength: {
+            value: 6,
+            message: "Mínimo 6 carácteres",
+        },
+        validateTrim: {
+            trim: (v) => {
+                if (!v.trim()) {
+                    return "No seas 🤡, escribe algo";
+                }
+                return true;
+            },
+        },
+        validateEquals(getValues) {
+            return {
+                equals: (v) =>
+                    v === getValues("password") ||
+                    "No coinciden las contraseñas",
+            };
+        },
+    };
+};
+```
+
+components/FormAlert.jsx
+
+```jsx
+const FormAlert = ({ error }) => {
+    return <>{error && <p>{error.message}</p>}</>;
+};
+export default FormAlert;
+```
+
+## useRef
+
+-   [useRef](https://es.reactjs.org/docs/hooks-reference.html#useref)
+-   Un caso de uso común es para acceder a un hijo imperativamente
+
+```jsx
+import { useRef } from "react";
+
+const ExampleRef = () => {
+    const inputEl = useRef(null);
+
+    const onButtonClick = () => {
+        // `current` apunta al elemento de entrada de texto montado
+        inputEl.current.focus();
+    };
+
+    return (
+        <>
+            <input type="text" ref={inputEl} />
+            <button onClick={onButtonClick}>Focus the</button>
+        </>
+    );
+};
+
+export default ExampleRef;
+```
+
+:::warning Ref entre componentes
+A los componentes de función no se les pueden dar refs. Los intentos de acceder a esta referencia fallarán. ¿Querías usar `React.forwardRef()`?
+:::
+
+```jsx
+import { useRef } from "react";
+
+const InputText = () => {
+    return <input type="text" />;
+};
+
+const ExampleRef = () => {
+    const inputEl = useRef(null);
+
+    const onButtonClick = () => {
+        // `current` apunta al elemento de entrada de texto montado
+        inputEl.current.focus();
+    };
+
+    return (
+        <>
+            <InputText ref={inputEl} />
+            <button onClick={onButtonClick}>Focus the</button>
+        </>
+    );
+};
+
+export default ExampleRef;
+```
+
+## forwardRef
+
+-   [forwarRef](https://es.reactjs.org/docs/forwarding-refs.html)
+-   El Reenvío de refs es una característica opcional que permite a algunos componentes tomar una ref que reciben, y pasarla (en otras palabras, “reenviarla”) a un hijo.
+
+```js
+import { forwardRef, useRef } from "react";
+
+const InputText = forwardRef((props, ref) => {
+    return <input type="text" ref={ref} />;
+});
+
+const ExampleRef = () => {
+    const inputEl = useRef(null);
+
+    const onButtonClick = () => {
+        // `current` apunta al elemento de entrada de texto montado
+        inputEl.current.focus();
+    };
+
+    return (
+        <>
+            <InputText ref={inputEl} />
+            <button onClick={onButtonClick}>Focus the</button>
+        </>
+    );
+};
+
+export default ExampleRef;
+```
+
+## Ahora en nuestro form:
+
+-   [reusable form components](https://www.thisdot.co/blog/how-to-create-reusable-form-components-with-react-hook-forms-and-typescript)
+-   [register hook form](https://react-hook-form.com/api/useform/register)
+
+components/FormInput.jsx
+
+```jsx
+import { forwardRef } from "react";
+const FormInput = forwardRef(
+    ({ children, type, placeholder, onChange, onBlur, name }, ref) => {
+        return (
+            <>
+                <input
+                    ref={ref}
+                    type={type}
+                    placeholder={placeholder}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    name={name}
+                />
+                {children}
+            </>
+        );
+    }
+);
+export default FormInput;
+```
+
+routes/Register.jsx
+
+```jsx
+import { useContext } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserProvider";
+import { errorsFirebase } from "../utils/errorsFirebase";
+import { formValidate } from "../utils/formValidate";
+
+import FormAlert from "../components/FormAlert";
+import FormInput from "../components/FormInput";
+
+const Register = () => {
+    const navegate = useNavigate();
+    const { registerUser } = useContext(UserContext);
+    const { required, patternEmail, minLength, validateTrim, validateEquals } =
+        formValidate();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        getValues,
+        setError,
+    } = useForm({
+        defaultValues: {
+            email: "bluuweb1@test.com",
+            password: "123123",
+            repassword: "123123",
+        },
+    });
+
+    const onSubmit = async ({ email, password }) => {
+        try {
+            await registerUser(email, password);
+            navegate("/");
+        } catch (error) {
+            setError("firebase", { message: errorsFirebase(error) });
+        }
+    };
+
+    return (
+        <>
+            <h1>Register</h1>
+            <FormAlert error={errors.firebase} />
+
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <FormInput
+                    type="email"
+                    placeholder="Ingresa un email"
+                    {...register("email", {
+                        required,
+                        pattern: patternEmail,
+                    })}
+                >
+                    <FormAlert error={errors.email} />
+                </FormInput>
+
+                <FormInput
+                    type="password"
+                    placeholder="Ingresa un password"
+                    {...register("password", {
+                        minLength,
+                        validate: validateTrim,
+                    })}
+                >
+                    <FormAlert error={errors.password} />
+                </FormInput>
+
+                <FormInput
+                    type="password"
+                    placeholder="Repita password"
+                    {...register("repassword", {
+                        validate: validateEquals(getValues),
+                    })}
+                >
+                    <FormAlert error={errors.repassword} />
+                </FormInput>
+                <button type="submit">Register</button>
+            </form>
+        </>
+    );
+};
+
+export default Register;
+```
+
+## Login
+
+```jsx
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserProvider";
+import { formValidate } from "../utils/formValidate";
+import { useForm } from "react-hook-form";
+import { errorsFirebase } from "../utils/errorsFirebase";
+
+import FormAlert from "../components/FormAlert";
+import FormInput from "../components/FormInput";
+
+const Login = () => {
+    const navegate = useNavigate();
+    const { loginUser } = useContext(UserContext);
+    const { required, patternEmail, minLength, validateTrim } = formValidate();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        setError,
+    } = useForm({
+        defaultValues: {
+            email: "bluuweb1@test.com",
+            password: "123123",
+        },
+    });
+
+    const onSubmit = async ({ email, password }) => {
+        try {
+            await loginUser(email, password);
+            navegate("/");
+        } catch (error) {
+            console.log(error.code);
+            setError("firebase", { message: errorsFirebase(error) });
+        }
+    };
+
+    return (
+        <>
+            <h1>Login</h1>
+            <FormAlert error={errors.firebase} />
+
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <FormInput
+                    type="email"
+                    placeholder="Ingresa un email"
+                    {...register("email", {
+                        required,
+                        pattern: patternEmail,
+                    })}
+                >
+                    <FormAlert error={errors.email} />
+                </FormInput>
+                <FormInput
+                    type="password"
+                    placeholder="Ingresa un password"
+                    {...register("password", {
+                        minLength,
+                        validate: validateTrim,
+                    })}
+                >
+                    <FormAlert error={errors.password} />
+                </FormInput>
+                <button type="submit">Login</button>
+            </form>
+        </>
+    );
+};
+
+export default Login;
+```
+
+## TailwindCSS & flowbite
+
+-   [flowbite](https://flowbite.com/)
+-   [tailwindcss](https://tailwindcss.com/)
+-   [cheatsheet](https://tailwindcomponents.com/cheatsheet/)
+-   [getting-started/react](https://flowbite.com/docs/getting-started/react/)
 
 ## Próximante
 
