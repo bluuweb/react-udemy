@@ -1093,7 +1093,7 @@ export default Login;
 
 :::danger ¡Me faltó!
 
--   Corregir errores firebase ☝ (login y register)
+-   Corregir errores firebase ☝ (login y register) [ir aquí](#register-refactoring)
 -   Optimizar en register: `validate: validateEquals(getValues("password"))`
 
 :::
