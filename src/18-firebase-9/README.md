@@ -738,19 +738,28 @@ utils/errorsFirebase.js
 export const errorsFirebase = (error) => {
     switch (error.code) {
         case "auth/email-already-in-use":
-            return "Usuario ya registrado";
+            return { code: "email", message: "Usuario ya registrado" };
+
         case "auth/invalid-email":
-            return "Formato email no válido";
+            return { code: "email", message: "Formato email no válido" };
+
         case "auth/invalid-email-verified":
-            return "El email no está verificado";
+            return { code: "email", message: "El email no está verificado" };
+
         case "auth/invalid-password":
-            return "Contraseña mínimo 6 carácteres";
+            return {
+                code: "password",
+                message: "Contraseña mínimo 6 carácteres",
+            };
+
         case "auth/user-not-found":
-            return "Usuario no registrado";
+            return { code: "email", message: "Usuario no registrado" };
+
         case "auth/wrong-password":
-            return "Contraseña incorrecta";
+            return { code: "password", message: "Contraseña incorrecta" };
+
         default:
-            return "Error, intentelo más tarde";
+            return { code: "email", message: "Error, intentelo más tarde" };
     }
 };
 ```
@@ -780,11 +789,9 @@ export const formValidate = () => {
                 return true;
             },
         },
-        validateEquals(getValues) {
+        validateEquals(value) {
             return {
-                equals: (v) =>
-                    v === getValues("password") ||
-                    "No coinciden las contraseñas",
+                equals: (v) => v === value || "No coinciden las contraseñas",
             };
         },
     };
@@ -955,15 +962,14 @@ const Register = () => {
             await registerUser(email, password);
             navegate("/");
         } catch (error) {
-            setError("firebase", { message: errorsFirebase(error) });
+            const { code, message } = errorsFirebase(error);
+            setError(code, { message });
         }
     };
 
     return (
         <>
             <h1>Register</h1>
-            <FormAlert error={errors.firebase} />
-
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormInput
                     type="email"
@@ -991,7 +997,7 @@ const Register = () => {
                     type="password"
                     placeholder="Repita password"
                     {...register("repassword", {
-                        validate: validateEquals(getValues),
+                        validate: validateEquals(getValues("password")),
                     })}
                 >
                     <FormAlert error={errors.repassword} />
@@ -1040,16 +1046,14 @@ const Login = () => {
             await loginUser(email, password);
             navegate("/");
         } catch (error) {
-            console.log(error.code);
-            setError("firebase", { message: errorsFirebase(error) });
+            const { code, message } = errorsFirebase(error);
+            setError(code, { message });
         }
     };
 
     return (
         <>
             <h1>Login</h1>
-            <FormAlert error={errors.firebase} />
-
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormInput
                     type="email"
@@ -1087,8 +1091,438 @@ export default Login;
 -   [cheatsheet](https://tailwindcomponents.com/cheatsheet/)
 -   [getting-started/react](https://flowbite.com/docs/getting-started/react/)
 
+:::danger ¡Me faltó!
+
+-   Corregir errores firebase ☝ (login y register)
+-   Optimizar en register: `validate: validateEquals(getValues("password"))`
+
+:::
+
+App.jsx
+
+```jsx
+<Route path="/" element={<AccessContainer />}>
+    <Route path="/login" element={<Login />} />
+    <Route path="/register" element={<Register />} />
+</Route>
+```
+
+components/AccessContainer.jsx
+
+```jsx
+<div className="w-96 mx-auto mt-20">
+    <Outlet />
+</div>
+```
+
+components/Title.jsx
+
+```jsx
+const Title = ({ title }) => (
+    <h1 className="text-3xl my-10 text-center ">{title}</h1>
+);
+export default Title;
+```
+
+components/FormAlert.jsx
+
+```jsx
+const FormAlert = ({ error }) => {
+    return (
+        <>
+            {error && (
+                <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+                    <span className="font-medium">Oops! </span>
+                    {error.message}
+                </p>
+            )}
+        </>
+    );
+};
+export default FormAlert;
+```
+
+components/FormInput.jsx
+
+```jsx
+import { forwardRef } from "react";
+const FormInput = forwardRef(
+    (
+        { children, type, placeholder, onChange, onBlur, name, label, error },
+        ref
+    ) => {
+        const classLabel = `block mb-2 text-sm font-medium ${
+            error
+                ? "text-red-700 dark:text-red-500"
+                : "text-gray-900 dark:text-gray-300"
+        }`;
+
+        const classInput = error
+            ? "border block w-full p-2.5 bg-red-50 border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500  dark:bg-red-100 dark:border-red-400"
+            : "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
+
+        return (
+            <>
+                <div className="mb-6">
+                    <label className={classLabel}>{label}</label>
+                    <input
+                        ref={ref}
+                        type={type}
+                        placeholder={placeholder}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        name={name}
+                        autoComplete="off"
+                        className={classInput}
+                    />
+                    {children}
+                </div>
+            </>
+        );
+    }
+);
+export default FormInput;
+```
+
+Button.jsx
+
+```jsx
+const Button = ({ text }) => (
+    <button
+        type="submit"
+        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    >
+        {text}
+    </button>
+);
+export default Button;
+```
+
+Register.jsx
+
+```jsx
+import { useContext, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserProvider";
+import { errorsFirebase } from "../utils/errorsFirebase";
+import { formValidate } from "../utils/formValidate";
+
+import FormAlert from "../components/FormAlert";
+import FormInput from "../components/FormInput";
+import Title from "../components/Title";
+import Button from "../components/Button";
+
+const Register = () => {
+    const navegate = useNavigate();
+    const { registerUser } = useContext(UserContext);
+    const { required, patternEmail, minLength, validateTrim, validateEquals } =
+        formValidate();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        getValues,
+        setError,
+    } = useForm({
+        defaultValues: {
+            email: "bluuweb1@test.com",
+            password: "123123",
+            repassword: "123123",
+        },
+    });
+
+    const onSubmit = async ({ email, password }) => {
+        try {
+            await registerUser(email, password);
+            navegate("/");
+        } catch (error) {
+            const { code, message } = errorsFirebase(error);
+            setError(code, { message });
+        }
+    };
+
+    return (
+        <>
+            <Title title="Register" />
+
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <FormInput
+                    type="email"
+                    label="Ingrese Email"
+                    placeholder="Ingresa un email"
+                    {...register("email", {
+                        required,
+                        pattern: patternEmail,
+                    })}
+                    error={errors.email}
+                >
+                    <FormAlert error={errors.email} />
+                </FormInput>
+
+                <FormInput
+                    type="password"
+                    label="Ingrese Password"
+                    placeholder="Ingresa un password"
+                    {...register("password", {
+                        minLength,
+                        validate: validateTrim,
+                    })}
+                    error={errors.password}
+                >
+                    <FormAlert error={errors.password} />
+                </FormInput>
+
+                <FormInput
+                    type="password"
+                    label="Repita Password"
+                    placeholder="Repita password"
+                    {...register("repassword", {
+                        validate: validateEquals(getValues("password")),
+                    })}
+                    error={errors.repassword}
+                >
+                    <FormAlert error={errors.repassword} />
+                </FormInput>
+                <Button text="Register" />
+            </form>
+        </>
+    );
+};
+
+export default Register;
+```
+
+Login.jsx
+
+```jsx
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserProvider";
+import { formValidate } from "../utils/formValidate";
+import { useForm } from "react-hook-form";
+import { errorsFirebase } from "../utils/errorsFirebase";
+
+import FormAlert from "../components/FormAlert";
+import FormInput from "../components/FormInput";
+import Title from "../components/Title";
+import Button from "../components/Button";
+
+const Login = () => {
+    const navegate = useNavigate();
+    const { loginUser } = useContext(UserContext);
+    const { required, patternEmail, minLength, validateTrim } = formValidate();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        setError,
+    } = useForm({
+        defaultValues: {
+            email: "bluuweb1@test.com",
+            password: "123123",
+        },
+    });
+
+    const onSubmit = async ({ email, password }) => {
+        try {
+            await loginUser(email, password);
+            navegate("/");
+        } catch (error) {
+            console.log(error.code);
+            const { code, message } = errorsFirebase(error);
+            setError(code, { message });
+        }
+    };
+
+    return (
+        <>
+            <Title title="Login" />
+
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <FormInput
+                    type="email"
+                    placeholder="Ingresa un email"
+                    {...register("email", {
+                        required,
+                        pattern: patternEmail,
+                    })}
+                    error={errors.email}
+                    label="Ingrese Email"
+                >
+                    <FormAlert error={errors.email} />
+                </FormInput>
+                <FormInput
+                    type="password"
+                    placeholder="Ingresa un password"
+                    {...register("password", {
+                        minLength,
+                        validate: validateTrim,
+                    })}
+                    error={errors.password}
+                    label="Ingrese Password"
+                >
+                    <FormAlert error={errors.password} />
+                </FormInput>
+                <Button text="Login" />
+            </form>
+        </>
+    );
+};
+
+export default Login;
+```
+
+components/Navbar.jsx
+
+```jsx
+import { useContext, useRef } from "react";
+import { NavLink, Link } from "react-router-dom";
+import { UserContext } from "../context/UserProvider";
+import logo from "../assets/img/logo.svg";
+
+const Navbar = () => {
+    const { user, signOutUser } = useContext(UserContext);
+    const menuCollapseRef = useRef(null);
+
+    const handleClickLogout = async () => {
+        try {
+            await signOutUser();
+        } catch (error) {
+            console.log(error.code);
+        }
+    };
+
+    const handleMenuCollapse = () => {
+        menuCollapseRef.current.classList.toggle("hidden");
+    };
+
+    return (
+        <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800">
+            <div className="container flex flex-wrap justify-between items-center mx-auto">
+                <Link to="/" className="flex items-center">
+                    <img
+                        src={logo}
+                        className="mr-3 h-6 sm:h-9"
+                        alt="Flowbite Logo"
+                    />
+                    <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+                        Flowbite
+                    </span>
+                </Link>
+                <div className="flex md:order-2">
+                    {!user ? (
+                        <>
+                            <NavLink
+                                to="/login"
+                                type="button"
+                                className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-3 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            >
+                                Login
+                            </NavLink>
+                            <NavLink
+                                to="/register"
+                                type="button"
+                                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            >
+                                Register
+                            </NavLink>
+                        </>
+                    ) : (
+                        <>
+                            <button
+                                onClick={handleClickLogout}
+                                type="button"
+                                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            >
+                                LogOut
+                            </button>
+                            <button
+                                data-collapse-toggle="mobile-menu-4"
+                                type="button"
+                                className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                                aria-controls="mobile-menu-4"
+                                aria-expanded="false"
+                                onClick={handleMenuCollapse}
+                            >
+                                <span className="sr-only">Open main menu</span>
+                                <svg
+                                    className="w-6 h-6"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                                        clipRule="evenodd"
+                                    />
+                                </svg>
+                                <svg
+                                    className="hidden w-6 h-6"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                        clipRule="evenodd"
+                                    />
+                                </svg>
+                            </button>
+                        </>
+                    )}
+                </div>
+                <div
+                    className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1"
+                    id="mobile-menu-4"
+                >
+                    <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
+                        {user && (
+                            <>
+                                <li>
+                                    <NavLink
+                                        to="/"
+                                        className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
+                                        aria-current="page"
+                                    >
+                                        Home
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink
+                                        to="/"
+                                        className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                                    >
+                                        User
+                                    </NavLink>
+                                </li>
+                            </>
+                        )}
+                    </ul>
+                </div>
+            </div>
+            <div id="targetEl" className="hidden" ref={menuCollapseRef}>
+                <ul className="w-48 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <li className="py-2 px-4 w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600">
+                        Home
+                    </li>
+                    <li className="py-2 px-4 w-full border-b border-gray-200 dark:border-gray-600">
+                        User
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    );
+};
+
+export default Navbar;
+```
+
 ## Próximante
 
--   React Hook Form
--   Firestore
--   ¿Qué UI Utilizar?
+-   Firebase Firestore (bases de datos)
+-   Firebase Cloud Storage (Almacenamiento de archivos)
