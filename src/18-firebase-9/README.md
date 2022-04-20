@@ -238,6 +238,9 @@ export default Navbar;
 
 ## Ruta Protegida
 
+-   [Navigate](https://reactrouter.com/docs/en/v6/api#navigate): Cambia la ubicación cuando se rederiza.
+-   [useNavigate](https://reactrouter.com/docs/en/v6/api#usenavigate): La navegación programática (navigate programmatically) se refiere a cuando un usuario es redirigido como resultado de una acción que ocurre en una ruta, como una acción de inicio de sesión o registro.
+
 routes/Protected.jsx
 
 ```jsx
@@ -1375,17 +1378,21 @@ const Login = () => {
 export default Login;
 ```
 
-components/Navbar.jsx
+## Navbar.jsx
 
 ```jsx
-import { useContext, useRef } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, NavLink } from "react-router-dom";
 import { UserContext } from "../context/UserProvider";
-import logo from "../assets/img/logo.svg";
+
+const classNavLink =
+    "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800";
+
+const classLogout =
+    "text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800";
 
 const Navbar = () => {
     const { user, signOutUser } = useContext(UserContext);
-    const menuCollapseRef = useRef(null);
 
     const handleClickLogout = async () => {
         try {
@@ -1395,131 +1402,626 @@ const Navbar = () => {
         }
     };
 
-    const handleMenuCollapse = () => {
-        menuCollapseRef.current.classList.toggle("hidden");
-    };
-
     return (
         <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800">
             <div className="container flex flex-wrap justify-between items-center mx-auto">
                 <Link to="/" className="flex items-center">
-                    <img
-                        src={logo}
-                        className="mr-3 h-6 sm:h-9"
-                        alt="Flowbite Logo"
-                    />
                     <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-                        Flowbite
+                        😍 RedirectAPP
                     </span>
                 </Link>
                 <div className="flex md:order-2">
-                    {!user ? (
+                    {user ? (
                         <>
-                            <NavLink
-                                to="/login"
-                                type="button"
-                                className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-3 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            >
-                                Login
+                            <NavLink to="/" className={classNavLink}>
+                                Inicio
                             </NavLink>
-                            <NavLink
-                                to="/register"
-                                type="button"
-                                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            <button
+                                onClick={handleClickLogout}
+                                className={classLogout}
                             >
-                                Register
-                            </NavLink>
+                                Logout
+                            </button>
                         </>
                     ) : (
                         <>
-                            <button
-                                onClick={handleClickLogout}
-                                type="button"
-                                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            >
-                                LogOut
-                            </button>
-                            <button
-                                data-collapse-toggle="mobile-menu-4"
-                                type="button"
-                                className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                                aria-controls="mobile-menu-4"
-                                aria-expanded="false"
-                                onClick={handleMenuCollapse}
-                            >
-                                <span className="sr-only">Open main menu</span>
-                                <svg
-                                    className="w-6 h-6"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                                        clipRule="evenodd"
-                                    />
-                                </svg>
-                                <svg
-                                    className="hidden w-6 h-6"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                        clipRule="evenodd"
-                                    />
-                                </svg>
-                            </button>
+                            <NavLink to="/login" className={classNavLink}>
+                                Login
+                            </NavLink>
+                            <NavLink to="/register" className={classNavLink}>
+                                Register
+                            </NavLink>
                         </>
                     )}
                 </div>
-                <div
-                    className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1"
-                    id="mobile-menu-4"
-                >
-                    <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
-                        {user && (
-                            <>
-                                <li>
-                                    <NavLink
-                                        to="/"
-                                        className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
-                                        aria-current="page"
-                                    >
-                                        Home
-                                    </NavLink>
-                                </li>
-                                <li>
-                                    <NavLink
-                                        to="/"
-                                        className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                                    >
-                                        User
-                                    </NavLink>
-                                </li>
-                            </>
-                        )}
-                    </ul>
-                </div>
-            </div>
-            <div id="targetEl" className="hidden" ref={menuCollapseRef}>
-                <ul className="w-48 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                    <li className="py-2 px-4 w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600">
-                        Home
-                    </li>
-                    <li className="py-2 px-4 w-full border-b border-gray-200 dark:border-gray-600">
-                        User
-                    </li>
-                </ul>
             </div>
         </nav>
     );
 };
 
 export default Navbar;
+```
+
+## button loading
+
+UserProvider.jsx
+
+```jsx
+const UserProvider = ({ children }) => {
+    const [user, setUser] = useState(false);
+    const [loading, setLoading] = useState(false);
+```
+
+components/ButtonLoading.jsx
+
+```jsx
+const ButtonLoading = () => {
+    return (
+        <button
+            disabled
+            type="button"
+            className="py-2.5 px-5 mr-2 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 inline-flex items-center"
+        >
+            <svg
+                role="status"
+                className="inline w-4 h-4 mr-2 text-gray-200 animate-spin dark:text-gray-600"
+                viewBox="0 0 100 101"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                    fill="currentColor"
+                />
+                <path
+                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                    fill="#1C64F2"
+                />
+            </svg>
+            Loading...
+        </button>
+    );
+};
+
+export default ButtonLoading;
+```
+
+Login.jsx
+
+```jsx
+import { useContext } from "react";
+import { UserContext } from "../context/UserProvider";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { erroresFirebase } from "../utils/erroresFirebase";
+import { formValidate } from "../utils/formValidate";
+
+import FormError from "../components/FormError";
+import FormInput from "../components/FormInput";
+import Title from "../components/Title";
+import Button from "../components/Button";
+import ButtonLoading from "../components/ButtonLoading";
+
+const Login = () => {
+    const { loginUser, loading, setLoading } = useContext(UserContext);
+    const navegate = useNavigate();
+    const { required, patternEmail, minLength, validateTrim } = formValidate();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        setError,
+    } = useForm({
+        defaultValues: {
+            email: "bluuweb1@test.com",
+            password: "123123",
+        },
+    });
+
+    const onSubmit = async ({ email, password }) => {
+        setLoading(true);
+        try {
+            await loginUser(email, password);
+            navegate("/");
+        } catch (error) {
+            const { code, message } = erroresFirebase(error.code);
+            setError(code, { message });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const buttonSubmit = loading ? (
+        <ButtonLoading />
+    ) : (
+        <Button text="Login" type="submit" />
+    );
+
+    return (
+        <>
+            <Title text="Login" />
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <FormInput
+                    label="Ingresa tu correo"
+                    type="email"
+                    placeholder="Ingrese email"
+                    {...register("email", {
+                        required,
+                        pattern: patternEmail,
+                    })}
+                    error={errors.email}
+                >
+                    <FormError error={errors.email} />
+                </FormInput>
+
+                <FormInput
+                    label="Ingresa contraseña"
+                    type="password"
+                    placeholder="Ingrese Password"
+                    {...register("password", {
+                        minLength,
+                        validate: validateTrim,
+                    })}
+                    error={errors.password}
+                >
+                    <FormError error={errors.password} />
+                </FormInput>
+
+                {buttonSubmit}
+            </form>
+        </>
+    );
+};
+
+export default Login;
+```
+
+## Layouts
+
+App.jsx
+
+```jsx
+const App = () => {
+    const { user } = useContext(UserContext);
+
+    if (user === false) {
+        return <p>Loading...</p>;
+    }
+
+    return (
+        <>
+            <Navbar />
+            <Routes>
+                <Route path="/" element={<RequireAuth />}>
+                    <Route index element={<Home />} />
+                </Route>
+
+                <Route path="/" element={<LayoutContainerForm />}>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                </Route>
+
+                <Route path="*" element={<Layout404 />} />
+            </Routes>
+        </>
+    );
+};
+
+export default App;
+```
+
+RequiereAuth.jsx
+
+```jsx
+import { useContext } from "react";
+import { UserContext } from "../../context/UserProvider";
+import { Navigate, Outlet } from "react-router-dom";
+
+const RequireAuth = ({ children }) => {
+    const { user } = useContext(UserContext);
+
+    if (!user) {
+        return <Navigate to="/login" />;
+    }
+
+    return (
+        <div className="container mx-auto">
+            <Outlet />
+        </div>
+    );
+};
+
+export default RequireAuth;
+```
+
+Layout404.jsx
+
+```jsx
+const Layout404 = () => {
+    return (
+        <div className="container mx-auto">
+            <h1 className="text-center">404</h1>
+        </div>
+    );
+};
+export default Layout404;
+```
+
+LayoutContainerForm.jsx
+
+```jsx
+import { useContext } from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import { UserContext } from "../../context/UserProvider";
+
+const LayoutContainerForm = () => {
+    const { user } = useContext(UserContext);
+    if (user) {
+        return <Navigate to="/" />;
+    }
+
+    return (
+        <div className="max-w-sm mx-auto mt-10">
+            <Outlet />
+        </div>
+    );
+};
+
+export default LayoutContainerForm;
+```
+
+## Firestore
+
+-   [doc](https://firebase.google.com/docs/firestore/quickstart?hl=es#initialize)
+
+```js
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore/lite";
+
+const firebaseConfig = {...};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+export { auth, db };
+```
+
+### Agregar datos manualmente
+
+```js
+urls: [
+    id1: {
+        name: 'https://bluuweb.org',
+        short: 'aDgdGd',
+        user: 'pQycjKGmIKQ2wL4P1jvkAPhH4gh2'
+    },
+    id2: {
+        name: 'https://firebase.com',
+        short: 'aDgdGd',
+        user: 'pQycjKGmIKQ2wL4P1jvkAPhH4gh2'
+    }
+]
+```
+
+### Leer doc
+
+-   [Obtén varios documentos de una colección](https://firebase.google.com/docs/firestore/query-data/get-data?hl=es#get_multiple_documents_from_a_collection)
+
+hooks/useFirestore.js
+
+```js
+import { collection, getDocs, query, where } from "firebase/firestore/lite";
+import { useEffect, useState } from "react";
+import { auth, db } from "../firebase";
+
+export const useFirestoreState = () => {
+    const [data, setData] = useState([]);
+    const [error, setError] = useState();
+    const [loading, setLoading] = useState(false);
+    const uid = auth.currentUser.uid;
+
+    useEffect(() => {
+        getData();
+    }, []);
+
+    const getData = async () => {
+        try {
+            setLoading(true);
+            const q = query(collection(db, "urls"), where("uid", "==", uid));
+            const querySnapshot = await getDocs(q);
+            const datos = querySnapshot.docs.map((doc) => doc.data());
+            setData(datos);
+        } catch (error) {
+            console.log(error);
+            setError(error.code);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return { data, error, loading };
+};
+```
+
+Home.jsx
+
+```jsx
+import Title from "../components/Title";
+import { useFirestoreState } from "../hooks/useFirestoreState";
+const Home = () => {
+    const { data, loading, error } = useFirestoreState();
+
+    const loadingData = loading && <p>Loading data...</p>;
+    const errorData = error && <p>{error}</p>;
+
+    return (
+        <>
+            <Title text="Home" />
+            {loadingData}
+            {errorData}
+            {data?.map(({ nanoid, origin }) => (
+                <div key={nanoid}>
+                    <p>{origin}</p>
+                    <button>Editar</button>
+                    <button>Eliminar</button>
+                </div>
+            ))}
+        </>
+    );
+};
+
+export default Home;
+```
+
+## Add Doc
+
+-   [Agrega un documento](https://firebase.google.com/docs/firestore/manage-data/add-data?hl=es#add_a_document)
+-   [nanoid](https://www.npmjs.com/package/nanoid)
+
+useFirestore.js
+
+```js
+const addData = async (url) => {
+    try {
+        setLoading(true);
+        const newData = { nanoid: nanoid(6), origin: url, uid };
+        const docRef = doc(db, "urls", newData.nanoid);
+        await setDoc(docRef, newData);
+        setData([...data, newData]);
+    } catch (error) {
+        console.log(error);
+        setError(error.code);
+    } finally {
+        setLoading(false);
+    }
+};
+```
+
+Home.jsx
+
+```js
+const Home = () => {
+    const { data, loading, error, addData } = useFirestoreState();
+    const [url, setUrl] = useState("");
+
+    ...
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await addData(url);
+        setUrl("");
+    };
+
+    return (
+        <>
+            ...
+
+            <form onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    placeholder="Ingresa una URL"
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
+                />
+            </form>
+
+            ...
+
+        </>
+    );
+};
+
+export default Home;
+```
+
+## Delete Doc
+
+-   [deleteDoc](https://firebase.google.com/docs/firestore/manage-data/delete-data?hl=es#delete_documents)
+
+useFirestore.js
+
+```js
+const deleteData = async (nanoid) => {
+    try {
+        setLoading(true);
+        const docRef = doc(db, "urls", nanoid);
+        await deleteDoc(docRef);
+        setData(data.filter((doc) => doc.nanoid !== nanoid));
+    } catch (error) {
+        console.log(error);
+        setError(error.code);
+    } finally {
+        setLoading(false);
+    }
+};
+```
+
+Home.jsx
+
+```jsx
+const Home = () => {
+    const { data, loading, error, addData, deleteData } = useFirestoreState();
+
+    ...
+
+    const handleButtonDelete = async (nanoid) => {
+        await deleteData(nanoid);
+    };
+
+    return (
+        <>
+            ...
+
+            {data?.map(({ nanoid, origin }) => (
+                <div key={nanoid}>
+                    <p>{origin}</p>
+                    <button>Editar</button>
+                    <button onClick={() => handleButtonDelete(nanoid)}>
+                        Eliminar
+                    </button>
+                </div>
+            ))}
+        </>
+    );
+};
+
+export default Home;
+```
+
+## Leer único doc
+
+-   [getDoc](https://firebase.google.com/docs/firestore/query-data/get-data?hl=es#get_a_document)
+-   [useparams](https://reactrouter.com/docs/en/v6/api#useparams)
+
+Home.jsx
+
+```js
+{
+    data?.map(({ nanoid, origin }) => (
+        <div key={nanoid}>
+            <p>{origin}</p>
+            <Link to={`/editar/${nanoid}`}>Editar</Link>
+            <button onClick={() => handleButtonDelete(nanoid)}>Eliminar</button>
+        </div>
+    ));
+}
+```
+
+App.jsx
+
+```jsx
+<Route path="/" element={<RequireAuth />}>
+    <Route index element={<Home />} />
+    <Route path="editar/:nanoid" element={<Editar />} />
+</Route>
+```
+
+Editar.jsx
+
+```jsx
+import { useEffect, useState } from "react";
+import { useFirestoreState } from "../hooks/useFirestoreState";
+import { useParams } from "react-router-dom";
+import Title from "../components/Title";
+
+const Editar = () => {
+    const params = useParams();
+    const [url, setUrl] = useState("");
+    const { getDataParams, loading, error } = useFirestoreState();
+
+    useEffect(() => {
+        getData();
+    }, []);
+
+    const getData = async () => {
+        const urlDB = await getDataParams(params.nanoid);
+        setUrl(urlDB);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+    };
+
+    const loadingData = loading && <p>Loading data...</p>;
+    const errorData = error && <p>{error}</p>;
+
+    return (
+        <>
+            <Title text="Editar" />
+            {errorData}
+            {loadingData}
+            {url !== "" && (
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        value={url}
+                        onChange={(e) => setUrl(e.target.value)}
+                    />
+                    <button type="submit">Editar</button>
+                </form>
+            )}
+        </>
+    );
+};
+
+export default Editar;
+```
+
+useFirestore.js
+
+```js
+const getDataParams = async (nanoid) => {
+    try {
+        setLoading(true);
+        const docRef = doc(db, "urls", nanoid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            return docSnap.data().origin;
+        } else {
+            throw new Error("No se encontró el documento");
+        }
+    } catch (error) {
+        console.log(error);
+        setError(error.code);
+    } finally {
+        setLoading(false);
+    }
+};
+```
+
+## Update Doc
+
+-   [update-data](https://firebase.google.com/docs/firestore/manage-data/add-data?hl=es#update-data)
+
+useFirestore.js
+
+```js
+const updateData = async (nanoid, newUrl) => {
+    try {
+        setLoading(true);
+        const docRef = doc(db, "urls", nanoid);
+        await updateDoc(docRef, { origin: newUrl });
+    } catch (error) {
+        console.log(error);
+        setError(error.code);
+    } finally {
+        setLoading(false);
+    }
+};
+```
+
+Editar.jsx
+
+```js
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    await updateData(params.nanoid, url);
+    // me falta redirigir...
+};
 ```
 
 ## Próximante
