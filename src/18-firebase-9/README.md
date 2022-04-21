@@ -1721,16 +1721,12 @@ import { auth, db } from "../firebase";
 export const useFirestoreState = () => {
     const [data, setData] = useState([]);
     const [error, setError] = useState();
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState({});
     const uid = auth.currentUser.uid;
-
-    useEffect(() => {
-        getData();
-    }, []);
 
     const getData = async () => {
         try {
-            setLoading(true);
+            setLoading((prev) => ({ ...prev, getData: true }));
             const q = query(collection(db, "urls"), where("uid", "==", uid));
             const querySnapshot = await getDocs(q);
             const datos = querySnapshot.docs.map((doc) => doc.data());
@@ -1739,11 +1735,11 @@ export const useFirestoreState = () => {
             console.log(error);
             setError(error.code);
         } finally {
-            setLoading(false);
+            setLoading((prev) => ({ ...prev, getData: false }));
         }
     };
 
-    return { data, error, loading };
+    return { data, error, loading, getData };
 };
 ```
 
@@ -1753,9 +1749,14 @@ Home.jsx
 import Title from "../components/Title";
 import { useFirestoreState } from "../hooks/useFirestoreState";
 const Home = () => {
-    const { data, loading, error } = useFirestoreState();
+    const { data, loading, error, getData } = useFirestoreState();
 
-    const loadingData = loading && <p>Loading data...</p>;
+    useEffect(() => {
+        console.log("getData");
+        getData();
+    }, []);
+
+    const loadingData = loading.getData && <p>Loading data...</p>;
     const errorData = error && <p>{error}</p>;
 
     return (
@@ -1787,7 +1788,7 @@ useFirestore.js
 ```js
 const addData = async (url) => {
     try {
-        setLoading(true);
+        setLoading((prev) => ({ ...prev, addData: true }));
         const newData = { nanoid: nanoid(6), origin: url, uid };
         const docRef = doc(db, "urls", newData.nanoid);
         await setDoc(docRef, newData);
@@ -1796,7 +1797,7 @@ const addData = async (url) => {
         console.log(error);
         setError(error.code);
     } finally {
-        setLoading(false);
+        setLoading((prev) => ({ ...prev, addData: false }));
     }
 };
 ```
@@ -1847,7 +1848,7 @@ useFirestore.js
 ```js
 const deleteData = async (nanoid) => {
     try {
-        setLoading(true);
+        setLoading((prev) => ({ ...prev, [nanoid]: true }));
         const docRef = doc(db, "urls", nanoid);
         await deleteDoc(docRef);
         setData(data.filter((doc) => doc.nanoid !== nanoid));
@@ -1855,7 +1856,7 @@ const deleteData = async (nanoid) => {
         console.log(error);
         setError(error.code);
     } finally {
-        setLoading(false);
+        setLoading((prev) => ({ ...prev, [nanoid]: false }));
     }
 };
 ```
@@ -1892,7 +1893,67 @@ const Home = () => {
 export default Home;
 ```
 
-## Leer único doc
+## Update Doc
+
+-   [update-data](https://firebase.google.com/docs/firestore/manage-data/add-data?hl=es#update-data)
+
+useFirestore.js
+
+```js
+const updateData = async (nanoid, newUrl) => {
+    try {
+        setLoading((prev) => ({ ...prev, updateData: true }));
+        const docRef = doc(db, "urls", nanoid);
+        await updateDoc(docRef, { origin: newUrl });
+        setData(
+            data.map((item) =>
+                item.nanoid === nanoid ? { ...item, origin: newUrl } : item
+            )
+        );
+    } catch (error) {
+        console.log(error);
+        setError(error.code);
+    } finally {
+        setLoading((prev) => ({ ...prev, updateData: false }));
+    }
+};
+```
+
+Home.jsx
+
+```jsx
+<button onClick={() => handleButtonEdit(nanoid, origin)}>Editar</button>
+```
+
+Home.jsx
+
+```jsx
+const [url, setUrl] = useState("");
+const [docEdit, setDocEdit] = useState();
+
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (docEdit) {
+        await updateData(docEdit, url);
+        setDocEdit();
+        setUrl("");
+        return;
+    }
+    await addData(url);
+    setUrl("");
+};
+
+const handleButtonEdit = (nanoid, origin) => {
+    setDocEdit(nanoid);
+    setUrl(origin);
+};
+```
+
+## Otra ruta (Editar opción #02)
+
+Este es un ejemplo si quieren configurar una página nueva para la edición del documento.
+
+### Leer único doc
 
 -   [getDoc](https://firebase.google.com/docs/firestore/query-data/get-data?hl=es#get_a_document)
 -   [useparams](https://reactrouter.com/docs/en/v6/api#useparams)
@@ -1934,19 +1995,15 @@ const Editar = () => {
     const { getDataParams, loading, error } = useFirestoreState();
 
     useEffect(() => {
-        getData();
+        console.log("getUrlDB");
+        getDataParams(params.nanoid).then((res) => setUrl(res));
     }, []);
-
-    const getData = async () => {
-        const urlDB = await getDataParams(params.nanoid);
-        setUrl(urlDB);
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
     };
 
-    const loadingData = loading && <p>Loading data...</p>;
+    const loadingData = loading.getDataParams && <p>Loading data...</p>;
     const errorData = error && <p>{error}</p>;
 
     return (
@@ -1976,7 +2033,7 @@ useFirestore.js
 ```js
 const getDataParams = async (nanoid) => {
     try {
-        setLoading(true);
+        setLoading((prev) => ({ ...prev, getDataParams: true }));
         const docRef = doc(db, "urls", nanoid);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
@@ -1986,14 +2043,14 @@ const getDataParams = async (nanoid) => {
         }
     } catch (error) {
         console.log(error);
-        setError(error.code);
+        setError(error.message);
     } finally {
-        setLoading(false);
+        setLoading((prev) => ({ ...prev, getDataParams: false }));
     }
 };
 ```
 
-## Update Doc
+### Update Doc
 
 -   [update-data](https://firebase.google.com/docs/firestore/manage-data/add-data?hl=es#update-data)
 
@@ -2002,14 +2059,19 @@ useFirestore.js
 ```js
 const updateData = async (nanoid, newUrl) => {
     try {
-        setLoading(true);
+        setLoading((prev) => ({ ...prev, updateData: true }));
         const docRef = doc(db, "urls", nanoid);
         await updateDoc(docRef, { origin: newUrl });
+        setData(
+            data.map((item) =>
+                item.nanoid === nanoid ? { ...item, origin: newUrl } : item
+            )
+        );
     } catch (error) {
         console.log(error);
         setError(error.code);
     } finally {
-        setLoading(false);
+        setLoading((prev) => ({ ...prev, updateData: false }));
     }
 };
 ```
@@ -2017,11 +2079,44 @@ const updateData = async (nanoid, newUrl) => {
 Editar.jsx
 
 ```js
-const handleSubmit = async (e) => {
+const handleSubmit = (e) => {
     e.preventDefault();
-    await updateData(params.nanoid, url);
-    // me falta redirigir...
+    updateData(params.nanoid, url).then(() => navigate("/"));
 };
+```
+
+## Components
+
+### Button + Loading
+
+```jsx
+import ButtonLoading from "./ButtonLoading";
+
+const Button = ({ text, type, loading, onClick, color = "purple" }) => {
+    if (loading) return <ButtonLoading />;
+
+    return (
+        <button
+            type={type}
+            onClick={onClick}
+            className={`focus:outline-none text-white bg-${color}-700 hover:bg-${color}-800 focus:ring-4 focus:ring-${color}-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-${color}-600 dark:hover:bg-${color}-700 dark:focus:ring-${color}-900`}
+        >
+            {text}
+        </button>
+    );
+};
+
+export default Button;
+```
+
+```jsx
+<Button
+    text="Eliminar"
+    type="button"
+    loading={loading[nanoid]}
+    color="red"
+    onClick={() => handleButtonDelete(nanoid)}
+/>
 ```
 
 ## Próximante
