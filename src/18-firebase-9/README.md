@@ -4,7 +4,11 @@ En esta sección vamos a trabajar con Vite + Router 6 + Composition API + Fireba
 
 ## Códigos
 
--   [próximamente]()
+-   [main](https://github.com/bluuweb/react-firebase9-router6-vite)
+-   [auth](https://github.com/bluuweb/react-firebase9-router6-vite/tree/01-auth)
+-   [hook-form](https://github.com/bluuweb/react-firebase9-router6-vite/tree/02-hook-form)
+-   [tailwindcss](https://github.com/bluuweb/react-firebase9-router6-vite/tree/03-tailwindcss)
+-   [firestore](https://github.com/bluuweb/react-firebase9-router6-vite/tree/04-firestore)
 
 ## Vite
 
@@ -2119,7 +2123,308 @@ export default Button;
 />
 ```
 
-## Próximante
+## Error interpolación colores
 
--   Firebase Firestore (bases de datos)
--   Firebase Cloud Storage (Almacenamiento de archivos)
+-   [tailwind-custom-colors-not-complied](https://stackoverflow.com/questions/66330112/tailwind-custom-colors-not-complied)
+
+```jsx
+<Button text="Login" color="pink" type="submit" loading={loading} />
+```
+
+```jsx
+import ButtonLoading from "./ButtonLoading";
+
+const Button = ({ text, type, color = "indigo", loading, onClick }) => {
+    if (loading) return <ButtonLoading />;
+
+    const classButtonBase =
+        "focus:outline-none text-white focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 ";
+
+    let classButtonColor;
+    if (color === "indigo") {
+        classButtonColor =
+            "bg-indigo-700 hover:bg-indigo-800 focus:ring-indigo-300 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-900";
+    }
+    if (color === "pink") {
+        classButtonColor =
+            "bg-pink-700 hover:bg-pink-800 focus:ring-pink-300 dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-900";
+    }
+    if (color === "purple") {
+        classButtonColor =
+            "bg-purple-700 hover:bg-purple-800 focus:ring-purple-300 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900";
+    }
+    if (color === "red") {
+        classButtonColor =
+            "bg-red-700 hover:bg-red-800 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900";
+    }
+    if (color === "blue") {
+        classButtonColor =
+            "bg-blue-700 hover:bg-blue-800 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900";
+    }
+    if (color === "green") {
+        classButtonColor =
+            "bg-green-700 hover:bg-green-800 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-900";
+    }
+    if (color === "yellow") {
+        classButtonColor =
+            "bg-yellow-400 hover:bg-yellow-700 focus:ring-yellow-300 dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-900";
+    }
+
+    return (
+        <button
+            onClick={onClick}
+            type={type}
+            className={classButtonBase + classButtonColor}
+        >
+            {text}
+        </button>
+    );
+};
+export default Button;
+```
+
+## Hook Form
+
+```jsx
+import { erroresFirebase } from "../utils/erroresFirebase";
+import { useFirestore } from "../hooks/useFirestore";
+import { formValidate } from "../utils/formValidate";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+
+import FormError from "../components/FormError";
+import FormInput from "../components/FormInput";
+import Button from "../components/Button";
+import Title from "../components/Title";
+
+const Home = () => {
+    const { loading, data, error, getData, addData, deleteData, updateData } =
+        useFirestore();
+
+    const [newOriginID, setNewOriginID] = useState();
+    const { required, patternUrl } = formValidate();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        setError,
+        resetField,
+        setValue,
+    } = useForm();
+
+    useEffect(() => {
+        console.log("getData");
+        getData();
+    }, []);
+
+    if (loading.getData) return <p>Loading data getData...</p>;
+    if (error) return <p>{error}</p>;
+
+    const onSubmit = async ({ url }) => {
+        try {
+            if (newOriginID) {
+                await updateData(newOriginID, url);
+            } else {
+                await addData(url);
+            }
+            setNewOriginID("");
+            resetField("url");
+        } catch (error) {
+            const { code, message } = erroresFirebase(error.code);
+            setError(code, { message });
+        }
+    };
+
+    const handleClickDelete = async (nanoid) => {
+        await deleteData(nanoid);
+    };
+
+    const handleClickEdit = (item) => {
+        setValue("url", item.origin);
+        setNewOriginID(item.nanoid);
+    };
+
+    return (
+        <>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <FormInput
+                    label="Ingresa URL"
+                    placeholder="https://bluuweb.org/me-gusta-este-video"
+                    {...register("url", {
+                        required,
+                        pattern: patternUrl,
+                    })}
+                    error={errors.url}
+                >
+                    <FormError error={errors.url} />
+                </FormInput>
+            </form>
+        </>
+    );
+};
+
+export default Home;
+```
+
+## Separar botones
+
+-   [space](https://tailwindcss.com/docs/space)
+
+```jsx
+<div className="flex space-x-3">
+    <Button
+        type="button"
+        text="Delete"
+        color="red"
+        loading={loading[item.nanoid]}
+        onClick={() => handleClickDelete(item.nanoid)}
+    />
+    <Button
+        type="button"
+        text="Edit"
+        color="yellow"
+        onClick={() => handleClickEdit(item)}
+    />
+</div>
+```
+
+## Card
+
+```jsx
+{
+    data.map((item) => (
+        <article
+            key={item.nanoid}
+            className="p-6 bg-white rounded-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700 mb-3"
+        >
+            <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+                {window.location.href + item.nanoid}
+            </h5>
+            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                {item.origin}
+            </p>
+            <div className="flex space-x-2">
+                <Button
+                    type="button"
+                    text="Delete"
+                    color="red"
+                    loading={loading[item.nanoid]}
+                    onClick={() => handleClickDelete(item.nanoid)}
+                />
+                <Button
+                    type="button"
+                    text="Edit"
+                    color="yellow"
+                    onClick={() => handleClickEdit(item)}
+                />
+            </div>
+        </article>
+    ));
+}
+```
+
+## handleClickCopy
+
+```js
+const [copy, setCopy] = useState({});
+
+const handleClickCopy = async (nanoid) => {
+    await navigator.clipboard.writeText(window.location.href + nanoid);
+    setCopy((prev) => ({ ...prev, nanoid }));
+};
+```
+
+```jsx
+<Button
+    type="button"
+    text={copy?.nanoid === item.nanoid ? "Copied!" : "Copy ShortUrl"}
+    color="indigo"
+    onClick={() => handleClickCopy(item.nanoid)}
+/>
+```
+
+## Redirect
+
+-   [get_a_document](https://firebase.google.com/docs/firestore/query-data/get-data?hl=es#get_a_document)
+
+useFirestore.js
+
+```js
+const searchData = async (nanoid) => {
+    try {
+        const docRef = doc(db, "urls", nanoid);
+        const docSnap = await getDoc(docRef);
+        return docSnap;
+    } catch (error) {
+        console.log(error);
+        setError(error.message);
+    }
+};
+```
+
+LayoutRedirect.jsx
+
+```jsx
+import { useEffect, useState } from "react";
+import { Outlet, useParams } from "react-router-dom";
+import { useFirestore } from "../../hooks/useFirestore";
+import Title from "../Title";
+
+const LayoutRedirect = () => {
+    const [loading, setLoading] = useState(true);
+    const { searchData } = useFirestore();
+    const params = useParams();
+
+    useEffect(() => {
+        searchData(params.nanoid).then((res) => {
+            if (res.exists()) {
+                location.href = res.data().origin;
+            } else {
+                setLoading(false);
+            }
+        });
+    }, []);
+
+    if (loading) return <Title text="Cargando redirección..." />;
+
+    return <Outlet />;
+};
+
+export default LayoutRedirect;
+```
+
+App.jsx
+
+```jsx
+<Route path="/:nanoid" element={<LayoutRedirect />}>
+    <Route index element={<NotFound />} />
+</Route>
+```
+
+## Reglas de seguridad
+
+-   [Reglas de seguridad versión 2](https://firebase.google.com/docs/firestore/security/get-started?hl=es)
+-   [Reglas básicas de lectura y escritura](https://firebase.google.com/docs/firestore/security/rules-structure?hl=es#basic_readwrite_rules)
+-   [Autenticación](https://firebase.google.com/docs/firestore/security/rules-conditions?hl=es#authentication)
+
+```js
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /urls/{document=**} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth.uid == resource.data.uid;
+    }
+  }
+}
+```
+
+## Deploy
+
+```sh
+npm install -g firebase-tools
+firebase login
+firebase init
+firebase deploy
+```
