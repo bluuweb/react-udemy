@@ -2,6 +2,12 @@
 
 En esta sección vamos a trabajar con Vite + Router 6 + Composition API + Firebase 9.
 
+## Videos
+
+-   [Todos los videos aquí](https://www.youtube.com/watch?v=cFVidjxu9v0&list=PLPl81lqbj-4JRDKtkG91u3Y4Dq6b4NrKE)
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/cFVidjxu9v0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Códigos
 
 -   [main](https://github.com/bluuweb/react-firebase9-router6-vite)
